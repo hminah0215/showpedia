@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>회원 목록 페이지</title>
+
+    <style>
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      td {
+        border: 1px solid gray;
+      }
+    </style>
+  </head>
+
+  <body>
+    <a href="./login.html">로그인</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button id="logout">
+      로그아웃
+    </button>
+
+    <table id="list">
+      <thead>
+        <tr>
+          <th>아이디</th>
+          <th>닉네임</th>
+        </tr>
+      </thead>
+
+      <tbody></tbody>
+    </table>
+
+    <!--Jquery 라이브러리 참조-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- 개발자 정의 클라이언트 스크립트 코드 -->
+    <script>
+      $(document).ready(function () {
+        $.ajax({
+          type: "GET",
+          url: "http://localhost:3005",
+          dataType: "json",
+          success: function (result) {
+            console.log("회원목록 정상호출 :", result);
+
+            $.each(result.data, function (i, item) {
+              var rowTag = `<tr>
+                                <td>${item.memberId}</td>              
+                                <td>${item.nickName}</td>
+                            </tr>`;
+
+              $("#list").append(rowTag);
+            });
+          },
+          error: function (xhr, status, error) {
+            console.log(error);
+          },
+        });
+      });
+
+      $("#logout").click(function () {
+        $.ajax({
+          url: "http://localhost:3005/logout",
+          type: "get",
+          success: function (res) {
+            alert("로그아웃 성공, 로그인 창으로 이동합니다.");
+            location.href = "./login.html";
+          },
+        });
+      });
+    </script>
+  </body>
+</html>
