@@ -1,0 +1,14 @@
+/* css에 사용할 색상 */
+
+:root {
+  --violet-color: #f3f0ff;
+  --violet-color-10: #b197fc;
+  --violet-color-main: #845ef7;
+  --violet-color-20: #6741d9;
+
+  --gray-color: #f1f3f5;
+  --gray-color-10: #dee2e6;
+  --gray-color-20: #adb5bd;
+  --gray-color-30: #495057;
+  --gray-color-40: #343a40;
+}
