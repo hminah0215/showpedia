@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       pwd: {
         // 비밀번호
         type: DataTypes.STRING(100),
-        allowNull: false,
+        allowNull: true, // 카카오 로그인은 비밀번호 안넘어오니까 null 허용!
       },
       nickName: {
         // 닉네임
