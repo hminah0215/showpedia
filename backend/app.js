@@ -2,18 +2,36 @@
 const express = require("express");
 const path = require("path");
 const dotenv = require("dotenv");
+const cookieParser = require("cookie-parser");
+
+// passport 패키지 참조
+const passport = require("passport");
+const passportConfig = require("./passport");
+
+// 라우터 참조
+const authRouter = require("./routes/auth");
 
 // app.js
 const app = express();
 const PORT = process.env.PORT || 3005;
+
+// dotenv, passport 참조
 dotenv.config();
+passportConfig();
 
-// 라우터 참조
-
-// 미들웨어 사용
+// 미들웨어 사용, 라우터 경로 지정하기 전에 있어야 경로에 엑세스한다.
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
+
+// cookie-parser 사용
+app.use(cookieParser());
+
+// 라우터 사용
+app.use("/", authRouter);
+
+// 요청(req 객체)에 passport 설정을 심는 미들웨어
+app.use(passport.initialize());
 
 // 시퀄라이즈
 const { sequelize } = require("./models/index");
