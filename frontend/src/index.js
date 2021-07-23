@@ -6,6 +6,8 @@ import reportWebVitals from './reportWebVitals';
 
 // 라우터
 import { BrowserRouter } from 'react-router-dom';
+// Bootstrap
+// import './asset/css/bootstrap.min.css';
 
 ReactDOM.render(
   <BrowserRouter>

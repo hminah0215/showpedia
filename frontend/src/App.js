@@ -2,15 +2,15 @@ import './App.css';
 
 // 라우터
 import { Route } from 'react-router-dom';
-import Header from './components/Header';
-import Footer from './components/Footer';
+import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
 
 // Pages
 import Main from './pages/Main';
 
 function App() {
   return (
-    <div>
+    <>
       {/* Header */}
       <Header />
       {/* Main */}
@@ -26,7 +26,7 @@ function App() {
       <Route path='/profile' />
       {/* Footer */}
       <Footer />
-    </div>
+    </>
   );
 }
 
