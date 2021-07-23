@@ -1,0 +1,7 @@
+@import url('../../lib/styles/color.css');
+
+.footer {
+  background-color: var(--gray-color-30);
+  font-size: 0.8rem;
+  color: var(--gray-color-20);
+}
