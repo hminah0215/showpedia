@@ -8,6 +8,37 @@ const { Member } = require("../models/");
 
 const router = express.Router();
 
+// html로 테스트하려고 만든 get 라우터, 추후 지울 것
+router.get("/", async (req, res) => {
+  let result = { code: "", data: [], msg: "" };
+
+  try {
+    // const cookieLogin = req.cookies.member;
+
+    const memberList = await Member.findAll({
+      // 조건을 걸어서 특정 컬럼만 가져오기 (비번같은건 가져올필요없으니까)
+      // 가져올 컬럼, 조건
+      attributes: ["memberId", "nickName"],
+      where: { memberRole: "1" },
+    });
+
+    result.code = "200";
+    result.data = memberList;
+    result.msg = "OK";
+    return res.json(result);
+
+    //
+  } catch (error) {
+    console.log("서버에러 발생");
+
+    result.code = "500";
+    result.data = [];
+    result.msg = "서버에러발생!!";
+
+    return res.json(result);
+  }
+});
+
 // 민아) 7/23 ,회원가입 post 라우터
 // localhost:3005/regist
 router.post("/regist", isNotLoggedIn, async (req, res, next) => {
@@ -123,35 +154,26 @@ router.get("/logout", (req, res) => {
   res.redirect("/");
 });
 
-// html로 테스트하려고 만든 get 라우터, 추후 지울 것
-router.get("/", async (req, res) => {
-  let result = { code: "", data: [], msg: "" };
+// 민아) 7/23, 카카오 로그인 get 라우터
+// localhost:3005/kakao
+router.get("/kakao", passport.authenticate("kakao")); // 카카오 로그인 전략수행
 
-  try {
-    // const cookieLogin = req.cookies.member;
+// 수행한 성공여부를 받아 카카오전략을 다시 수행한다.
+router.get(
+  "/kakao/callback",
+  // 로컬 로그인과 달리 authenticate메서드에서 콜백함수를 제공하지 않음!
+  passport.authenticate("kakao", {
+    // 대신 로그인에 실패하면 어디로 이동할지를 적는다.
+    failureRedirect: "/",
+    session: false,
+  }),
 
-    const memberList = await Member.findAll({
-      // 조건을 걸어서 특정 컬럼만 가져오기 (비번같은건 가져올필요없으니까)
-      // 가져올 컬럼, 조건
-      attributes: ["memberId", "nickName"],
-      where: { memberRole: "1" },
-    });
-
-    result.code = "200";
-    result.data = memberList;
-    result.msg = "OK";
-    return res.json(result);
-
-    //
-  } catch (error) {
-    console.log("서버에러 발생");
-
-    result.code = "500";
-    result.data = [];
-    result.msg = "서버에러발생!!";
-
-    return res.json(result);
+  // 로그인 성공시 실행되는 곳
+  (req, res) => {
+    console.log("kakao~~~ 라우터~~~~~");
+    // res.redirect("/");
+    res.json({ msg: "성공" });
   }
-});
+);
 
 module.exports = router;
