@@ -165,7 +165,6 @@ router.post('/login', isNotLoggedIn, async (req, res, next) => {
         // console.log("쿠키저장오케이?", req.cookies.member);
 
         return res.json({ code: 200, message: '인증토큰이 발급되었습니다.', data: token });
-        // return res.redirect("/");
       } catch (error) {
         console.error(error);
         next(error);
@@ -178,7 +177,7 @@ router.post('/login', isNotLoggedIn, async (req, res, next) => {
 // localhost:3005/logout
 // 반쪽자리 성공..? router.get("/logout",  isLoggedIn, (req, res) => {
 // isLoggedIn을 넣으면 작동이 아예 안됨 왜죠???
-router.get('/logout', (req, res) => {
+router.get('/logout', isLoggedIn, (req, res) => {
   console.log('req.isAuthenticated()', req.isAuthenticated());
 
   var cookielog = req.cookies;
@@ -189,9 +188,8 @@ router.get('/logout', (req, res) => {
   res.clearCookie('member'); // 쿠키를 삭제한다.
   console.log('쿠키 삭제 22');
 
-  res.redirect('/');
   console.log('로그아웃 오케이22');
-  res.redirect('/');
+  return res.json({ code: 200, message: '로그아웃 돼따!!', data: [] });
 });
 
 // 민아) 7/23, 카카오 로그인 get 라우터
