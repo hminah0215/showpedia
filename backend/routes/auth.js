@@ -1,16 +1,16 @@
-const express = require("express");
-const passport = require("passport");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+const express = require('express');
+const passport = require('passport');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 // middlewares.js 참조
-const { isLoggedIn, isNotLoggedIn } = require("./middleware");
-const { Member } = require("../models/");
+const { isLoggedIn, isNotLoggedIn } = require('./middleware');
+const { Member } = require('../models/');
 
 const router = express.Router();
 
 // html로 테스트하려고 만든 get 라우터, 추후 지울 것
-router.get("/", async (req, res) => {
-  let result = { code: "", data: [], msg: "" };
+router.get('/', async (req, res) => {
+  let result = { code: '', data: [], msg: '' };
 
   try {
     // const cookieLogin = req.cookies.member;
@@ -18,22 +18,22 @@ router.get("/", async (req, res) => {
     const memberList = await Member.findAll({
       // 조건을 걸어서 특정 컬럼만 가져오기 (비번같은건 가져올필요없으니까)
       // 가져올 컬럼, 조건
-      attributes: ["memberId", "nickName"],
-      where: { memberRole: "1" },
+      attributes: ['memberId', 'nickName'],
+      where: { memberRole: '1' },
     });
 
-    result.code = "200";
+    result.code = '200';
     result.data = memberList;
-    result.msg = "OK";
+    result.msg = 'OK';
     return res.json(result);
 
     //
   } catch (error) {
-    console.log("서버에러 발생");
+    console.log('서버에러 발생');
 
-    result.code = "500";
+    result.code = '500';
     result.data = [];
-    result.msg = "서버에러발생!!";
+    result.msg = '서버에러발생!!';
 
     return res.json(result);
   }
@@ -41,10 +41,10 @@ router.get("/", async (req, res) => {
 
 // 민아) 7/23 ,회원가입 post 라우터
 // localhost:3005/regist
-router.post("/regist", isNotLoggedIn, async (req, res, next) => {
+router.post('/regist', isNotLoggedIn, async (req, res, next) => {
   const { memberId, pwd, nickName } = req.body;
 
-  console.log("reqbody", req.body);
+  console.log('reqbody', req.body);
 
   try {
     // 같은 회원아이디로 가입한 사용자가 있는지 조회
@@ -52,7 +52,7 @@ router.post("/regist", isNotLoggedIn, async (req, res, next) => {
 
     if (exMember) {
       // 같은 이메일로 가입한 사용자가 있다면
-      return res.redirect("/regist?error=exist_memberId");
+      return res.redirect('/regist?error=exist_memberId');
     } // 그런데 회원가입시 아이디 중복검사도 할거니까 굳이 필요치는 않음. 일단 postman 테스트용으로 적음.
 
     // 같은 이메일로 가입한 사용자가 없다면 , 비밀번호 암호화 후 회원등록
@@ -65,22 +65,22 @@ router.post("/regist", isNotLoggedIn, async (req, res, next) => {
       nickName,
     });
 
-    console.log("회원가입 성공!");
+    console.log('회원가입 성공!');
 
     // return res.redirect("/");
   } catch (error) {
-    console.error("회원가입 에러!", error);
+    console.error('회원가입 에러!', error);
     return next(error);
   }
 });
 
 // 민아) 7/23 ,로그인 post 라우터
 // localhost:3005/login
-router.post("/login", isNotLoggedIn, async (req, res, next) => {
-  console.log("reqbody 로그인", req.body);
+router.post('/login', isNotLoggedIn, async (req, res, next) => {
+  console.log('reqbody 로그인', req.body);
 
   // 로그인 요청이 들어오면 passport.authenticate('local') 미들웨어가 로컬 로그인 전략을 수행함
-  passport.authenticate("local", async (authError, member, info) => {
+  passport.authenticate('local', async (authError, member, info) => {
     if (authError) {
       console.error(authError);
       return next(authError);
@@ -108,23 +108,27 @@ router.post("/login", isNotLoggedIn, async (req, res, next) => {
           // sign의 두번째 인수
           process.env.JWT_SECRET,
           // sign의 세번째 인수 -> 유효기간,발급자 등의 정보를 설정
-          { expiresIn: "1d", issuer: "showpedia" } // 유효기간 하루로 설정해둠
+          { expiresIn: '1d', issuer: 'showpedia' } // 유효기간 하루로 설정해둠
         );
 
-        console.log("로그인 성공!!!");
+        console.log('로그인 성공!!!');
 
         // 쿠키저장
         const accessToken = token;
 
         // signed:true 줘서 암호화된 쿠키를 사용하는 게 좋다고 함.
         // 일단 테스트 다하고 변경예정
-        res.cookie("member", accessToken, { httpOnly: true });
+        res.cookie('member', accessToken, { httpOnly: true });
 
-        console.log("accessToken==>", accessToken);
-        console.log("쿠키값이요.", req.cookies);
+        console.log('accessToken==>', accessToken);
+        console.log('쿠키값이요.', req.cookies);
         // console.log("쿠키저장오케이?", req.cookies.member);
 
-        return res.json({ code: 200, message: "인증토큰이 발급되었습니다.", data: token });
+        return res.json({
+          code: 200,
+          message: '인증토큰이 발급되었습니다.',
+          data: token,
+        });
         // return res.redirect("/");
       } catch (error) {
         console.error(error);
@@ -138,41 +142,41 @@ router.post("/login", isNotLoggedIn, async (req, res, next) => {
 // localhost:3005/logout
 // 반쪽자리 성공..? router.get("/logout",  isLoggedIn, (req, res) => {
 // isLoggedIn을 넣으면 작동이 아예 안됨 왜죠???
-router.get("/logout", (req, res) => {
-  console.log("req.isAuthenticated()", req.isAuthenticated());
+router.get('/logout', isLoggedIn, (req, res) => {
+  console.log('req.isAuthenticated()', req.isAuthenticated());
 
   var cookielog = req.cookies;
-  console.log("cookielog", cookielog);
+  console.log('cookielog', cookielog);
 
   req.logout(); // req.member 객체를 제거하고
 
-  res.clearCookie("member"); // 쿠키를 삭제한다.
-  console.log("쿠키 삭제 22");
+  res.clearCookie('member'); // 쿠키를 삭제한다.
+  console.log('쿠키 삭제 22');
 
-  res.redirect("/");
-  console.log("로그아웃 오케이22");
-  res.redirect("/");
+  res.redirect('/');
+  console.log('로그아웃 오케이22');
+  res.redirect('/');
 });
 
 // 민아) 7/23, 카카오 로그인 get 라우터
 // localhost:3005/kakao
-router.get("/kakao", passport.authenticate("kakao")); // 카카오 로그인 전략수행
+router.get('/kakao', passport.authenticate('kakao')); // 카카오 로그인 전략수행
 
 // 수행한 성공여부를 받아 카카오전략을 다시 수행한다.
 router.get(
-  "/kakao/callback",
+  '/kakao/callback',
   // 로컬 로그인과 달리 authenticate메서드에서 콜백함수를 제공하지 않음!
-  passport.authenticate("kakao", {
+  passport.authenticate('kakao', {
     // 대신 로그인에 실패하면 어디로 이동할지를 적는다.
-    failureRedirect: "/",
+    failureRedirect: '/',
     session: false,
   }),
 
   // 로그인 성공시 실행되는 곳
   (req, res) => {
-    console.log("kakao~~~ 라우터~~~~~");
+    console.log('kakao~~~ 라우터~~~~~');
     // res.redirect("/");
-    res.json({ msg: "성공" });
+    res.json({ msg: '성공' });
   }
 );
 

@@ -1,8 +1,11 @@
 import React from 'react';
 
+// react-bootstrap
+import { Container } from 'react-bootstrap';
+
 const Main = () => {
   return (
-    <div className='mt-3'>
+    <Container className='mt-3'>
       not simply random text. It has roots in a piece of classical Latin
       literature from 45 BC, making it over 2000 years old. Richard McClintock,
       a Latin professor at Hampden-Sydney College in Virginia, looked up one of
@@ -18,7 +21,7 @@ const Main = () => {
       "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their
       exact original form, accompanied by English versions from the 1914
       translation by H. Rackham.
-    </div>
+    </Container>
   );
 };
 
