@@ -38,13 +38,13 @@ router.get('/result', async (req, res) => {
   // 공연 이름 문자열은 URIencoding을 해줘야한다.
   const title = req.body.shprfnm ? encodeURI(req.body.shprfnm) : '';
   const query = {
-    // 필수 요청 변수
+    // 필수 요청 변수 - 프론트에서 유효성 검사 필수
     cpage: req.query.page || 1, // localhost:3005/show/result?page=1
     rows: 10, // 한번에 받을 데이터 개수
     stdate: req.body.stdate || '20210724',
     eddate: req.body.eddate || '20211010',
     // 선택 요청 변수
-    shprfnm: title, // 값을 엔코드 하고 넣어야한다.
+    shprfnm: title, // 문자열을 엔코드 하고 넣어야한다.
     shcate: req.body.shcate || '', // 장르 코드
     signgucode: req.body.signgucode || '', // 지역(시도)코드
     signgucodesub: req.body.signgucodesub || '', // 지역(구군)코드
@@ -93,9 +93,12 @@ router.get('/boxoffice', async (req, res) => {
   if (boxoffice.status === 500) {
     res.json(boxoffice);
   }
+  // OPEN API는 50개의 데이터를 전송한다(수정 불가)
+  // 10개만 필요하기 때문에 데이터만 뽑아낸다.
+  const boxs = boxoffice.boxofs.boxof.slice(0, 10);
   res.json({
     msg: 'OPEN API 접근 성공',
-    data: boxoffice.boxofs,
+    data: boxs,
     status: 200,
   });
 });
