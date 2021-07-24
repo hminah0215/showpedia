@@ -11,6 +11,7 @@ const passportConfig = require('./passport');
 // 라우터 참조
 const authRouter = require('./routes/auth');
 const showRouter = require('./routes/show');
+const memberRouter = require('./routes/member');
 
 // app.js
 const app = express();
@@ -31,6 +32,7 @@ app.use(cookieParser());
 // 라우터 사용
 app.use('/', authRouter);
 app.use('/show', showRouter);
+app.use('/', memberRouter);
 
 // 요청(req 객체)에 passport 설정을 심는 미들웨어
 app.use(passport.initialize());

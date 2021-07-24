@@ -2,11 +2,27 @@ const express = require('express');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const axios = require('axios');
 // middlewares.js 참조
 const { isLoggedIn, isNotLoggedIn } = require('./middleware');
 const { Member } = require('../models/');
 
+const multer = require('multer'); // 파일이미지업로드를 위해 multer 패키지 참조
+
 const router = express.Router();
+
+// 민아) 7/24, 멀터패키지 사용, 파일명 저장 옵션 설정
+const storage = multer.diskStorage({
+  // 저장 경로 설정
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  // 파일명 설정, 중복되지 않게 파일명 생성
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}_${file.originalname}`);
+  }
+});
+const upload = multer({ storage: storage });
 
 // html로 테스트하려고 만든 get 라우터, 추후 지울 것
 router.get('/', async (req, res) => {
@@ -19,7 +35,7 @@ router.get('/', async (req, res) => {
       // 조건을 걸어서 특정 컬럼만 가져오기 (비번같은건 가져올필요없으니까)
       // 가져올 컬럼, 조건
       attributes: ['memberId', 'nickName'],
-      where: { memberRole: '1' },
+      where: { memberRole: '1' }
     });
 
     result.code = '200';
@@ -39,12 +55,35 @@ router.get('/', async (req, res) => {
   }
 });
 
+// 민아) 7/24, 프로필 이미지 관련 처리
+router.post('/uploads', upload.single('profilePhoto'), async (req, res) => {
+  const uploadedFile = req.file;
+  console.log('프로필이미지 업로드된 파일정보: ', uploadedFile);
+
+  let filepath = '/uploads/' + uploadedFile.filename;
+
+  return res.json({
+    success: true,
+    message: '프로필 이미지가 등록되었습니다.',
+    filepath: filepath
+  });
+});
+
 // 민아) 7/23 ,회원가입 post 라우터
 // localhost:3005/regist
 router.post('/regist', isNotLoggedIn, async (req, res, next) => {
-  const { memberId, pwd, nickName } = req.body;
+  const { memberId, pwd, nickName, profilePhoto } = req.body;
+
+  // let member = {
+  //   memberId: req.body.memberId,
+  //   pwd: hash,
+  //   nickName: req.body.nickName,
+  //   profilePhoto: req.body.profilePhoto
+  // };
 
   console.log('reqbody', req.body);
+
+  console.log('req.body 프로필이미지', req.body.profilePhoto); // [object Object] 라고 저장됨 왜죠.
 
   try {
     // 같은 회원아이디로 가입한 사용자가 있는지 조회
@@ -63,6 +102,7 @@ router.post('/regist', isNotLoggedIn, async (req, res, next) => {
       memberId,
       pwd: hash,
       nickName,
+      profilePhoto
     });
 
     console.log('회원가입 성공!');
@@ -124,11 +164,7 @@ router.post('/login', isNotLoggedIn, async (req, res, next) => {
         console.log('쿠키값이요.', req.cookies);
         // console.log("쿠키저장오케이?", req.cookies.member);
 
-        return res.json({
-          code: 200,
-          message: '인증토큰이 발급되었습니다.',
-          data: token,
-        });
+        return res.json({ code: 200, message: '인증토큰이 발급되었습니다.', data: token });
         // return res.redirect("/");
       } catch (error) {
         console.error(error);
@@ -142,7 +178,7 @@ router.post('/login', isNotLoggedIn, async (req, res, next) => {
 // localhost:3005/logout
 // 반쪽자리 성공..? router.get("/logout",  isLoggedIn, (req, res) => {
 // isLoggedIn을 넣으면 작동이 아예 안됨 왜죠???
-router.get('/logout', isLoggedIn, (req, res) => {
+router.get('/logout', (req, res) => {
   console.log('req.isAuthenticated()', req.isAuthenticated());
 
   var cookielog = req.cookies;
@@ -169,7 +205,7 @@ router.get(
   passport.authenticate('kakao', {
     // 대신 로그인에 실패하면 어디로 이동할지를 적는다.
     failureRedirect: '/',
-    session: false,
+    session: false
   }),
 
   // 로그인 성공시 실행되는 곳
@@ -179,5 +215,29 @@ router.get(
     res.json({ msg: '성공' });
   }
 );
+
+// 민아) 7/23, 카카오 로그아웃 get 라우터
+router.get('/kakao/logout', async (req, res) => {
+  try {
+    const ACCESS_TOKEN = res.locals.user.accessToken;
+
+    console.log('ACCESS_TOKEN값이요', ACCESS_TOKEN);
+
+    let logout = await axios({
+      method: 'POST',
+      url: 'https://kapi.kakao.com/v1/user/unlink',
+      headers: {
+        Authorization: `Bearer ${ACCESS_TOKEN}`
+      }
+    });
+  } catch (error) {
+    console.error('카카오 로그아웃 에러', error);
+    res.json(error);
+  }
+
+  console.log('카카오 로그아웃 여기까지왔음 ');
+
+  req.logout();
+});
 
 module.exports = router;
