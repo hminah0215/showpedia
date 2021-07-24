@@ -54,7 +54,7 @@
 
             $.each(result.data, function (i, item) {
               var rowTag = `<tr>
-                                <td>${item.memberId}</td>              
+                                <td><a href="./modify.html?id=${item.memberId}">${item.memberId}</a></td>              
                                 <td>${item.nickName}</td>
                             </tr>`;
 

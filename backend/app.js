@@ -1,15 +1,16 @@
 // 라이브러리 참조
-const express = require("express");
-const path = require("path");
-const dotenv = require("dotenv");
-const cookieParser = require("cookie-parser");
+const express = require('express');
+const path = require('path');
+const dotenv = require('dotenv');
+const cookieParser = require('cookie-parser');
 
 // passport 패키지 참조
-const passport = require("passport");
-const passportConfig = require("./passport");
+const passport = require('passport');
+const passportConfig = require('./passport');
 
 // 라우터 참조
-const authRouter = require("./routes/auth");
+const authRouter = require('./routes/auth');
+const memberRouter = require('./routes/member');
 
 // app.js
 const app = express();
@@ -22,25 +23,26 @@ passportConfig();
 // 미들웨어 사용, 라우터 경로 지정하기 전에 있어야 경로에 엑세스한다.
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // cookie-parser 사용
 app.use(cookieParser());
 
 // 라우터 사용
-app.use("/", authRouter);
+app.use('/', authRouter);
+app.use('/', memberRouter);
 
 // 요청(req 객체)에 passport 설정을 심는 미들웨어
 app.use(passport.initialize());
 
 // 시퀄라이즈
-const { sequelize } = require("./models/index");
+const { sequelize } = require('./models/index');
 // console.log(sequelize);
 // 데이터베이스 연동하기
 sequelize
   .sync()
   .then(() => {
-    console.log("데이터베이스 연결 완료");
+    console.log('데이터베이스 연결 완료');
   })
   .catch((err) => {
     console.log(err);
