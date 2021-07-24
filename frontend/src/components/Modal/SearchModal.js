@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 // react-bootstrap
 import { Row, Col, Modal, Form, Container, Button } from 'react-bootstrap';
 
 const SearchModal = ({ search, setSearch, condition, setCondition }) => {
   // input 값의 변화를 다루는 이벤트 핸들러
-  const onChangeInput = (e) => {
+  const handleChangeInput = (e) => {
     // 체크박스 예외처리
     if (e.target.name === 'kidstate') {
       setCondition({
@@ -22,7 +22,7 @@ const SearchModal = ({ search, setSearch, condition, setCondition }) => {
 
   // 저장 버튼을 누르지 않고 모달창이 닫혔을 때,
   // 검색 조건 초기화
-  const onClose = () => {
+  const handleClickOutter = () => {
     setCondition({
       stdate: '', // 시작날짜
       eddate: '', // 종료날짜
@@ -37,7 +37,7 @@ const SearchModal = ({ search, setSearch, condition, setCondition }) => {
   };
 
   // 리셋 버튼 이벤트 핸들러
-  const onReset = () => {
+  const handleClickResetButton = () => {
     setCondition({
       stdate: '', // 시작날짜
       eddate: '', // 종료날짜
@@ -47,21 +47,20 @@ const SearchModal = ({ search, setSearch, condition, setCondition }) => {
       kidstate: false, // 아동공연여부 - 체크시 on
       prfstate: '' // 공연상태코드
     });
-
     console.log(condition);
   };
 
-  // 검색 조건 저장하기
-  const onSave = () => {
+  // 검색 조건 저장
+  const handleClickSaveButton = () => {
     setSearch(false);
     console.log('닫힙니다.');
   };
 
   return (
     <>
-      <Modal size="lg" show={search} onHide={onClose} aria-labelledby="modal-sizes-title-lg">
+      <Modal size="lg" show={search} onHide={handleClickOutter} aria-labelledby="modalTitle">
         <Modal.Header closeButton>
-          <Modal.Title id="modal-sizes-title-lg" style={{ color: '#6741d9' }}>
+          <Modal.Title id="modalTitle" style={{ color: '#6741d9' }}>
             검색 조건
           </Modal.Title>
         </Modal.Header>
@@ -77,7 +76,7 @@ const SearchModal = ({ search, setSearch, condition, setCondition }) => {
                   type="date"
                   name="stdate"
                   value={condition.stdate}
-                  onChange={onChangeInput}
+                  onChange={handleChangeInput}
                 />
               </Form.Group>
               <Form.Group as={Col} lg="4" md="6" controlId="eddate" className="mt-3">
@@ -87,7 +86,7 @@ const SearchModal = ({ search, setSearch, condition, setCondition }) => {
                   type="date"
                   name="eddate"
                   value={condition.eddate}
-                  onChange={onChangeInput}
+                  onChange={handleChangeInput}
                 />
               </Form.Group>
 
@@ -98,7 +97,7 @@ const SearchModal = ({ search, setSearch, condition, setCondition }) => {
                   aria-label="장르"
                   value={condition.shcate}
                   name="shcate"
-                  onChange={onChangeInput}
+                  onChange={handleChangeInput}
                 >
                   <option value="reset">장르를 선택하세요</option>
                   <option value="AAAA">연극</option>
@@ -118,7 +117,7 @@ const SearchModal = ({ search, setSearch, condition, setCondition }) => {
                   aria-label="지역시도"
                   name="signgucode"
                   value={condition.signgucode}
-                  onChange={onChangeInput}
+                  onChange={handleChangeInput}
                 >
                   <option>--시 도--</option>
                   <option value="11">서울특별시</option>
@@ -152,7 +151,7 @@ const SearchModal = ({ search, setSearch, condition, setCondition }) => {
                     className="btn-check"
                     id="kidstate"
                     name="kidstate"
-                    onChange={onChangeInput}
+                    onChange={handleChangeInput}
                     checked={condition.kidstate}
                   />
                   <label className="btn btn-outline-secondary " htmlFor="kidstate">
@@ -169,7 +168,7 @@ const SearchModal = ({ search, setSearch, condition, setCondition }) => {
                   aria-label="공연 상태"
                   name="prfstate"
                   value={condition.prfstate}
-                  onChange={onChangeInput}
+                  onChange={handleChangeInput}
                 >
                   <option>----</option>
                   <option value="01">공연예정</option>
@@ -185,7 +184,7 @@ const SearchModal = ({ search, setSearch, condition, setCondition }) => {
                   type="submit"
                   className="mt-3 py-2 bgColor"
                   style={{ width: '100%' }}
-                  onClick={onSave}
+                  onClick={handleClickSaveButton}
                 >
                   설정 저장
                 </Button>
@@ -198,7 +197,7 @@ const SearchModal = ({ search, setSearch, condition, setCondition }) => {
                   type="submit"
                   className="mt-3 py-2 bgColor--outline"
                   style={{ width: '100%' }}
-                  onClick={onReset}
+                  onClick={handleClickResetButton}
                 >
                   리셋
                 </Button>

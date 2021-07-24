@@ -11,7 +11,7 @@ import SearchModal from '../Modal/SearchModal';
 const Header = () => {
   // 검색 조건 모달을 위한 state
   const [search, setSearch] = useState(false);
-  // 서버에 보낼 데이터
+  // 서버에 보낼 검색조건 데이터
   const [condition, setCondition] = useState({
     stdate: '', // 시작날짜
     eddate: '', // 종료날짜
@@ -21,6 +21,12 @@ const Header = () => {
     kidstate: '', // 아동공연여부 - 체크시 on
     prfstate: '' // 공연상태코드
   });
+
+  // 서버에서 검색 조건 찾아오는 이벤트 핸들러
+  const handleClickSearchButton = () => {
+    console.log('open api에서 리스트를 가져옵니다.');
+    // 가져온 데이터는 전역 상태로 관리한다 (리덕스)
+  };
 
   return (
     <>
@@ -51,13 +57,7 @@ const Header = () => {
               <Button className="bgColor--outline" onClick={() => setSearch(true)}>
                 설정
               </Button>
-              <Button
-                className="bgColor"
-                onClick={() => {
-                  console.log('현재 컨디션 값은?');
-                  console.log(condition);
-                }}
-              >
+              <Button className="bgColor" onClick={handleClickSearchButton}>
                 검색
               </Button>
             </div>
