@@ -31,7 +31,6 @@ const getShowtoJSON = async (URL) => {
 // 공연 검색 시, 검색 결과를 제공하는 라우터
 // :3005/show/result
 router.get('/result', async (req, res) => {
-  console.log('page 쿼리 확인', req.query.page);
   // OPEN API에서 필수적으로 요구하는 쿼리 스트링 - req.body에서 넘어온다.
   // 필수 요청 변수 [service, stdate, eddate, cpage, rows]
   // cpage는 페이지 넘버로 쿼리스트링으로 받아온다.
