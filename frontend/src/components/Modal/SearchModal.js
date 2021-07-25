@@ -44,7 +44,7 @@ const SearchModal = ({ search, setSearch, handleChangeInput }) => {
 
     setSearch(false);
     console.log('닫힙니다.');
-    console.log(condition);
+    // console.log(condition);
   };
 
   return (

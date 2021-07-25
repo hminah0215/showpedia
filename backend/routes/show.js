@@ -32,16 +32,10 @@ const getShowtoJSON = async (URL) => {
 // :3005/show/result
 router.post('/result', async (req, res) => {
   console.log('현재 body에서 넘어오는 값', req.body);
-
+  console.log('쿼리로 넘어와요?', req.query.page);
   // OPEN API에서 필수적으로 요구하는 쿼리 스트링 - req.body에서 넘어온다.
   // 필수 요청 변수 [service, stdate, eddate, cpage, rows]
   // cpage는 페이지 넘버로 쿼리스트링으로 받아온다.
-
-  // 공연 이름 문자열은 URIencoding을 해줘야한다.
-  const title = req.body.shprfnm ? encodeURI(req.body.shprfnm) : '';
-  // 2021-01-01 구조로 넘어오는 데이터를 요청 변수의 구조로 변경
-  const startDate = req.body.stdate.replace(/-/gi, '');
-  const endDate = req.body.eddate.replace(/-/gi, '');
 
   // 시작 날짜를 정하지 않은 경우, 오늘 날짜부터 검색해준다.
   const date = new Date();
@@ -55,12 +49,18 @@ router.post('/result', async (req, res) => {
     String(date.getMonth() + 1).padStart(2, '0') +
     String(date.getDate()).padStart(2, '0');
 
+  // 공연 이름 문자열은 URIencoding을 해줘야한다.
+  const title = req.body.shprfnm ? encodeURI(req.body.shprfnm) : '';
+  // 2021-01-01 구조로 넘어오는 데이터를 요청 변수의 구조로 변경
+  const startDate = req.body.state ? req.body.stdate.replace(/-/gi, '') : defaultStdate;
+  const endDate = req.body.eddate ? req.body.eddate.replace(/-/gi, '') : defaultEddate;
+
   const query = {
     // 필수 요청 변수 - 프론트에서 유효성 검사 필수
     cpage: req.query.page || 1, // localhost:3005/show/result?page=1
     rows: 10, // 한번에 받을 데이터 개수
-    stdate: startDate || defaultStdate,
-    eddate: endDate || defaultEddate,
+    stdate: startDate,
+    eddate: endDate,
     // 선택 요청 변수
     shprfnm: title, // 문자열을 엔코드 하고 넣어야한다.
     shcate: req.body.shcate || '', // 장르 코드

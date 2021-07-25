@@ -43,7 +43,7 @@ const Header = () => {
     showDispatch(isLoading());
 
     // 검색 결과 페이지로 이동하기
-    history.push('/search');
+    history.push('/search?page=1');
 
     // 백엔드에서 리스트 가져오기
     const URL = `http://localhost:3005/show/result`;
