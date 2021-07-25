@@ -4,6 +4,11 @@
 exports.isLoggedIn = (req, res, next) => {
   //
   // req객체에 isAuthenticated 메서드를 추가, 로그인 중이면 true!
+  req.user = req.cookies.member ? 'login' : '';
+
+  console.log('req.user가 있는가?', req.cookies.member);
+  console.log('req.user가 있는가?', req.user);
+
   console.log('isLoggedIn에서의 isAuth', req.isAuthenticated());
 
   if (req.isAuthenticated()) {

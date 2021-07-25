@@ -23,7 +23,7 @@ const getShowtoJSON = async (URL) => {
   } catch (err) {
     return {
       msg: 'OPEN API 접근 실패',
-      status: 500,
+      status: 500
     };
   }
 };
@@ -48,7 +48,7 @@ router.get('/result', async (req, res) => {
     signgucode: req.body.signgucode || '', // 지역(시도)코드
     signgucodesub: req.body.signgucodesub || '', // 지역(구군)코드
     kidstate: req.body.kidstate || '', // 아동공연 여부 default - 전체공연
-    prfstate: req.body.prfstate || '', // 공연 상태 코드
+    prfstate: req.body.prfstate || '' // 공연 상태 코드
   };
   // 요청 변수들을 합쳐서 하나의 쿼리스트링으로 만든다.
   let combineQuery = '';
@@ -67,7 +67,7 @@ router.get('/result', async (req, res) => {
   res.json({
     msg: 'OPEN API&JSON변환 성공',
     status: 200,
-    data: showList.dbs.db,
+    data: showList.dbs.db
   });
 });
 
@@ -81,10 +81,7 @@ router.get('/boxoffice', async (req, res) => {
     String(date.getMonth()).padStart(2, '0') +
     String(date.getDate()).padStart(2, '0');
 
-  const URL =
-    BASE_URL +
-    `boxoffice?service=${KEY}` +
-    `&ststype=month&date=${defaultStdate}`;
+  const URL = BASE_URL + `boxoffice?service=${KEY}` + `&ststype=month&date=${defaultStdate}`;
 
   // OPEN API에서 데이터를 가져온다
   const boxoffice = await getShowtoJSON(URL);
@@ -98,7 +95,7 @@ router.get('/boxoffice', async (req, res) => {
   res.json({
     msg: 'OPEN API 접근 성공',
     data: boxs,
-    status: 200,
+    status: 200
   });
 });
 
@@ -114,7 +111,7 @@ router.get('/:id', async (req, res) => {
   res.json({
     msg: 'OPEN API 접근 성공',
     data: show.dbs.db,
-    status: 200,
+    status: 200
   });
 });
 

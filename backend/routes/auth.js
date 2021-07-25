@@ -178,7 +178,7 @@ router.post('/login', isNotLoggedIn, async (req, res, next) => {
 // localhost:3005/logout
 // 반쪽자리 성공..? router.get("/logout",  isLoggedIn, (req, res) => {
 // isLoggedIn을 넣으면 작동이 아예 안됨 왜죠???
-router.get('/logout', (req, res) => {
+router.get('/logout', isLoggedIn, (req, res) => {
   console.log('req.isAuthenticated()', req.isAuthenticated());
 
   var cookielog = req.cookies;
@@ -189,9 +189,12 @@ router.get('/logout', (req, res) => {
   res.clearCookie('member'); // 쿠키를 삭제한다.
   console.log('쿠키 삭제 22');
 
-  res.redirect('/');
   console.log('로그아웃 오케이22');
-  res.redirect('/');
+  res.json({
+    msg: 'test',
+    status: 200,
+    data: []
+  });
 });
 
 // 민아) 7/23, 카카오 로그인 get 라우터
