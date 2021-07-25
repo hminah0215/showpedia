@@ -159,10 +159,10 @@
 
       if (confirm("회원정보를 삭제하시겠습니까?")) {
 
-        let memberIdx = urlParam("id");
+        var memberId = urlParam("id");
 
         $.ajax({
-          url: "http://localhost:3000/api/members/" + memberIdx,
+          url: "http://localhost:3005/delete/" + memberId,
           type: "delete",
           success: function (res) {
 

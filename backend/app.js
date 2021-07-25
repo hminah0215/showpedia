@@ -13,6 +13,7 @@ const passportConfig = require('./passport');
 const authRouter = require('./routes/auth');
 const showRouter = require('./routes/show');
 const memberRouter = require('./routes/member');
+const tokenRouter = require('./routes/token');
 
 // app.js
 const app = express();
@@ -37,6 +38,7 @@ app.use(cookieParser());
 app.use('/', authRouter);
 app.use('/show', showRouter);
 app.use('/', memberRouter);
+app.use('/', tokenRouter);
 
 // 요청(req 객체)에 passport 설정을 심는 미들웨어
 app.use(passport.initialize());

@@ -2,7 +2,12 @@
 
 // 로그인 한건지
 exports.isLoggedIn = (req, res, next) => {
-  //
+  // 쿠키에 사용자 인증 토큰을 저장하니까, 쿠키에 member 라는 이름의 값이 있는지를 확인
+  // 쿠키에 있는 member값을 req객체의 user에 담고 있으면 login상태, 없으면 로그인필요
+  req.user = req.cookies.member ? 'login' : '';
+  console.log('req.cookies.member', req.cookies.member);
+  console.log('req.user가 있는지?', req.user);
+
   // req객체에 isAuthenticated 메서드를 추가, 로그인 중이면 true!
   req.user = req.cookies.member ? 'login' : '';
 
