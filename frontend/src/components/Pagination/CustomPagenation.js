@@ -1,25 +1,33 @@
-import React, { useEffect, useState } from 'react';
-import { Pagination } from 'react-bootstrap';
+// 리액트
+import React, { useState } from 'react';
+// 리덕스
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 import { getShowList, resetShowList, isLoading } from '../../redux/show';
+// 리액트 라우터
+import { useLocation, useHistory } from 'react-router-dom';
+// 부트스트랩
+import { Pagination } from 'react-bootstrap';
+// etc 참조
 import axios from 'axios';
 // css
 import './CustomPagenation.css';
-import { useHistory } from 'react-router-dom';
 
 const CustomPagenation = () => {
+  // state
+  // 페이지 네이션 처리를 위한 상태
   const [pagination, setPagination] = useState(1);
-  // 검색 조건 상태 그대로 가져오기
+  // 검색 조건 상태
   const condition = useSelector((state) => state.show.condition);
-  // showList
+
+  // dispatch
   const showDispatch = useDispatch();
-  // history
+
+  // 페이지 이동을 위한 history
   const history = useHistory();
-  // location
+  // 쿼리스트링을 사용하기 위한 location
   let location = useLocation();
 
-  // 페이지 클릭 시, 작동하는 이벤트 핸들러
+  // 페이지네이션 클릭 시, 작동하는 이벤트 핸들러
   const handleClickPageNumber = async (e) => {
     // showList를 다음 페이지로 변경한다.
     // 현재 들어있는 검색 결과값들 초기화하기
@@ -27,6 +35,7 @@ const CustomPagenation = () => {
     // 다시 로딩 상태로 설정하기
     showDispatch(isLoading());
 
+    // 이동할 page는 페이지네이션 버튼 안에 있는 숫자
     const page = e.target.innerText;
     history.push(`/search?page=${e.target.innerText}`);
 
@@ -35,7 +44,6 @@ const CustomPagenation = () => {
     try {
       const result = await axios.post(URL, condition);
       // 상태에 검색 결과 저장하기
-      // console.log('데이터가 없는 경우 서버에서는 어떻게 던져줍니까?', result.data.data); // undefined
       const showList = result.data.data ? result.data.data : { msg: '검색 결과가 없습니다' }; // undefined로 넘어올 경우 처리해주기
       showDispatch(getShowList(showList));
     } catch (error) {
@@ -48,9 +56,13 @@ const CustomPagenation = () => {
   // 쿼리스트링에서 현재 선택된 페이지 정보 가져오기
   // console.log(location.search.split('=')[1]); // ?page=1
   const active = Number(location.search.split('=')[1]) || 1; // 현재 선택된 페이지
-  const first = pagination === 1 ? 2 : 0;
-  const last = 5;
+
+  // 페이지네이션 컴포넌트 생성을 위한 변수
+  const first = pagination === 1 ? 2 : 0; // 초기 시작값
+  const last = 5; // 초기 마지막값
   // 페이지네이션 item 생성
+  // 페이지네이션이 첫번째 페이지라면 2~5까지 표시
+  // 두번째 페이지라면 5~10까지 표시...
   for (let number = first + (pagination - 1) * 5; number <= pagination * last; number++) {
     paginationItems.push(
       number === active ? (
@@ -67,9 +79,10 @@ const CustomPagenation = () => {
 
   return (
     <div>
-      <Pagination className="justify-content-center customColor">
+      <Pagination className="justify-content-center">
         <Pagination.Prev
           onClick={() => {
+            // 페이지는 음수가 될 수 없다.
             if (pagination === 1) {
               return;
             }
@@ -91,7 +104,6 @@ const CustomPagenation = () => {
             1
           </Pagination.Item>
         )}
-
         <Pagination.Ellipsis />
         {paginationItems}
         <Pagination.Next

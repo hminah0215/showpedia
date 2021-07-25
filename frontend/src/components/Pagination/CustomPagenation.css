@@ -1,10 +1,10 @@
 @import url('../../lib/styles/color.css');
 
-.customColor li a,
-.customColor li a:hover {
+.pagination li a,
+.pagination li a:hover {
   color: var(--violet-color-20);
 }
-.customColor > .active > span {
+.pagination > .active > span {
   color: white;
   background-color: var(--violet-color-20) !important;
   border: solid 1px var(--violet-color-20) !important;
