@@ -18,21 +18,22 @@ const Header = () => {
   const [search, setSearch] = useState(false);
   // 서버에 보낼 검색조건을 위한 state
   const condition = useSelector((state) => state.show.condition);
-  // const [condition, setCondition] = useState({
-  //   stdate: '', // 시작날짜
-  //   eddate: '', // 종료날짜
-  //   shprfnm: '', // 공연명
-  //   shcate: '', // 장르
-  //   signgucode: '', // 지역코드
-  //   kidstate: '', // 아동공연여부 - 체크시 on
-  //   prfstate: '' // 공연상태코드
-  // });
 
   // 리덕스- 전역 상태
   // 상태 가져오기 = useSelector(state => state.리듀스함수명.상태)
   const showList = useSelector((state) => state.show.showList); //useSelector Hook로 상태를 가져온다.
   // dispatch 가져오기
   const showDispatch = useDispatch();
+
+  // input을 변경하는 핸들러
+  const handleChangeInput = (e) => {
+    // 체크박스 예외처리
+    if (e.target.name === 'kidstate') {
+      showDispatch(setCondition(e.target.name, e.target.checked));
+    } else {
+      showDispatch(setCondition(e.target.name, e.target.value));
+    }
+  };
 
   // 서버에서 검색 조건 찾아오는 이벤트 핸들러
   const handleClickSearchButton = async () => {
@@ -58,16 +59,13 @@ const Header = () => {
     }
   };
 
-  console.log(condition);
-
   return (
     <>
       <SearchModal
         search={search}
         setSearch={setSearch}
         condition={condition}
-        // setCondition={setCondition}
-        // handleChangeInput={handleChangeInput}
+        handleChangeInput={handleChangeInput}
       />
       <Navbar expand="md" sticky="top" className="py-3 header">
         <Container>
@@ -91,7 +89,7 @@ const Header = () => {
                 placeholder="공연명을 입력해주세요"
                 aria-label="Search"
                 name="shprfnm"
-                // onChange={handleChangeInput}
+                onChange={handleChangeInput}
               />
               <Button className="bgColor--outline" onClick={() => setSearch(true)}>
                 설정

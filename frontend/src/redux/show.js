@@ -4,6 +4,7 @@ const RESET_SHOWLIST = 'show/RESET_SHOWLIST';
 const LOADING = 'show/LOADING';
 const LOADED = 'show/LOADED';
 const SET_CONDITION = 'show/SET_CONDITION';
+const RESET_CONDITION = 'show/RESET_CONDITION';
 
 // [아영] 2. 액션 생성 함수 만들기
 // 외부에서 사용하기 때문에 export
@@ -19,6 +20,7 @@ export const setCondition = (key, value) => ({
     value
   }
 });
+export const resetCondition = () => ({ type: RESET_CONDITION });
 
 // [아영] 3. show리덕스의 초기 상태 만들기
 const initialState = {
@@ -68,6 +70,19 @@ const show = (state = initialState, action) => {
         condition: {
           ...state.condition,
           [action.payload.key]: action.payload.value
+        }
+      };
+    case RESET_CONDITION:
+      return {
+        ...state,
+        condition: {
+          stdate: '', // 시작날짜
+          eddate: '', // 종료날짜
+          shprfnm: '', // 공연명
+          shcate: '', // 장르
+          signgucode: '', // 지역코드
+          kidstate: '', // 아동공연여부 - 체크시 on
+          prfstate: '' // 공연상태코드
         }
       };
     default:

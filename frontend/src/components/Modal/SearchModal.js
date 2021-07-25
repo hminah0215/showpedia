@@ -1,10 +1,10 @@
 import React, { createRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCondition } from '../../redux/show';
+import { setCondition, resetCondition } from '../../redux/show';
 // react-bootstrap
 import { Row, Col, Modal, Form, Container, Button } from 'react-bootstrap';
 
-const SearchModal = ({ search, setSearch }) => {
+const SearchModal = ({ search, setSearch, handleChangeInput }) => {
   // 검색 조건 상태 저장
   const condition = useSelector((state) => state.show.condition);
   // 디스패치
@@ -14,45 +14,17 @@ const SearchModal = ({ search, setSearch }) => {
   const stdateRef = createRef();
   const eddateRef = createRef();
 
-  const handleChangeInput = (e) => {
-    // 테스트
-    console.log('값', e.target.value);
-    console.log('이름', e.target.name);
-    if (e.target.name === 'kidstate') {
-      // 체크박스 예외처리
-      showDispatch(setCondition(e.target.name, e.target.checked));
-    } else {
-      showDispatch(setCondition(e.target.name, e.target.value));
-    }
-  };
-
   // 저장 버튼을 누르지 않고 모달창이 닫혔을 때,
   // 검색 조건 초기화
   const handleClickOutter = () => {
-    setCondition({
-      stdate: '', // 시작날짜
-      eddate: '', // 종료날짜
-      shprfnm: '', // 공연명
-      shcate: '', // 장르
-      signgucode: '', // 지역코드
-      kidstate: false, // 아동공연여부 - 체크시 on
-      prfstate: '' // 공연상태코드
-    });
+    showDispatch(resetCondition());
     setSearch(false);
     console.log('닫힙니다.');
   };
 
   // 리셋 버튼 이벤트 핸들러
   const handleClickResetButton = () => {
-    setCondition({
-      stdate: '', // 시작날짜
-      eddate: '', // 종료날짜
-      shprfnm: '', // 공연명
-      shcate: '', // 장르
-      signgucode: '', // 지역코드
-      kidstate: false, // 아동공연여부 - 체크시 on
-      prfstate: '' // 공연상태코드
-    });
+    showDispatch(resetCondition());
     console.log(condition);
   };
 
