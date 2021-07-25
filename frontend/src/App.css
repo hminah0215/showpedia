@@ -1,0 +1,9 @@
+/* 전역에서 사용하는 CSS 모음 */
+@import url('./lib/styles/color.css');
+
+.main-Title {
+  color: var(--gray-color-40);
+}
+.main-Title::before {
+  content: '✨ ';
+}

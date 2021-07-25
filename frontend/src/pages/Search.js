@@ -40,8 +40,8 @@ const Search = () => {
           <CustomSpinner size={'3rem'} margin={'3rem'} />
         </Row>
       ) : (
-        <Row className="justify-content-around gap-3 my-3">
-          <h3>검색 결과</h3>
+        <Row className="justify-content-center gap-3 my-3">
+          <h3 className="main-Title">검색 결과</h3>
           <CardList />
         </Row>
       )}

@@ -14,6 +14,9 @@ import Profile from './pages/Profile';
 import Board from './pages/Board';
 import BoardPost from './pages/BoardPost';
 
+// CSS
+import './App.css';
+
 function App() {
   return (
     <>
