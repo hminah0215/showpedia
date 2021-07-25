@@ -1,23 +1,23 @@
 @import url('../../lib/styles/color.css');
 
-.bgColor {
+.btn-violet {
   background-color: var(--violet-color-main);
   border: 1px solid var(--violet-color-main);
 }
-.bgColor:hover,
-.bgColor:focus {
+.btn-violet:hover,
+.btn-violet:focus {
   background-color: var(--violet-color-20);
   border: 1px solid var(--violet-color-20);
 }
 
-.bgColor--outline {
+.btn-violet--outline {
   background-color: white;
   border: 1px solid var(--violet-color-main);
   color: var(--gray-color-30);
 }
-.bgColor--outline:hover,
-.bgColor--outline:focus,
-.bgColor--outline:active {
+.btn-violet--outline:hover,
+.btn-violet--outline:focus,
+.btn-violet--outline:active {
   background-color: var(--violet-color-20);
   border: 1px solid var(--violet-color-20);
 }

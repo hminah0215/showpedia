@@ -41,7 +41,7 @@ const Search = () => {
         </Row>
       ) : (
         <Row className="justify-content-center gap-3 my-3">
-          <h3 className="main-Title">검색 결과</h3>
+          <h3 className="main-title">검색 결과</h3>
           <CardList />
         </Row>
       )}

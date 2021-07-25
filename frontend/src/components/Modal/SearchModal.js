@@ -1,8 +1,10 @@
 import React, { createRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCondition, resetCondition } from '../../redux/show';
+import { resetCondition } from '../../redux/show';
 // react-bootstrap
 import { Row, Col, Modal, Form, Container, Button } from 'react-bootstrap';
+// css
+import './SearchModal.css';
 
 const SearchModal = ({ search, setSearch, handleChangeInput }) => {
   // 검색 조건 상태 저장
@@ -43,7 +45,7 @@ const SearchModal = ({ search, setSearch, handleChangeInput }) => {
     }
 
     setSearch(false);
-    console.log('닫힙니다.');
+    // console.log('닫힙니다.');
     // console.log(condition);
   };
 
@@ -51,7 +53,7 @@ const SearchModal = ({ search, setSearch, handleChangeInput }) => {
     <>
       <Modal size="lg" show={search} onHide={handleClickOutter} aria-labelledby="modalTitle">
         <Modal.Header closeButton>
-          <Modal.Title id="modalTitle" style={{ color: '#6741d9' }}>
+          <Modal.Title id="modalTitle" className="main-title--secondary">
             검색 조건
           </Modal.Title>
         </Modal.Header>
@@ -138,7 +140,7 @@ const SearchModal = ({ search, setSearch, handleChangeInput }) => {
                 {/* <Form.Label>아동용 공연</Form.Label>
                 <Form.Check name='kidstate' className='' /> */}
                 <label>
-                  <p style={{ marginBottom: '8px' }}>아동용 공연</p>
+                  <p className="mb-2">아동용 공연</p>
                   <input
                     type="checkbox"
                     className="btn-check"
@@ -173,9 +175,8 @@ const SearchModal = ({ search, setSearch, handleChangeInput }) => {
               {/* 설정 저장 버튼 */}
               <Col lg="8">
                 <Button
-                  variant="primary"
                   type="submit"
-                  className="mt-3 py-2 bgColor"
+                  className="mt-3 py-2 btn-violet"
                   style={{ width: '100%' }}
                   onClick={handleClickSaveButton}
                 >
@@ -186,9 +187,8 @@ const SearchModal = ({ search, setSearch, handleChangeInput }) => {
               {/* 리셋 버튼 */}
               <Col lg="4">
                 <Button
-                  variant="primary"
                   type="submit"
-                  className="mt-3 py-2 bgColor--outline"
+                  className="mt-3 py-2 btn-violet--outline"
                   style={{ width: '100%' }}
                   onClick={handleClickResetButton}
                 >
