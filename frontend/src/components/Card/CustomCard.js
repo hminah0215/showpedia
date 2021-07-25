@@ -1,34 +1,32 @@
+// 리액트 참조
 import React from 'react';
+// 리액트 라우터 참조
+import { useHistory } from 'react-router-dom';
+// 부트스트랩 참조
 import { Card } from 'react-bootstrap';
+// CSS 참조
+import './CustomCard.css';
 
 const CustomCard = ({ id, title, start, end, poster }) => {
+  const history = useHistory();
+
   return (
-    <Card style={{ width: '14rem' }} lg="2" md="2" sm="6" className="align-items-center">
-      <div style={{ width: '180px', height: '240px', marginTop: '1rem' }}>
-        <Card.Img
-          variant="top"
-          src={poster}
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-        />
+    <Card
+      lg="2"
+      md="2"
+      sm="6"
+      className="align-items-center"
+      // 공연 클릭 시, 해당 ID의 상세페이지로 이동
+      onClick={() => {
+        history.push(`/contents/${id}`);
+      }}
+    >
+      <div className="imgBox">
+        <Card.Img variant="top" src={poster} />
       </div>
-      <div
-        style={{
-          padding: '1rem'
-        }}
-      >
-        <Card.Title
-          className="h6"
-          style={{
-            fontWeight: 'bold'
-          }}
-        >
-          {title}
-        </Card.Title>
-        <Card.Text
-          style={{
-            fontSize: '0.8rem'
-          }}
-        >
+      <div className="card-textBox d-flex flex-column align-items-center ">
+        <Card.Title>{title}</Card.Title>
+        <Card.Text>
           {start}~{end}
         </Card.Text>
       </div>
