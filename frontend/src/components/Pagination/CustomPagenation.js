@@ -28,8 +28,6 @@ const CustomPagenation = () => {
     showDispatch(isLoading());
 
     const page = e.target.innerText;
-    console.log('1번 클릭 시', e.target);
-    console.log('1번 클릭 시', page);
     history.push(`/search?page=${e.target.innerText}`);
 
     // 백엔드에서 리스트 가져오기

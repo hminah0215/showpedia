@@ -1,4 +1,11 @@
+@import url('../../lib/styles/color.css');
+
 .customColor li a,
 .customColor li a:hover {
-  color: red;
+  color: var(--violet-color-20);
+}
+.customColor > .active > span {
+  color: white;
+  background-color: var(--violet-color-20) !important;
+  border: solid 1px var(--violet-color-20) !important;
 }
