@@ -31,7 +31,6 @@ const Search = () => {
 
   return (
     <Container>
-      {/* 임시로 테스트 카드 넣음 */}
       {loading ? (
         <Row className="justify-content-around gap-3 my-3">
           <Spinner

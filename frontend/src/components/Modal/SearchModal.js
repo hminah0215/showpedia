@@ -100,7 +100,7 @@ const SearchModal = ({ search, setSearch, condition, setCondition, handleChangeI
                   name="shcate"
                   onChange={handleChangeInput}
                 >
-                  <option value="reset">장르를 선택하세요</option>
+                  <option value="">장르를 선택하세요</option>
                   <option value="AAAA">연극</option>
                   <option value="AAAB">뮤지컬</option>
                   <option value="BBBA">무용</option>
@@ -120,7 +120,7 @@ const SearchModal = ({ search, setSearch, condition, setCondition, handleChangeI
                   value={condition.signgucode}
                   onChange={handleChangeInput}
                 >
-                  <option>--시 도--</option>
+                  <option value="">--시 도--</option>
                   <option value="11">서울특별시</option>
                   <option value="26">부산광역시</option>
                   <option value="27">대구광역시</option>
@@ -171,7 +171,7 @@ const SearchModal = ({ search, setSearch, condition, setCondition, handleChangeI
                   value={condition.prfstate}
                   onChange={handleChangeInput}
                 >
-                  <option>----</option>
+                  <option value="">----</option>
                   <option value="01">공연예정</option>
                   <option value="02">공연중</option>
                   <option value="03">공연완료</option>
