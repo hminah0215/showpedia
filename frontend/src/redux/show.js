@@ -3,6 +3,7 @@ const GET_SHOWLIST = 'show/GET_SHOWLIST'; // 모듈이름/액션이름
 const RESET_SHOWLIST = 'show/RESET_SHOWLIST';
 const LOADING = 'show/LOADING';
 const LOADED = 'show/LOADED';
+const SET_CONDITION = 'show/SET_CONDITION';
 
 // [아영] 2. 액션 생성 함수 만들기
 // 외부에서 사용하기 때문에 export
@@ -11,11 +12,27 @@ export const getShowList = (showList) => ({ type: GET_SHOWLIST, payload: showLis
 export const resetShowList = () => ({ type: RESET_SHOWLIST });
 export const isLoading = () => ({ type: LOADING });
 export const isLoaded = () => ({ type: LOADED });
+export const setCondition = (key, value) => ({
+  type: SET_CONDITION,
+  payload: {
+    key,
+    value
+  }
+});
 
 // [아영] 3. show리덕스의 초기 상태 만들기
 const initialState = {
   showList: [], // 공연 리스트는 배열로 넘어오기 때문에, 초기에는 빈 배열
-  loading: true
+  loading: true,
+  condition: {
+    stdate: '', // 시작날짜
+    eddate: '', // 종료날짜
+    shprfnm: '', // 공연명
+    shcate: '', // 장르
+    signgucode: '', // 지역코드
+    kidstate: '', // 아동공연여부 - 체크시 on
+    prfstate: '' // 공연상태코드
+  }
 };
 
 // [아영] 4. 리듀서 함수를 만들기
@@ -44,6 +61,14 @@ const show = (state = initialState, action) => {
       return {
         ...state,
         loading: false
+      };
+    case SET_CONDITION:
+      return {
+        ...state,
+        condition: {
+          ...state.condition,
+          [action.payload.key]: action.payload.value
+        }
       };
     default:
       return state;
