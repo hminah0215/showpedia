@@ -44,16 +44,15 @@ const CustomPagenation = () => {
     }
   };
 
-  let items = [];
+  let paginationItems = [];
   // 쿼리스트링에서 현재 선택된 페이지 정보 가져오기
   // console.log(location.search.split('=')[1]); // ?page=1
   const active = Number(location.search.split('=')[1]) || 1; // 현재 선택된 페이지
-
-  const first = 2;
+  const first = pagination === 1 ? 2 : 0;
   const last = 5;
   // 페이지네이션 item 생성
-  for (let number = first + (pagination - 1) * 4; number <= pagination * last; number++) {
-    items.push(
+  for (let number = first + (pagination - 1) * 5; number <= pagination * last; number++) {
+    paginationItems.push(
       number === active ? (
         <Pagination.Item key={number} active onClick={handleClickPageNumber}>
           {number}
@@ -94,7 +93,7 @@ const CustomPagenation = () => {
         )}
 
         <Pagination.Ellipsis />
-        {items}
+        {paginationItems}
         <Pagination.Next
           onClick={() => {
             setPagination(pagination + 1);
