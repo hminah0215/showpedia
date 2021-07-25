@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from 'react-redux'; // 리덕스 훅스
 import { getShowList } from '../../redux/show'; // 액션생성함수
 // react-bootstrap
 import { Nav, Navbar, FormControl, Button, Container } from 'react-bootstrap';
+// 리액트 라우터
+import { useHistory } from 'react-router-dom';
 // 커스텀 CSS
 import './Header.css';
 // 컴포넌트
@@ -11,6 +13,8 @@ import SearchModal from '../Modal/SearchModal';
 import axios from 'axios';
 
 const Header = () => {
+  const history = useHistory();
+
   // 검색 조건 모달의 열림/닫힘을 위한 state
   const [search, setSearch] = useState(false);
   // 서버에 보낼 검색조건을 위한 state
@@ -32,17 +36,17 @@ const Header = () => {
 
   // 서버에서 검색 조건 찾아오는 이벤트 핸들러
   const handleClickSearchButton = async () => {
-    console.log('open api에서 리스트를 가져옵니다.');
-    console.log(showList);
+    // 검색 결과 페이지로 이동하기
+    history.push('/search');
 
     // 검색 조건이 잘 저장됬는지 확인하기
     console.log('검색 조건', condition);
-
     // 백엔드에서 리스트 가져오기
     try {
       const result = await axios.post('http://localhost:3005/show/result', condition);
       // 상태에 검색 결과 저장하기
       showDispatch(getShowList(result.data.data));
+      console.log(showList);
     } catch (error) {
       console.log('공연 리스트를 가져오는데 실패했습니다');
       return false;

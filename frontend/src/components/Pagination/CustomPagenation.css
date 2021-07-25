@@ -1,0 +1,4 @@
+.customColor li a,
+.customColor li a:hover {
+  color: red;
+}

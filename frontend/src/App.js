@@ -1,5 +1,3 @@
-import './App.css';
-
 // 라우터
 import { Route } from 'react-router-dom';
 import Header from './components/Header/Header';
@@ -22,19 +20,19 @@ function App() {
       {/* Header */}
       <Header />
       {/* Main */}
-      <Route path='/' exact component={Main} />
+      <Route path="/" exact component={Main} />
 
-      <Route path='/login' component={Login} />
-      <Route path='/regist' component={Regist} />
+      <Route path="/login" component={Login} />
+      <Route path="/regist" component={Regist} />
 
-      <Route path='/search' component={Search} />
-      <Route path='/contents/:id' component={Contents} />
-      <Route path='/review/:id' component={Review} />
+      <Route path="/search" component={Search} />
+      <Route path="/contents/:id" component={Contents} />
+      <Route path="/review/:id" component={Review} />
 
-      <Route path='/profile' component={Profile} />
+      <Route path="/profile" component={Profile} />
 
-      <Route path='/board' component={Board} exact />
-      <Route path='/board/:id' component={BoardPost} />
+      <Route path="/board" component={Board} exact />
+      <Route path="/board/:id" component={BoardPost} />
       {/* Footer */}
       <Footer />
     </>
