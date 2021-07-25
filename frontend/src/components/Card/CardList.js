@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 // 부트스트랩
-import { Col, Container } from 'react-bootstrap';
+import { Container, Spinner } from 'react-bootstrap';
 import { QuestionCircle } from 'react-bootstrap-icons';
 // 컴포넌트 참조
 import CustomCard from './CustomCard';
@@ -9,8 +9,6 @@ import CustomCard from './CustomCard';
 const CardList = () => {
   // 카드 데이터를 전역 상태에서 가져오기
   const showList = useSelector((state) => state.show.showList);
-  // showList의 상태가 변경 될 때마다 리 렌더링 되어야한다.
-  useEffect(() => {}, [showList]);
 
   const cardList = showList ? (
     showList.map((show) => (

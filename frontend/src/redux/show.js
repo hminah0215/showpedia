@@ -1,14 +1,21 @@
 // [아영] 1. 액션 타입 만들기
 const GET_SHOWLIST = 'show/GET_SHOWLIST'; // 모듈이름/액션이름
+const RESET_SHOWLIST = 'show/RESET_SHOWLIST';
+const LOADING = 'show/LOADING';
+const LOADED = 'show/LOADED';
 
 // [아영] 2. 액션 생성 함수 만들기
 // 외부에서 사용하기 때문에 export
 // 액션은 {type:액션타입, payload:다른데이터} 구조를 가진다.
 export const getShowList = (showList) => ({ type: GET_SHOWLIST, payload: showList });
+export const resetShowList = () => ({ type: RESET_SHOWLIST });
+export const isLoading = () => ({ type: LOADING });
+export const isLoaded = () => ({ type: LOADED });
 
 // [아영] 3. show리덕스의 초기 상태 만들기
 const initialState = {
-  showList: [] // 공연 리스트는 배열로 넘어오기 때문에, 초기에는 빈 배열
+  showList: [], // 공연 리스트는 배열로 넘어오기 때문에, 초기에는 빈 배열
+  loading: true
 };
 
 // [아영] 4. 리듀서 함수를 만들기
@@ -20,10 +27,24 @@ const show = (state = initialState, action) => {
   switch (action.type) {
     case GET_SHOWLIST:
       return {
+        ...state,
         showList: action.payload
       };
-
-    // default에 꼭 retrun state를 써주어야한다.
+    case RESET_SHOWLIST:
+      return {
+        ...state,
+        showList: []
+      };
+    case LOADING:
+      return {
+        ...state,
+        loading: true
+      };
+    case LOADED:
+      return {
+        ...state,
+        loading: false
+      };
     default:
       return state;
   }

@@ -3,7 +3,7 @@ import { Card } from 'react-bootstrap';
 
 const CustomCard = ({ id, title, start, end, poster }) => {
   return (
-    <Card style={{ width: '15rem' }} lg="2" md="3" sm="4" className="align-items-center">
+    <Card style={{ width: '14rem' }} lg="2" md="2" sm="6" className="align-items-center">
       <div style={{ width: '180px', height: '240px', marginTop: '1rem' }}>
         <Card.Img
           variant="top"
