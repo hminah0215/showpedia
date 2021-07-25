@@ -25,7 +25,15 @@ module.exports = () => {
           });
           // 사용자가 있다면 사용자 정보와 함께 done 함수를 호출하고 전략을 종료한다.
           if (exMember) {
-            done(null, exMember);
+            const kakaoMember = {
+              user: exMember,
+              accessToken: accessToken || "",
+            };
+
+            console.log("kakaoMember정보! ", kakaoMember);
+
+            // done(null, exMember);
+            done(null, kakaoMember); // 로그아웃 구현을 위해 액세스토큰값도 같이 넘긴다.
 
             // 사용자가 없다면 회원가입을 진행한다.
             // 카카오에서는 인증 후 callbackURL에 적힌 곳으로 accessToken, refreshToken, profile을 보낸다.
@@ -37,8 +45,14 @@ module.exports = () => {
               snsId: profile.id,
               provider: "kakao",
             });
+
+            const kakaoMember = {
+              user: exMember,
+              accessToken: accessToken || "",
+            };
+
             // 카카오를 통해 회원가입이 끝나면 done 함수 호출
-            done(null, newMember);
+            done(null, kakaoMember);
           }
         } catch (error) {
           console.error(error);

@@ -74,16 +74,9 @@ router.post('/uploads', upload.single('profilePhoto'), async (req, res) => {
 router.post('/regist', isNotLoggedIn, async (req, res, next) => {
   const { memberId, pwd, nickName, profilePhoto } = req.body;
 
-  // let member = {
-  //   memberId: req.body.memberId,
-  //   pwd: hash,
-  //   nickName: req.body.nickName,
-  //   profilePhoto: req.body.profilePhoto
-  // };
-
   console.log('reqbody', req.body);
 
-  console.log('req.body 프로필이미지', req.body.profilePhoto); // [object Object] 라고 저장됨 왜죠.
+  console.log('req.body 프로필이미지', req.body.profilePhoto);
 
   try {
     // 같은 회원아이디로 가입한 사용자가 있는지 조회
@@ -106,7 +99,7 @@ router.post('/regist', isNotLoggedIn, async (req, res, next) => {
     });
 
     console.log('회원가입 성공!');
-
+    return res.json({ code: 200, message: '회원가입 완료' });
     // return res.redirect("/");
   } catch (error) {
     console.error('회원가입 에러!', error);
@@ -150,7 +143,6 @@ router.post('/login', isNotLoggedIn, async (req, res, next) => {
           // sign의 세번째 인수 -> 유효기간,발급자 등의 정보를 설정
           { expiresIn: '1d', issuer: 'showpedia' } // 유효기간 하루로 설정해둠
         );
-
         console.log('로그인 성공!!!');
 
         // 쿠키저장
