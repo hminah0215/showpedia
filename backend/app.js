@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 // passport 패키지 참조
 const passport = require('passport');
@@ -20,6 +21,9 @@ const PORT = process.env.PORT || 3005;
 // dotenv, passport 참조
 dotenv.config();
 passportConfig();
+
+// cors
+app.use(cors());
 
 // 미들웨어 사용, 라우터 경로 지정하기 전에 있어야 경로에 엑세스한다.
 app.use(express.urlencoded({ extended: false }));

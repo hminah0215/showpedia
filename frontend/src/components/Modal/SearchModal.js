@@ -1,24 +1,11 @@
-import React from 'react';
-
+import React, { createRef } from 'react';
 // react-bootstrap
 import { Row, Col, Modal, Form, Container, Button } from 'react-bootstrap';
 
-const SearchModal = ({ search, setSearch, condition, setCondition }) => {
-  // input 값의 변화를 다루는 이벤트 핸들러
-  const handleChangeInput = (e) => {
-    // 체크박스 예외처리
-    if (e.target.name === 'kidstate') {
-      setCondition({
-        ...condition,
-        [e.target.name]: e.target.checked
-      });
-    } else {
-      setCondition({
-        ...condition,
-        [e.target.name]: e.target.value
-      });
-    }
-  };
+const SearchModal = ({ search, setSearch, condition, setCondition, handleChangeInput }) => {
+  // 유효성 검사를 위한 ref
+  const stdateRef = createRef();
+  const eddateRef = createRef();
 
   // 저장 버튼을 누르지 않고 모달창이 닫혔을 때,
   // 검색 조건 초기화
@@ -52,6 +39,18 @@ const SearchModal = ({ search, setSearch, condition, setCondition }) => {
 
   // 검색 조건 저장
   const handleClickSaveButton = () => {
+    // 필수 요청 변수- 유효성 검사
+    if (!condition.stdate) {
+      alert('시작 날짜를 입력하세요');
+      stdateRef.current.focus();
+      return;
+    }
+    if (!condition.eddate) {
+      alert('종료 날짜를 입력하세요');
+      eddateRef.current.focus();
+      return;
+    }
+
     setSearch(false);
     console.log('닫힙니다.');
   };
@@ -72,6 +71,7 @@ const SearchModal = ({ search, setSearch, condition, setCondition }) => {
               <Form.Group as={Col} lg="4" md="6" controlId="stdate" className="mt-3">
                 <Form.Label>* 시작 날짜</Form.Label>
                 <Form.Control
+                  ref={stdateRef}
                   required
                   type="date"
                   name="stdate"
@@ -82,6 +82,7 @@ const SearchModal = ({ search, setSearch, condition, setCondition }) => {
               <Form.Group as={Col} lg="4" md="6" controlId="eddate" className="mt-3">
                 <Form.Label>* 종료 날짜</Form.Label>
                 <Form.Control
+                  ref={eddateRef}
                   required
                   type="date"
                   name="eddate"

@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
-
+// 리덕스
+import { useSelector, useDispatch } from 'react-redux'; // 리덕스 훅스
+import { getShowList } from '../../redux/show'; // 액션생성함수
+// react-bootstrap
 import { Nav, Navbar, FormControl, Button, Container } from 'react-bootstrap';
-
 // 커스텀 CSS
 import './Header.css';
-
 // 컴포넌트
 import SearchModal from '../Modal/SearchModal';
+import axios from 'axios';
 
 const Header = () => {
-  // 검색 조건 모달을 위한 state
+  // 검색 조건 모달의 열림/닫힘을 위한 state
   const [search, setSearch] = useState(false);
-  // 서버에 보낼 검색조건 데이터
+  // 서버에 보낼 검색조건을 위한 state
   const [condition, setCondition] = useState({
     stdate: '', // 시작날짜
     eddate: '', // 종료날짜
@@ -22,10 +24,45 @@ const Header = () => {
     prfstate: '' // 공연상태코드
   });
 
+  // 리덕스- 전역 상태
+  // 상태 가져오기 = useSelector(state => state.리듀스함수명.상태)
+  const showList = useSelector((state) => state.show.showList); //useSelector Hook로 상태를 가져온다.
+  // dispatch 가져오기
+  const showDispatch = useDispatch();
+
   // 서버에서 검색 조건 찾아오는 이벤트 핸들러
-  const handleClickSearchButton = () => {
+  const handleClickSearchButton = async () => {
     console.log('open api에서 리스트를 가져옵니다.');
-    // 가져온 데이터는 전역 상태로 관리한다 (리덕스)
+    console.log(showList);
+
+    // 검색 조건이 잘 저장됬는지 확인하기
+    console.log('검색 조건', condition);
+
+    // 백엔드에서 리스트 가져오기
+    try {
+      const result = await axios.post('http://localhost:3005/show/result', condition);
+      // 상태에 검색 결과 저장하기
+      showDispatch(getShowList(result.data.data));
+    } catch (error) {
+      console.log('공연 리스트를 가져오는데 실패했습니다');
+      return false;
+    }
+  };
+
+  // input 값의 변화를 다루는 이벤트 핸들러
+  const handleChangeInput = (e) => {
+    // 체크박스 예외처리
+    if (e.target.name === 'kidstate') {
+      setCondition({
+        ...condition,
+        [e.target.name]: e.target.checked
+      });
+    } else {
+      setCondition({
+        ...condition,
+        [e.target.name]: e.target.value
+      });
+    }
   };
 
   return (
@@ -35,6 +72,7 @@ const Header = () => {
         setSearch={setSearch}
         condition={condition}
         setCondition={setCondition}
+        handleChangeInput={handleChangeInput}
       />
       <Navbar expand="md" sticky="top" className="py-3 header">
         <Container>
@@ -53,7 +91,13 @@ const Header = () => {
             </Nav>
             {/* 검색창 */}
             <div className="input-group searchBar">
-              <FormControl type="search" placeholder="공연명을 입력해주세요" aria-label="Search" />
+              <FormControl
+                type="search"
+                placeholder="공연명을 입력해주세요"
+                aria-label="Search"
+                name="shprfnm"
+                onChange={handleChangeInput}
+              />
               <Button className="bgColor--outline" onClick={() => setSearch(true)}>
                 설정
               </Button>

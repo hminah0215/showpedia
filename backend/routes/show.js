@@ -30,24 +30,42 @@ const getShowtoJSON = async (URL) => {
 
 // 공연 검색 시, 검색 결과를 제공하는 라우터
 // :3005/show/result
-router.get('/result', async (req, res) => {
+router.post('/result', async (req, res) => {
+  console.log('현재 body에서 넘어오는 값', req.body);
+
   // OPEN API에서 필수적으로 요구하는 쿼리 스트링 - req.body에서 넘어온다.
   // 필수 요청 변수 [service, stdate, eddate, cpage, rows]
   // cpage는 페이지 넘버로 쿼리스트링으로 받아온다.
+
   // 공연 이름 문자열은 URIencoding을 해줘야한다.
   const title = req.body.shprfnm ? encodeURI(req.body.shprfnm) : '';
+  // 2021-01-01 구조로 넘어오는 데이터를 요청 변수의 구조로 변경
+  const startDate = req.body.stdate.replace(/-/gi, '');
+  const endDate = req.body.eddate.replace(/-/gi, '');
+
+  // 시작 날짜를 정하지 않은 경우, 오늘 날짜부터 검색해준다.
+  const date = new Date();
+  const defaultStdate =
+    String(date.getFullYear()) +
+    String(date.getMonth() + 1).padStart(2, '0') + // 0부터 시작하기때문에 +1
+    String(date.getDate()).padStart(2, '0');
+  // 종료 날짜를 정하지 않은 경우, 현재 년도에 1년을 더한 값을 종료 날짜로 선정한다
+  const defaultEddate =
+    String(date.getFullYear() + 1) +
+    String(date.getMonth() + 1).padStart(2, '0') +
+    String(date.getDate()).padStart(2, '0');
+
   const query = {
     // 필수 요청 변수 - 프론트에서 유효성 검사 필수
     cpage: req.query.page || 1, // localhost:3005/show/result?page=1
     rows: 10, // 한번에 받을 데이터 개수
-    stdate: req.body.stdate || '20210724',
-    eddate: req.body.eddate || '20211010',
+    stdate: startDate || defaultStdate,
+    eddate: endDate || defaultEddate,
     // 선택 요청 변수
     shprfnm: title, // 문자열을 엔코드 하고 넣어야한다.
     shcate: req.body.shcate || '', // 장르 코드
     signgucode: req.body.signgucode || '', // 지역(시도)코드
-    signgucodesub: req.body.signgucodesub || '', // 지역(구군)코드
-    kidstate: req.body.kidstate || '', // 아동공연 여부 default - 전체공연
+    kidstate: req.body.kidstate ? 'Y' : '', // 아동공연 여부 default - 전체공연
     prfstate: req.body.prfstate || '' // 공연 상태 코드
   };
   // 요청 변수들을 합쳐서 하나의 쿼리스트링으로 만든다.
@@ -64,6 +82,10 @@ router.get('/result', async (req, res) => {
     res.json(showList);
   }
   // 성공 시,
+
+  console.log('쿼리도 찍어봅니다', query);
+  console.log('URL도 찍어봅니다', URL);
+
   res.json({
     msg: 'OPEN API&JSON변환 성공',
     status: 200,
