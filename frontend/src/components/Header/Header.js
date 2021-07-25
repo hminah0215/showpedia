@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 // 리덕스
 import { useSelector, useDispatch } from 'react-redux'; // 리덕스 훅스
-import { getShowList, resetShowList } from '../../redux/show'; // 액션생성함수
+import { getShowList, resetShowList, isLoading } from '../../redux/show'; // 액션생성함수
 // react-bootstrap
 import { Nav, Navbar, FormControl, Button, Container } from 'react-bootstrap';
 // 리액트 라우터
@@ -38,6 +38,8 @@ const Header = () => {
   const handleClickSearchButton = async () => {
     // 현재 들어있는 검색 결과값들 초기화하기
     showDispatch(resetShowList());
+    // 다시 로딩 상태로 설정하기
+    showDispatch(isLoading());
 
     // 검색 결과 페이지로 이동하기
     history.push('/search');
