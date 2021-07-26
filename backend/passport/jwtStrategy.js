@@ -74,6 +74,7 @@ const JWTVerify = async (jwtPayload, done) => {
 
     // 유효한 유저라면
     if (member) {
+      console.log('==멤버가 유효합니다==');
       done(null, member);
       return;
     }

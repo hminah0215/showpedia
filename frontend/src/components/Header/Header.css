@@ -1,15 +1,11 @@
 @import url('../../lib/styles/color.css');
 
-.textCenter {
-  text-align: center;
-}
-
 .header {
   border-bottom: 1px solid var(--gray-color-10);
   background-color: white;
 }
 
-.searchBar {
+.searchbar {
   width: 60%;
 }
 
@@ -23,15 +19,16 @@
   border: 1px solid var(--violet-color-20);
 }
 
-.bgColor--outline {
+.btn.bgColor--outline {
   background-color: white;
   border: 1px solid var(--violet-color-main);
   color: var(--gray-color-30);
 }
-.bgColor--outline:hover,
-.bgColor--outline:focus {
+.btn.bgColor--outline:hover,
+.btn.bgColor--outline:focus {
   background-color: var(--violet-color-20);
   border: 1px solid var(--violet-color-20);
+  color: white;
 }
 
 /* 브레이크 포인트 md*/

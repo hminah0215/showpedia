@@ -10,6 +10,7 @@ import { useHistory } from 'react-router-dom';
 import './Header.css';
 // 컴포넌트
 import SearchModal from '../Modal/SearchModal';
+// etc
 import axios from 'axios';
 
 const Header = () => {
@@ -78,12 +79,12 @@ const Header = () => {
           <Navbar.Collapse id="navbarScroll" className="justify-content-between">
             {/* 네비게이션 항목들 */}
             <Nav>
-              <Nav.Link href="/board" style={{ minWidth: '70px' }} className="textCenter">
+              <Nav.Link href="/board" style={{ minWidth: '70px' }} className="text-center">
                 게시판
               </Nav.Link>
             </Nav>
             {/* 검색창 */}
-            <div className="input-group searchBar">
+            <div className="input-group searchbar">
               <FormControl
                 type="search"
                 placeholder="공연명을 입력해주세요"
