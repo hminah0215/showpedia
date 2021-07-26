@@ -20,7 +20,7 @@ const ShowContainer = () => {
         </div>
 
         {/* 공연 정보 */}
-        <div className="show-content col-xl-6 col-lg-8 col-md-7 col-sm-6 col-12">
+        <div className="show-content col-xl-5 col-lg-8 col-md-7 col-sm-6 col-12">
           <h3 className="show-title">has been the industry's</h3>
           <p className="show-text">블루스퀘어 (신한카드홀(구. 인터파크홀))</p>
           <p className="show-text">2시간 45분</p>
@@ -30,7 +30,7 @@ const ShowContainer = () => {
         </div>
 
         {/* 공연 줄거리 & 예매 버튼 */}
-        <div className="d-flex show-story flex-column coljustify-content-end  col-xl-3 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div className="d-flex show-story flex-column coljustify-content-end  col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12">
           <p className="show-sty show-text">
             Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
             has been the industry's standard dummy text ever since the 1500s, when an unknown
