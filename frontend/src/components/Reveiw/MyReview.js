@@ -1,10 +1,13 @@
 import React from 'react';
+import { Container } from 'react-bootstrap';
+import ReviewItem from './ReviewItem';
 
 const MyReview = () => {
   return (
-    <div>
+    <Container className="mb-4">
       <h3 className="main-title">내 리뷰</h3>
-    </div>
+      <ReviewItem />
+    </Container>
   );
 };
 

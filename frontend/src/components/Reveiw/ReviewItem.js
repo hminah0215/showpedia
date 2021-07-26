@@ -4,7 +4,7 @@ import { StarFill, HandThumbsUp, ExclamationCircle } from 'react-bootstrap-icons
 // css
 import './ReviewItem.css';
 
-const ReviewItem = () => {
+const ReviewItem = ({ btn }) => {
   return (
     <div className="review m-3 d-flex align-items-center">
       <div className="review-user d-flex flex-column align-items-center">
@@ -33,14 +33,18 @@ const ReviewItem = () => {
           어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구
           어250자를 넘길 경우 잘라서 넘길꺼니까 크기 박살은 걱정마시오
         </div>
-        <div className="review-btns">
-          <button className="review-btn">
-            <HandThumbsUp size={20} />
-          </button>
-          <button className="review-btn review-btn--alert">
-            <ExclamationCircle size={20} />
-          </button>
-        </div>
+        {btn ? (
+          <div className="review-btns">
+            <button className="review-btn">
+              <HandThumbsUp size={20} />
+            </button>
+            <button className="review-btn review-btn--alert">
+              <ExclamationCircle size={20} />
+            </button>
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );
