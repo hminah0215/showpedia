@@ -1,4 +1,5 @@
 // 민아) 7/23, 로그인 여부 파악 미들웨어 작성
+const passport = require('passport');
 
 // 로그인 한건지
 exports.isLoggedIn = (req, res, next) => {
@@ -31,4 +32,25 @@ exports.isNotLoggedIn = (req, res, next) => {
     const message = encodeURIComponent('로그인한 상태입니다.');
     res.redirect(`/?error=${message}`);
   }
+};
+
+exports.tokenTest = async (req, res, next) => {
+  passport.authenticate('jwtCheck', { session: false }, async (authError, member, info) => {
+    console.log(' 패스포트 안');
+    console.log(' 멤버 데이터 확인', member);
+
+    if (authError) {
+      console.error(authError);
+      return next(authError);
+    }
+
+    // 유저가 없거나 인증이 실패하면 에러 발생
+    if (!member || authError) {
+      return res.json({
+        msg: '유저가없거나 인증이 실패하면 에러발생'
+      });
+    }
+    req.user = member.dataValues;
+    next();
+  })(req, res, next);
 };
