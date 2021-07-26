@@ -110,7 +110,7 @@ router.post('/regist', isNotLoggedIn, async (req, res, next) => {
 // 민아) 7/23 ,로그인 post 라우터
 // localhost:3005/login
 router.post('/login', isNotLoggedIn, async (req, res, next) => {
-  console.log('reqbody 로그인', req.body);
+  // console.log('reqbody 로그인', req.body);
 
   // 로그인 요청이 들어오면 passport.authenticate('local') 미들웨어가 로컬 로그인 전략을 수행함
   passport.authenticate('local', async (authError, member, info) => {

@@ -3,7 +3,7 @@ const passport = require('passport');
 
 const router = express.Router();
 
-// 토큰 인증 테스트
+// 토큰 인증 테스트를 미들웨어로 만들어 놔서 이건 쓸 필요없음
 router.get(
   '/tokenTest',
   // authenticate(사용할인증, 세션사용여부, JWTVerify에서 리턴된 함수)
