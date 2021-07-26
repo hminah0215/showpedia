@@ -1,7 +1,7 @@
 import React from 'react';
+// 부트스트랩
 import { Container, Button } from 'react-bootstrap';
 import { StarFill } from 'react-bootstrap-icons';
-
 // CSS
 import './ShowContainer.css';
 const ShowContainer = () => {

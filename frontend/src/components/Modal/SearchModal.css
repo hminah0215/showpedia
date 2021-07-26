@@ -9,16 +9,18 @@
 .btn-violet:focus {
   background-color: var(--violet-color-20);
   border: 1px solid var(--violet-color-20);
+  color: white;
 }
 
 .btn-violet--outline {
-  background-color: white;
-  border: 1px solid var(--violet-color-main);
-  color: var(--gray-color-30);
+  background-color: white !important;
+  border: 1px solid var(--violet-color-main) !important;
+  color: var(--gray-color-30) !important;
 }
 .btn-violet--outline:hover,
 .btn-violet--outline:focus,
 .btn-violet--outline:active {
-  background-color: var(--violet-color-20);
-  border: 1px solid var(--violet-color-20);
+  background-color: var(--violet-color-20) !important;
+  border: 1px solid var(--violet-color-20) !important;
+  color: white !important;
 }
