@@ -6,4 +6,5 @@ const jwtCheck = require('./jwtStrategy');
 module.exports = () => {
   local();
   kakao();
+  jwtCheck();
 };

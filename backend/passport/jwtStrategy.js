@@ -1,6 +1,8 @@
 const { ExtractJwt, Strategy: JWTStrategy } = require('passport-jwt');
 const passport = require('passport');
 const { Member } = require('../models/');
+const dotenv = require('dotenv');
+dotenv.config();
 
 // var cookieExrtactor = (req) => {
 //   var token = null;
@@ -35,23 +37,26 @@ const cookieExrtactor = (req) => {
 // secretOrKey는 jwt 토큰 발급시 사용한 키와 동일한 키어야 함
 // jwtFromRequest: ExtractJwt.fromHeader('Cookie[member]'),
 
-const JWTConfig = {
-  // jwtFromRequest: ExtractJwt.fromExtractors([cookieExrtactor]),
-  // jwtFromRequest: ExtractJwt.fromExtractors(cookieExrtactor),
-  jwtFromRequest:
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InRlc3QyIiwibmFtZSI6Iu2FjOyKpO2KuOqzhOyglTIiLCJpYXQiOjE2MjcyMTU1MzksImV4cCI6MTYyNzMwMTkzOSwiaXNzIjoic2hvd3BlZGlhIn0.lzmfEGco3wqYiOxMY4LlSUA0idrON5syeimMIv_A-28',
-  // jwtFromRequest: (req) => cookieExrtactor(req, 'member'),
-  // secretOrKey: process.env.JWT_SECRET
-  secretOrKey: 'jwtSecret'
-};
+// const JWTConfig = {
+//   // jwtFromRequest: ExtractJwt.fromExtractors([cookieExrtactor]),
+//   // jwtFromRequest: ExtractJwt.fromExtractors(cookieExrtactor),
+//   jwtFromRequest:
+//     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InRlc3QyIiwibmFtZSI6Iu2FjOyKpO2KuOqzhOyglTIiLCJpYXQiOjE2MjcyMTU1MzksImV4cCI6MTYyNzMwMTkzOSwiaXNzIjoic2hvd3BlZGlhIn0.lzmfEGco3wqYiOxMY4LlSUA0idrON5syeimMIv_A-28',
+//   // jwtFromRequest: (req) => cookieExrtactor(req, 'member'),
+//   // secretOrKey: process.env.JWT_SECRET
+//   secretOrKey: 'jwtSecret'
+// };
 
-// let JWTConfig = {};
-// JWTConfig.jwtFromRequest = ExtractJwt.fromExtractors([cookieExrtactor]);
-// JWTConfig.secretOrKey = process.env.JWT_SECRET;
+let JWTConfig = {};
+JWTConfig.jwtFromRequest = ExtractJwt.fromExtractors([
+  (req) => {
+    return req.cookies.member;
+  }
+]);
+JWTConfig.secretOrKey = process.env.JWT_SECRET;
 
 const JWTVerify = async (jwtPayload, done) => {
   console.log('jwt정보 읽어오나?', JWTConfig);
-
   try {
     // jwtPayload에 유저 정보가 담겨있다.
     // 해당 정보로 유저 식별 로직을 거친다.
@@ -60,14 +65,20 @@ const JWTVerify = async (jwtPayload, done) => {
     // payload의 id값으로 유저의 데이터를 조회한다.
     const member = await Member.findOne({ where: { memberId: jwtPayload.id } });
 
+    if (!member) {
+      console.log('==멤버가 없습니다===');
+      // 유저가 유효하지 않다면
+      done(null, false, { message: '인증정보가 유효하지 않습니다.' });
+      return;
+    }
+
     // 유효한 유저라면
     if (member) {
       done(null, member);
       return;
     }
-    // 유저가 유효하지 않다면
-    done(null, false, { message: '인증정보가 유효하지 않습니다.' });
   } catch (error) {
+    console.log('========인증 실패===========');
     console.error(error);
     done(error);
   }
