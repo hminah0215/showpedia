@@ -11,3 +11,18 @@
 .main-title--secondary {
   color: var(--violet-color-20);
 }
+
+.text-center {
+  text-align: center;
+}
+
+/* 버튼 색상 처리 */
+.btn-custom {
+  background-color: var(--violet-color-main);
+  border: 1px solid var(--violet-color-main);
+}
+.btn-custom:hover,
+.btn-custom:focus {
+  background-color: var(--violet-color-20);
+  border: 1px solid var(--violet-color-20);
+}

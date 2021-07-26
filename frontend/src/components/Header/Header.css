@@ -1,15 +1,11 @@
 @import url('../../lib/styles/color.css');
 
-.textCenter {
-  text-align: center;
-}
-
 .header {
   border-bottom: 1px solid var(--gray-color-10);
   background-color: white;
 }
 
-.searchBar {
+.searchbar {
   width: 60%;
 }
 
