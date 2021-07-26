@@ -11,7 +11,7 @@ import Search from './pages/Search';
 import Contents from './pages/Contents';
 import Review from './pages/Review';
 import Profile from './pages/Profile';
-import Board from './pages/Board';
+import BoardList from './pages/BoardList';
 import BoardPost from './pages/BoardPost';
 
 // CSS
@@ -34,7 +34,7 @@ function App() {
 
       <Route path="/profile" component={Profile} />
 
-      <Route path="/board" component={Board} exact />
+      <Route path="/board" component={BoardList} exact />
       <Route path="/board/:id" component={BoardPost} />
       {/* Footer */}
       <Footer />

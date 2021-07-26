@@ -180,6 +180,10 @@
           success: function (result) {
             console.log('게시글목록 호출상태 :', result);
 
+            // rowTag가 들어갈 tbody를 한번 비우고 데이터를 넣는다.
+            // 안그러면 중복되서 계속 row가 생김
+            $('#list').children('tbody').empty();
+
             $.each(result.data, function (i, item) {
               var rowTag = `<tr>
                                 <td>${item.boardNo}</td>
@@ -190,9 +194,7 @@
                                 <td>${item.createdAt}</td>
                               </tr>`;
 
-              // $('#list').append(rowTag);
-
-              $('#list').children('tbody').append(rowTag);
+              $('#list').append(rowTag);
             });
           },
           error: function (xhr, status, error) {
