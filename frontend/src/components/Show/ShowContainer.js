@@ -4,18 +4,21 @@ import { Container, Button } from 'react-bootstrap';
 import { StarFill } from 'react-bootstrap-icons';
 // CSS
 import './ShowContainer.css';
+
 const ShowContainer = () => {
+  // 즐겨찾기 토글
+  const handleClickStar = (e) => {
+    e.target.classList.toggle('active');
+  };
+
   return (
     <div className="show-container d-flex justify-content-center">
       <Container className="d-flex justify-content-between row">
         {/* 공연 포스터 */}
-        <div className="test">
+        <div className="show-poster-box">
           <div className="show-poster me-4">
-            <StarFill className="show-star" />
-            <img
-              className="img-box"
-              src="http://www.kopis.or.kr/upload/pfmPoster/PF_PF177643_210726_135841.gif"
-            ></img>
+            <StarFill className="show-star" onClick={handleClickStar} />
+            <img src="http://www.kopis.or.kr/upload/pfmPoster/PF_PF177643_210726_135841.gif"></img>
           </div>
         </div>
 
@@ -31,7 +34,7 @@ const ShowContainer = () => {
 
         {/* 공연 줄거리 & 예매 버튼 */}
         <div className="d-flex show-story flex-column coljustify-content-end  col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12">
-          <p className="show-sty show-text">
+          <p className="show-story-content show-text">
             Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
             has been the industry's standard dummy text ever since the 1500s, when an unknown
             printer took a galley of type and scrambled it to make a type specimen book. It has

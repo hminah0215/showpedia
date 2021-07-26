@@ -26,3 +26,30 @@
   background-color: var(--violet-color-20);
   border: 1px solid var(--violet-color-20);
 }
+.btn.btn-custom--outline {
+  background-color: white;
+  border: 1px solid var(--violet-color-main);
+  color: var(--gray-color-30);
+}
+.btn.btn-custom--outline:hover,
+.btn.btn-custom--outline:focus {
+  background-color: var(--violet-color-20);
+  border: 1px solid var(--violet-color-20);
+  color: white;
+}
+/* 액티브 버튼 */
+.btn-custom--outline.active {
+  background-color: var(--violet-color-main);
+  color: white;
+}
+
+/* 부트스트랩 페이지네이션 색상 변경 */
+.pagination li a,
+.pagination li a:hover {
+  color: var(--violet-color-20);
+}
+.pagination > .active > span {
+  color: white;
+  background-color: var(--violet-color-20) !important;
+  border: solid 1px var(--violet-color-20) !important;
+}

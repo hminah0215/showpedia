@@ -9,7 +9,7 @@
   width: 60%;
 }
 
-.bgColor {
+/* .bgColor {
   background-color: var(--violet-color-main);
   border: 1px solid var(--violet-color-main);
 }
@@ -29,11 +29,11 @@
   background-color: var(--violet-color-20);
   border: 1px solid var(--violet-color-20);
   color: white;
-}
+} */
 
 /* 브레이크 포인트 md*/
 @media (max-width: 768px) {
-  .searchBar {
+  .searchbar {
     width: 100%;
   }
 }

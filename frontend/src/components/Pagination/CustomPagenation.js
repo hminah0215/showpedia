@@ -9,8 +9,6 @@ import { useLocation, useHistory } from 'react-router-dom';
 import { Pagination } from 'react-bootstrap';
 // etc 참조
 import axios from 'axios';
-// css
-import './CustomPagenation.css';
 
 const CustomPagenation = () => {
   // state

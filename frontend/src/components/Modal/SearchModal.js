@@ -1,3 +1,4 @@
+// 리액트, 리덕스
 import React, { createRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetCondition } from '../../redux/show';
@@ -47,6 +48,11 @@ const SearchModal = ({ search, setSearch, handleChangeInput }) => {
     setSearch(false);
     // console.log('닫힙니다.');
     // console.log(condition);
+  };
+
+  // 버튼 토글 액션
+  const handleClickActive = (e) => {
+    e.target.classList.toggle('active');
   };
 
   return (
@@ -149,7 +155,11 @@ const SearchModal = ({ search, setSearch, handleChangeInput }) => {
                     onChange={handleChangeInput}
                     checked={condition.kidstate}
                   />
-                  <label className="btn btn-violet" htmlFor="kidstate">
+                  <label
+                    className="btn btn-custom--outline"
+                    onClick={handleClickActive}
+                    htmlFor="kidstate"
+                  >
                     아동용 공연
                   </label>
                   <br />

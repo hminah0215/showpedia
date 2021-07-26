@@ -92,10 +92,10 @@ const Header = () => {
                 name="shprfnm"
                 onChange={handleChangeInput}
               />
-              <Button className="bgColor--outline" onClick={() => setSearch(true)}>
+              <Button className="btn-custom--outline" onClick={() => setSearch(true)}>
                 설정
               </Button>
-              <Button className="bgColor" onClick={handleClickSearchButton}>
+              <Button className="btn-custom" onClick={handleClickSearchButton}>
                 검색
               </Button>
             </div>
@@ -104,7 +104,7 @@ const Header = () => {
               <Nav.Link href="/login" style={{ minWidth: '70px' }} className="textCenter">
                 로그인
               </Nav.Link>
-              <Button href="/regist" className="bgColor" style={{ minWidth: '90px' }}>
+              <Button href="/regist" className=".btn-custom" style={{ minWidth: '90px' }}>
                 회원가입
               </Button>
             </Nav>

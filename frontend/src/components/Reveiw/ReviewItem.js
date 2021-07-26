@@ -9,14 +9,15 @@ import Stars from '../Stars/Stars';
 const ReviewItem = ({ isReviewed }) => {
   return (
     <div className="review m-3 d-flex align-items-center">
+      {/* 리뷰 유저정보 */}
       <div className="review-user d-flex flex-column align-items-center">
-        <div className="review-user-img img-box ">
+        <div className="review-user-img img-box">
           <img src="https://i.pinimg.com/736x/63/03/ce/6303ce3888e3dce2532ba870651d4870.jpg"></img>
         </div>
-        <p className="review-user-title">UserName</p>
+        <p className="review-user-title">Jason Issacs</p>
       </div>
-
-      <div className="review-contents flex-grow-1 d-flex flex-column justify-content-between">
+      {/* 리뷰 콘텐츠 */}
+      <div className="review-contents-container flex-grow-1 d-flex flex-column justify-content-between">
         <div className="review-contents-header">
           <span className="review-date">2021.07.05</span>
           <span className="review-star">
@@ -50,10 +51,11 @@ const ReviewItem = ({ isReviewed }) => {
           isReviewed ? (
             <></>
           ) : (
-            <div className="review-btns">
+            <div className="review-btns d-flex align-items-center justify-content-end">
               <button className="review-btn">
                 <HandThumbsUp size={20} />
               </button>
+              <span className="review-like">333</span>
               <button className="review-btn review-btn--alert">
                 <ExclamationCircle size={20} />
               </button>
