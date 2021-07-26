@@ -4,8 +4,8 @@ import ReviewItem from './ReviewItem';
 
 const ReviewContainer = () => {
   return (
-    <Container className="mb-4">
-      <h3 className="main-title">리뷰</h3>
+    <Container className="mb-4 d-flex flex-column align-items-center">
+      <h3 className="main-title align-self-baseline">리뷰</h3>
       {/* 서버에서 가져온 데이터 개수만큼 반복 */}
       <ReviewItem btn />
       <ReviewItem btn />

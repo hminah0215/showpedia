@@ -26,6 +26,9 @@
 .review .review-contents {
   height: 100%;
 }
+.review .review-contents-header {
+  position: relative;
+}
 
 .review .review-date {
   color: var(--gray-color-40);
@@ -46,6 +49,8 @@
 
 .review .review-btns {
   text-align: end;
+  margin-right: 0.5rem;
+  margin-top: 0.3rem;
 }
 .review-btn {
   background: none;
@@ -54,6 +59,7 @@
   height: 25px;
   color: var(--gray-color-20);
   margin-right: 2px;
+  transition: all 0.3s ease;
 }
 
 .review-btn:hover {
@@ -61,6 +67,27 @@
 }
 .review-btn--alert:hover {
   color: red;
+}
+.review-btn--modify {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 24px;
+  height: 24px;
+  background-color: white;
+  color: var(--violet-color-20);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+.review-btn--modify svg {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+}
+.review-btn--modify:hover {
+  color: white;
+  background-color: var(--violet-color-20);
 }
 
 .img-box img {

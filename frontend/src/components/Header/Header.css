@@ -23,15 +23,16 @@
   border: 1px solid var(--violet-color-20);
 }
 
-.bgColor--outline {
+.btn.bgColor--outline {
   background-color: white;
   border: 1px solid var(--violet-color-main);
   color: var(--gray-color-30);
 }
-.bgColor--outline:hover,
-.bgColor--outline:focus {
+.btn.bgColor--outline:hover,
+.btn.bgColor--outline:focus {
   background-color: var(--violet-color-20);
   border: 1px solid var(--violet-color-20);
+  color: white;
 }
 
 /* 브레이크 포인트 md*/

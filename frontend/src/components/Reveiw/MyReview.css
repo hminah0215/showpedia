@@ -1,0 +1,15 @@
+@import url('../../lib/styles/color.css');
+
+.review-btn--write {
+  width: 90%;
+  border: 1px solid var(--violet-color-20);
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: #fff;
+  color: var(--violet-color-20);
+  transition: all 0.3s ease;
+}
+.review-btn--write:hover {
+  background-color: var(--violet-color-20);
+  color: white;
+}
