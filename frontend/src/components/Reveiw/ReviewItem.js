@@ -6,7 +6,7 @@ import './ReviewItem.css';
 // 참조
 import Stars from '../Stars/Stars';
 
-const ReviewItem = ({ btn, modify }) => {
+const ReviewItem = ({ isReviewed }) => {
   return (
     <div className="review m-3 d-flex align-items-center">
       <div className="review-user d-flex flex-column align-items-center">
@@ -28,7 +28,7 @@ const ReviewItem = ({ btn, modify }) => {
             ))}
           </span>
           {/* 내 리뷰일 경우 - 수정 버튼 */}
-          {modify ? (
+          {isReviewed ? (
             <button className="review-btn review-btn--modify">
               <PencilSquare size={20} />
             </button>
@@ -37,16 +37,19 @@ const ReviewItem = ({ btn, modify }) => {
           )}
         </div>
         <div className="review-content">
-          어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구
-          어250자를 넘길 경우 잘라서 넘길꺼니까 크기 박살은 걱정마시오
-          어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구
-          어250자를 넘길 경우 잘라서 넘길꺼니까 크기 박살은 걱정마시오
-          어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구어쩌구저쩌구
-          어250자를 넘길 경우 잘라서 넘길꺼니까 크기 박살은 걱정마시오
+          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
+          been the industry's standard dummy text ever since the 1500s, when an unknown printer took
+          a galley of type and scrambled it to make a type specimen book. It has survived not only
+          five centuries, but also the leap into electronic typesetting, remaining essentially
+          unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
+          Lorem Ipsum passages, and more recently with desktop publishing software like Aldus
+          PageMaker including versions of Lorem Ipsum.
         </div>
         {
           // 내 리뷰일 경우 버튼 숨김
-          btn ? (
+          isReviewed ? (
+            <></>
+          ) : (
             <div className="review-btns">
               <button className="review-btn">
                 <HandThumbsUp size={20} />
@@ -55,8 +58,6 @@ const ReviewItem = ({ btn, modify }) => {
                 <ExclamationCircle size={20} />
               </button>
             </div>
-          ) : (
-            <></>
           )
         }
       </div>

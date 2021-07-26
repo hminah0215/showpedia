@@ -5,17 +5,18 @@ import ReviewItem from './ReviewItem';
 import './MyReview.css';
 import WriteReview from './WriteReview';
 
-const MyReview = ({ isReviewed }) => {
+const MyReview = () => {
   // 리뷰 작성 창을 위한 state
   const [write, setWrite] = useState(false);
+  const [isReviewed, setIsReviewed] = useState(false);
   return (
     <Container className="mb-4 d-flex justify-content-center  align-items-center flex-column">
       {
         // 리뷰 여부 판별 isReviewed
-        false ? (
+        true ? (
           <>
             <h3 className="main-title align-self-baseline">내 리뷰</h3>
-            <ReviewItem modify />
+            <ReviewItem isReviewed />
           </>
         ) : (
           <>

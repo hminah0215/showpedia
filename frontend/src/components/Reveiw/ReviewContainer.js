@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
+import { Container, Button } from 'react-bootstrap';
 import ReviewItem from './ReviewItem';
 
 const ReviewContainer = () => {
@@ -12,6 +12,7 @@ const ReviewContainer = () => {
       <ReviewItem btn />
       <ReviewItem btn />
       <ReviewItem btn />
+      <Button>더보기</Button>
     </Container>
   );
 };

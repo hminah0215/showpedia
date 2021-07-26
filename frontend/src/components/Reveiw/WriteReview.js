@@ -12,7 +12,6 @@ const WriteReview = () => {
 
   // 클릭 시, 클릭된 idx 값으로 별점을 세팅한다.
   const handleClickStar = (idx) => {
-    console.log(idx);
     setStar(idx); // 클릭된 idx 값으로 star을 세팅
   };
 
@@ -28,14 +27,12 @@ const WriteReview = () => {
           </span>
         </div>
         <div className="review-content">
-          <FloatingLabel controlId="review" label="리뷰를 남겨주세요">
-            <Form.Control
-              as="textarea"
-              name="reviewContent"
-              placeholder="리뷰를 남겨주세요"
-              style={{ height: '100px' }}
-            />
-          </FloatingLabel>
+          <Form.Control
+            as="textarea"
+            name="reviewContent"
+            placeholder="리뷰를 남겨주세요"
+            style={{ height: '100px' }}
+          />
         </div>
         <Button>작성</Button>
       </div>
