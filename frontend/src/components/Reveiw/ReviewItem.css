@@ -102,4 +102,7 @@
     min-width: inherit;
     width: 100%;
   }
+  .review .review-user {
+    display: none !important;
+  }
 }

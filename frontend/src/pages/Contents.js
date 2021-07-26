@@ -6,11 +6,15 @@ import ShowContainer from '../components/Show/ShowContainer';
 
 const Contents = () => {
   return (
-    <Container className="d-flex align-items-center flex-column">
+    <>
+      {/* 공연 정보 항목 */}
       <ShowContainer />
-      <MyReview />
-      <ReviewContainer />
-    </Container>
+      {/* 리뷰 항목 */}
+      <Container className="d-flex align-items-center flex-column">
+        <MyReview />
+        <ReviewContainer />
+      </Container>
+    </>
   );
 };
 

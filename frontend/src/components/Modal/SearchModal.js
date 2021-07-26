@@ -149,7 +149,7 @@ const SearchModal = ({ search, setSearch, handleChangeInput }) => {
                     onChange={handleChangeInput}
                     checked={condition.kidstate}
                   />
-                  <label className="btn btn-outline-secondary " htmlFor="kidstate">
+                  <label className="btn btn-violet" htmlFor="kidstate">
                     아동용 공연
                   </label>
                   <br />

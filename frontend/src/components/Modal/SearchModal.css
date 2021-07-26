@@ -2,6 +2,7 @@
 
 .btn-violet {
   background-color: var(--violet-color-main);
+  color: white;
   border: 1px solid var(--violet-color-main);
 }
 .btn-violet:hover,
