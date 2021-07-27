@@ -42,6 +42,10 @@ const BoardList = () => {
       urls = 'boardCategory=actor';
       console.log('actor 선택');
       break;
+    case 'together':
+      urls = 'boardCategory=together';
+      console.log('together 선택');
+      break;
     default:
       console.log('디폴트 - 전체게시글목록');
       break;
@@ -93,13 +97,16 @@ const BoardList = () => {
           <CustomTable boardList={currentPosts(boardList)} />
         </Tab>
         <Tab eventKey="notice" title="공지">
-          <CustomTable boardList={boardList} />
+          <CustomTable boardList={currentPosts(boardList)} />
         </Tab>
         <Tab eventKey="free" title="자유">
-          <CustomTable boardList={boardList} />
+          <CustomTable boardList={currentPosts(boardList)} />
         </Tab>
         <Tab eventKey="actor" title="덕질">
-          <CustomTable boardList={boardList} />
+          <CustomTable boardList={currentPosts(boardList)} />
+        </Tab>
+        <Tab eventKey="together" title="같이가요">
+          <CustomTable boardList={currentPosts(boardList)} />
         </Tab>
       </Tabs>
       <BoardPagination

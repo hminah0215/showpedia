@@ -12,7 +12,7 @@ router.get('/list', async (req, res, next) => {
     // 주소에서 카테고리명을 추출한다.
     const category = req.query.boardCategory;
 
-    // 일단 임의로 notice(공지), free(자유), actor(덕질)로 구분
+    // 일단 임의로 notice(공지), free(자유), actor(덕질), together(같이가요)로 구분
     console.log('전달된 카테고리명 ==>', category);
 
     if (category != undefined) {
