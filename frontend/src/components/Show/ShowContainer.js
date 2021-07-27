@@ -8,7 +8,7 @@ import './ShowContainer.css';
 // etc
 import axios from 'axios';
 
-const ShowContainer = () => {
+const ShowContainer = ({ setIsFetch }) => {
   // 공연 상세정보 state
   const [show, setShow] = useState({
     mt20id: '',
@@ -30,32 +30,40 @@ const ShowContainer = () => {
   const showId = location.pathname.split('/')[2];
 
   // 첫 로딩 시, 공연 상세 데이터를 가져온다.
-  useEffect(async () => {
+  // useEffect에 async를 사용하지 않는다.
+  useEffect(() => {
     // 첫 로딩 시, 공연 id 값 설정
     setShow({
       ...show,
       mt20id: showId
     });
-
     // 백엔드에서 공연 상세 데이터 가져오기
     const URL = `http://localhost:3005/show/${showId}`;
-    try {
-      const result = await axios.get(URL);
-      console.log('올바른 데이터를 가져왔는가?', result.data.data);
-      const showData = result.data.data[0];
-      console.log(showData.sty);
-      setShow({
-        prfnm: showData.prfnm, // 공연 이름
-        prfpdfrom: showData.prfpdfrom, // 공연 시작일
-        prfpdto: showData.prfpdto, // 공연 종료일
-        fcltynm: showData.fcltynm, // 공연 장소
-        prfcast: showData.prfcast, // 배우들
-        prfruntime: showData.prfruntime, // 공연 시간
-        pcseguidance: showData.pcseguidance, // 공연 가격
-        poster: showData.poster, // poster URL
-        sty: showData.sty[0] !== ' ' ? showData.sty : '줄거리가 없습니다' // 줄거리
-      });
-    } catch (error) {}
+    const fetchData = async () => {
+      try {
+        throw 'ggg';
+        const result = await axios.get(URL);
+        console.log('올바른 데이터를 가져왔는가?', result.data.data);
+        const showData = result.data.data[0];
+        setShow({
+          prfnm: showData.prfnm, // 공연 이름
+          prfpdfrom: showData.prfpdfrom, // 공연 시작일
+          prfpdto: showData.prfpdto, // 공연 종료일
+          fcltynm: showData.fcltynm, // 공연 장소
+          prfcast: showData.prfcast, // 배우들
+          prfruntime: showData.prfruntime, // 공연 시간
+          pcseguidance: showData.pcseguidance, // 공연 가격
+          poster: showData.poster, // poster URL
+          sty: showData.sty[0] !== ' ' ? showData.sty : '줄거리가 없습니다' // 줄거리
+        });
+        return;
+      } catch (error) {
+        alert('데이터를 가져오지 못했습니다!');
+        setIsFetch(false);
+        return;
+      }
+    };
+    fetchData();
   }, []);
 
   // 즐겨찾기 토글 이벤트 핸들러

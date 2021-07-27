@@ -12,7 +12,10 @@ const ReviewItem = ({ isReviewed }) => {
       {/* 리뷰 유저정보 */}
       <div className="review-user d-flex flex-column align-items-center">
         <div className="review-user-img img-box">
-          <img src="https://i.pinimg.com/736x/63/03/ce/6303ce3888e3dce2532ba870651d4870.jpg"></img>
+          <img
+            src="https://i.pinimg.com/736x/63/03/ce/6303ce3888e3dce2532ba870651d4870.jpg"
+            alt="user"
+          ></img>
         </div>
         <p className="review-user-title">Jason Issacs</p>
       </div>

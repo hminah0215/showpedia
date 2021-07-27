@@ -5,6 +5,7 @@ import { Container } from 'react-bootstrap';
 import { QuestionCircle } from 'react-bootstrap-icons';
 // 컴포넌트 참조
 import CustomCard from './CustomCard';
+import NotFound from '../NotFound/NotFound';
 
 const CardList = () => {
   // 카드 데이터를 전역 상태에서 가져오기
@@ -12,10 +13,7 @@ const CardList = () => {
 
   // showList에 배열이 아닌 msg가 들어있는 경우 === 조건에 맞는 검색 결과가 없음
   const cardList = showList.msg ? (
-    <Container className="d-flex flex-column justify-content-center align-items-center">
-      <QuestionCircle className="m-4" size={96} color="#dee2e6" />
-      <span className="pb-2">{showList.msg}</span>
-    </Container>
+    <NotFound msg={showList.msg} />
   ) : (
     showList.map((show) => (
       <CustomCard

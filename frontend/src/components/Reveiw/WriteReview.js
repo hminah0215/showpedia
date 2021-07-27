@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 // 부트스트랩
-import { FloatingLabel, Form, Button } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 // CSS
 import './WriteReview.css';
 // 참조
