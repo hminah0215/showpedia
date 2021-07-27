@@ -15,6 +15,7 @@ const showRouter = require('./routes/show');
 const memberRouter = require('./routes/member');
 const tokenRouter = require('./routes/token');
 const boardRouter = require('./routes/board');
+const reviewRouter = require('./routes/review');
 
 // app.js
 const app = express();
@@ -41,6 +42,7 @@ app.use('/show', showRouter);
 app.use('/', memberRouter);
 app.use('/', tokenRouter);
 app.use('/board', boardRouter);
+app.use('/review', reviewRouter);
 
 // 요청(req 객체)에 passport 설정을 심는 미들웨어
 app.use(passport.initialize());

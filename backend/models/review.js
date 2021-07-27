@@ -11,36 +11,35 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
-        autoIncrement: true,
+        autoIncrement: true
       },
       reviewContents: {
         type: DataTypes.TEXT,
-        allowNull: false,
+        allowNull: false
       },
       reviewLikes: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        defaultValue: 0,
+        defaultValue: 0
       },
       reviewReports: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        defaultValue: 0,
+        defaultValue: 0
       },
       showId: {
         type: DataTypes.STRING(200),
-        allowNull: false,
-        unique: true,
+        allowNull: false
       },
-      reviewStarts: {
+      reviewStars: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        defaultValue: 0,
-      },
+        defaultValue: 0
+      }
     },
     {
       // Other model options go here
-      timestamps: true,
+      timestamps: true
     }
   );
 };

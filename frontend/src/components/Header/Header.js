@@ -22,7 +22,6 @@ const Header = () => {
 
   // 리덕스- 전역 상태
   // 상태 가져오기 = useSelector(state => state.리듀스함수명.상태)
-  const showList = useSelector((state) => state.show.showList); //useSelector Hook로 상태를 가져온다.
   // dispatch 가져오기
   const showDispatch = useDispatch();
 
