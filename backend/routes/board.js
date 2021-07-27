@@ -5,19 +5,23 @@ const { isLoggedIn, tokenTest } = require('./middleware');
 const router = express.Router();
 
 // 민아) 7/26, 게시글 전체목록 get 라우터
-// localhost:3005/board/list?page=1&limit=5&boardCategory=free
+// localhost:3005/board/list?page=1&boardCategory=free
 // 게시글 목록은 로그인했던,안했던 다 볼 수 있는 상태로 둘거라 미들웨어 안가져다 씀!
 router.get('/list', async (req, res, next) => {
   try {
     // 주소에서 카테고리명을 추출한다.
     const category = req.query.boardCategory;
+    // const page = req.query.limit;
+    // console.log('보드 page? ', page);
+    // console.log('req.query보드요', req.query);
+    // const page = req.query.page;
 
     // 일단 임의로 notice(공지), free(자유), actor(덕질)로 구분
     console.log('전달된 카테고리명 ==>', category);
 
     if (category != undefined) {
       // 전달된 카테고리가 있다면, 검색조건에 카테고리 넣어서 조회
-      let boardList = await Board.findAll({ where: { boardCategory: category }, limit: 5 });
+      let boardList = await Board.findAll({ where: { boardCategory: category } });
 
       return res.json({ msg: '카테고리별 목록 ok', data: boardList, code: '200' });
     }
@@ -26,7 +30,7 @@ router.get('/list', async (req, res, next) => {
 
     // 전달된 카테고리가 없으면, 게시글 전체를 조회한다.
     // limit 숫자로 한페이지에 몇개를 보일지 정한다. 일단 테스트시에는 5로해둠
-    const boardAllList = await Board.findAll({ order: [['boardNo', 'DESC']], limit: 5 });
+    const boardAllList = await Board.findAll({ order: [['boardNo', 'DESC']] });
 
     // console.log('게시글 목록 boardAllList 정렬되나?', boardAllList);
 
