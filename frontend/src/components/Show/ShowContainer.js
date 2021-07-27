@@ -58,7 +58,6 @@ const ShowContainer = ({ setIsFetch }) => {
         });
         return;
       } catch (error) {
-        alert('데이터를 가져오지 못했습니다!');
         setIsFetch(false);
         return;
       }
