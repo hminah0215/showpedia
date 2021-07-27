@@ -26,13 +26,13 @@
   background-color: var(--violet-color-20);
   border: 1px solid var(--violet-color-20);
 }
-.btn.btn-custom--outline {
+.btn-custom--outline {
   background-color: white;
   border: 1px solid var(--violet-color-main);
   color: var(--gray-color-30);
 }
-.btn.btn-custom--outline:hover,
-.btn.btn-custom--outline:focus {
+.btn-custom--outline:hover,
+.btn-custom--outline:focus {
   background-color: var(--violet-color-20);
   border: 1px solid var(--violet-color-20);
   color: white;
@@ -67,4 +67,14 @@
 }
 .nav-tabs {
   border-bottom: 1px solid var(--violet-color-20);
+}
+
+/* 카카오 로그인 버튼 색상 */
+.btn-warning {
+  background-color: #ffc107 !important;
+}
+
+/* 회원가입 버튼 색상 */
+.btnSign {
+  background-color: var(--gray-color--10) !important;
 }
