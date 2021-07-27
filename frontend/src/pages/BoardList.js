@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Tab, Table, Tabs } from 'react-bootstrap';
+import { Container, Tab, Table, Tabs } from 'react-bootstrap';
 
 const BoardList = () => {
   // 게시판처음 들어왔을때, 전체 탭이 선택되어있도록 함
@@ -36,7 +36,6 @@ const BoardList = () => {
 
   useEffect(() => {
     // 노드 프로젝트에서 게시글목록을 부르는 주소
-
     axios
       .get(url + urls)
       .then((res) => {
@@ -56,13 +55,19 @@ const BoardList = () => {
   }, [key]); // key가 바뀔때마다 동작
 
   return (
-    <div>
+    <Container className="my-3">
       <Tabs
         id="controlled-tab-example"
         activeKey={key}
         onSelect={(k) => setKey(k)}
         className="mb-3"
       >
+        {/* Custom Tab 
+          <CustomTab title='전체' eventKey='all' boardList={boardList}/>
+          <CustomTab title='공지' eventKey='notice'/>
+          <CustomTab title='전체' eventKey='all'/>
+          <CustomTab title='전체' eventKey='all'/>
+        */}
         <Tab eventKey="all" title="전체">
           첫번째 내용들어감
           <Table bordered hover>
@@ -90,6 +95,7 @@ const BoardList = () => {
             </tbody>
           </Table>
         </Tab>
+
         <Tab eventKey="notice" title="공지">
           두번째 내용들어감
           <Table bordered hover>
@@ -172,7 +178,7 @@ const BoardList = () => {
           </Table>
         </Tab>
       </Tabs>
-    </div>
+    </Container>
   );
 };
 

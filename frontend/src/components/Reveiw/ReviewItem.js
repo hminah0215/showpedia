@@ -1,6 +1,6 @@
 import React from 'react';
 // 부트스트랩 icons
-import { StarFill, HandThumbsUp, ExclamationCircle, PencilSquare } from 'react-bootstrap-icons';
+import { HandThumbsUp, ExclamationCircle, PencilSquare } from 'react-bootstrap-icons';
 // css
 import './ReviewItem.css';
 // 참조

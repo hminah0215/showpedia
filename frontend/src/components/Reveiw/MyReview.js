@@ -23,7 +23,10 @@ const MyReview = () => {
             {
               // 리뷰를 작성해볼까요 클릭한 경우
               write ? (
-                <WriteReview />
+                <>
+                  <h3 className="main-title align-self-baseline"> 리뷰 작성하기</h3>
+                  <WriteReview />
+                </>
               ) : (
                 <>
                   <button
