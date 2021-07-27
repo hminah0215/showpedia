@@ -5,7 +5,7 @@ const { isLoggedIn, tokenTest } = require('./middleware');
 const router = express.Router();
 
 // 민아) 7/26, 게시글 전체목록 get 라우터
-// localhost:3005/board/list?boardCategory=free
+// localhost:3005/board/list?page=1&limit=5&boardCategory=free
 // 게시글 목록은 로그인했던,안했던 다 볼 수 있는 상태로 둘거라 미들웨어 안가져다 씀!
 router.get('/list', async (req, res, next) => {
   try {
@@ -17,22 +17,20 @@ router.get('/list', async (req, res, next) => {
 
     if (category != undefined) {
       // 전달된 카테고리가 있다면, 검색조건에 카테고리 넣어서 조회
-      const boardList = await Board.findAll({ where: { boardCategory: category } });
+      let boardList = await Board.findAll({ where: { boardCategory: category }, limit: 5 });
 
-      // console.log('게시글 목록 boardList', boardList);
-
-      return res.json({ msg: '카테고리별 목록 ok', data: boardList });
+      return res.json({ msg: '카테고리별 목록 ok', data: boardList, code: '200' });
     }
 
     console.log('카테고리 말고 카테고리가 없으면 전체게시글 조회하나요???');
 
     // 전달된 카테고리가 없으면, 게시글 전체를 조회한다.
-    // order 정렬이 되서 최신글이 위에 보이게 해서 넘어가는데 view에선 왜 보이는 순서가 뒤죽박죽인것인가!?
-    const boardAllList = await Board.findAll({ order: [['boardNo', 'DESC']] });
+    // limit 숫자로 한페이지에 몇개를 보일지 정한다. 일단 테스트시에는 5로해둠
+    const boardAllList = await Board.findAll({ order: [['boardNo', 'DESC']], limit: 5 });
 
     // console.log('게시글 목록 boardAllList 정렬되나?', boardAllList);
 
-    return res.json({ msg: '전체 목록 ok', data: boardAllList });
+    return res.json({ msg: '전체 목록 ok', data: boardAllList, code: '200' });
   } catch (error) {
     next(error);
   }

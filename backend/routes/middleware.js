@@ -1,5 +1,7 @@
-// 민아) 7/23, 로그인 여부 파악 미들웨어 작성
+const e = require('express');
 const passport = require('passport');
+
+// 민아) 7/23, 로그인 여부 파악 미들웨어 작성
 // 로그인 한건지
 exports.isLoggedIn = (req, res, next) => {
   // 쿠키에 사용자 인증 토큰을 저장하니까, 쿠키에 member 라는 이름의 값이 있는지를 확인
@@ -21,6 +23,7 @@ exports.isLoggedIn = (req, res, next) => {
   }
 };
 
+// 민아) 7/23, 로그인 여부 파악 미들웨어 작성
 // 로그인 안한 상태인지
 exports.isNotLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
@@ -34,17 +37,8 @@ exports.isNotLoggedIn = (req, res, next) => {
   }
 };
 
-// 로그인 해도, 안해도 접근 가능한 미들웨어
-exports.allLogged = (req, res, next) => {
-  // 로그인 안해도 접근가능
-  if (req.isAuthenticated() || !req.isAuthenticated()) {
-    next();
-  } else {
-    console.log('둘다 접근 가능');
-  }
-};
-
-// 토큰인증 테스트 미들웨어,
+// 민아) 7/25, 토큰인증 라우터 미들웨어로 변경
+// 토큰인증 테스트 미들웨어
 exports.tokenTest = async (req, res, next) => {
   passport.authenticate('jwtCheck', { session: false }, async (authError, member, info) => {
     console.log('토큰 미들웨어 ');
