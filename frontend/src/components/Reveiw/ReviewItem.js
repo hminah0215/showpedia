@@ -19,7 +19,9 @@ const ReviewItem = ({ isReviewed, review }) => {
       {/* 리뷰 콘텐츠 */}
       <div className="review-contents-container flex-grow-1 d-flex flex-column justify-content-between">
         <div className="review-contents-header">
-          <span className="review-date">{review?.createdAt.slice(0, 10)}</span>
+          <span className="review-date">
+            {review?.createdAt ? review?.createdAt.slice(0, 10) : ''}
+          </span>
           <span className="review-star">
             {/* 별점
               rating은 db에서 가져온 리뷰의 별점 점수이다.

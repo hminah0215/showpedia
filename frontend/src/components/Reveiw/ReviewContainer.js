@@ -16,7 +16,7 @@ const ReviewContainer = ({ showId }) => {
   // 리뷰 더보기 상태
   const [addReview, setAddReview] = useState(2);
 
-  // 첫 렌더링 때, 해당 id에 맞는 리뷰를 가져온다.
+  // 첫 렌더링 때, 해당 공연id에 맞는 리뷰를 가져온다.
   useEffect(() => {
     const URL = 'http://localhost:3005/review/reviewlist/' + showId;
     const fetchReviewList = async () => {

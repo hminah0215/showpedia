@@ -15,14 +15,15 @@ const MyReview = ({ showId }) => {
   // 가져온 내 리뷰 데이터를 저장하는 state
   const [myReview, setMyReview] = useState({});
 
-  // 내 리뷰가 존재하는지 판단하기 위해서 첫 렌더링 시, 리뷰를 찾아온다
+  // 내 리뷰가 존재하는지 판단하기 위해서 첫 렌더링 시, 내 리뷰가 있다면 찾아온다.
   useEffect(() => {
-    const URL = `http://localhost:3005/review?showId=${showId}&memberId=Ayo`;
+    // memberId는 백엔드에서 판단 가능
+    const URL = `http://localhost:3005/review?showId=${showId}`;
 
     const fetchReview = async () => {
       try {
         const result = await axios.get(URL);
-        console.log('가져온 리뷰 데이터 정보22', result);
+        // console.log('가져온 리뷰 데이터 정보22', result);
 
         // 리뷰가 없는 상태
         if (result.data.data.length === 0) {

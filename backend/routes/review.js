@@ -8,11 +8,12 @@ const Review = require('../models').Review;
 router.post('/', async (req, res) => {
   // 클라이언트에서 리뷰 정보를 가져온다.
   console.log('바디로 넘어오는 모든 것들', req.body);
+  const memberId = 'Ayo'; // token 미들웨어에서 전달해준다.
   const review = {
     reviewStars: req.body.reviewStars,
     reviewContents: req.body.reviewContents,
     showId: req.body.showId,
-    memberId: req.body.memberId
+    memberId
   };
 
   // 데이터를 저장한다.
@@ -36,7 +37,9 @@ router.post('/', async (req, res) => {
 router.get('/', async (req, res) => {
   // 검색 조건을 search 쿼리로 가져온다.
   const showId = req.query.showId;
-  const memberId = req.query.memberId;
+
+  // 유저 정보는 백엔드가 해준다.
+  const memberId = 'Ayo'; // token 미들웨어에서 전달해준다.
   console.log('검색 조건===', memberId);
   console.log('showId===', showId);
   try {
