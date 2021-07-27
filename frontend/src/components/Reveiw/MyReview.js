@@ -29,8 +29,9 @@ const MyReview = () => {
                 </>
               ) : (
                 <>
+                  <h3 className="main-title align-self-baseline">내 리뷰</h3>
                   <button
-                    className="review-btn--write"
+                    className="review-btn--write m-4"
                     onClick={() => {
                       setWrite(true);
                     }}

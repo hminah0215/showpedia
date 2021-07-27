@@ -14,16 +14,18 @@ router.get('/', (req, res) => {
       reviewReports: 10,
       reviewStars: 4,
       memberId: 'test',
+      createdAt: '2020-07-27',
       // test용 더미 데이터 프로필 이미지
       profilePhoto: 'https://www.w3schools.com/w3images/avatar6.png'
     },
     {
-      reviewNo: '1',
+      reviewNo: '2',
       reviewContents: '더미 데이터',
       reviewLikes: 33,
       reviewReports: 10,
       reviewStars: 4,
       memberId: 'test',
+      createdAt: '2020-07-27',
       profilePhoto: 'https://www.w3schools.com/w3images/avatar6.png'
     }
   ];
