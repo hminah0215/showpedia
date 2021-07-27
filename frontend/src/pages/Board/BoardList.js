@@ -1,10 +1,11 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Container, Tab, Tabs } from 'react-bootstrap';
+import { Button, Container, Tab, Tabs } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
 
 // 컴포넌트 참조
-import BoardPagination from '../components/Pagination/BoardPagination';
-import CustomTable from '../components/Table/CustomTable';
+import BoardPagination from '../../components/Pagination/BoardPagination';
+import CustomTable from '../../components/Table/CustomTable';
 
 // 민아) 7/27, 게시글 목록 & 페이지네이션
 const BoardList = () => {
@@ -18,6 +19,8 @@ const BoardList = () => {
   // 페이지네이션 관련
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
   const [boardPerPage, setBoardPerPage] = useState(10); // 총데이터를 postsPerPage 만큼 분할해서 보여줄것
+
+  const history = useHistory();
 
   const url = 'http://localhost:3005/board/list?';
   let urls = '';
@@ -104,6 +107,13 @@ const BoardList = () => {
         totalBoardList={boardList.length}
         paginate={setCurrentPage}
       ></BoardPagination>
+      <Button
+        onClick={() => {
+          history.push({ pathname: '/board/regist' });
+        }}
+      >
+        글쓰기
+      </Button>
     </Container>
   );
 };
