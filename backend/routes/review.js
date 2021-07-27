@@ -11,8 +11,8 @@ router.post('/', async (req, res) => {
   const review = {
     reviewStars: req.body.reviewStars,
     reviewContents: req.body.reviewContents,
-    showId: req.body.showId, // 겨울왕국 [예산]
-    memberId: 'test' // 로그인 미완성으로 임의 데이터
+    showId: req.body.showId,
+    memberId: req.body.memberId
   };
 
   // 데이터를 저장한다.
@@ -32,9 +32,39 @@ router.post('/', async (req, res) => {
   }
 });
 
+// 단일 리뷰를 가져오는 라우터
+router.get('/', async (req, res) => {
+  // 검색 조건을 search 쿼리로 가져온다.
+  const showId = req.query.showId;
+  const memberId = req.query.memberId;
+  console.log('검색 조건===', memberId);
+  console.log('showId===', showId);
+  try {
+    if (memberId) {
+      const result = await Review.findOne({
+        where: {
+          memberId,
+          showId
+        }
+      });
+      res.json({
+        code: '200',
+        msg: '단일 리뷰 데이터 조회 완료',
+        data: result
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.json({
+      code: '500',
+      msg: '단일 리뷰 데이터 조회 실패'
+    });
+  }
+});
+
 // 해당 공연 id에 맞는 리뷰리스트 전부 가져오기
 // 와일드 카드로 공연 id값을 가져온다.
-router.get('/:id', async (req, res) => {
+router.get('/reviewlist/:id', async (req, res) => {
   const showId = req.params.id;
   const page = req.query.page ? req.query.page : 1;
 
@@ -58,6 +88,7 @@ router.get('/:id', async (req, res) => {
       msg: '데이터 조회 완료'
     });
   } catch (error) {
+    console.error(error);
     res.json({
       code: '500',
       msg: '데이터 조회 오류'

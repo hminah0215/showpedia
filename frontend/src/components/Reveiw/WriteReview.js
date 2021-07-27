@@ -18,7 +18,7 @@ const WriteReview = ({ setIsReviewed }) => {
   const [review, setReview] = useState({
     reviewStars: 1,
     reviewContents: '',
-    memberId: 'test', // 멤버 아이디를 임의로 지정
+    memberId: 'Ayo', // 멤버 아이디를 임의로 지정
     showId: showId
   });
 
@@ -41,7 +41,6 @@ const WriteReview = ({ setIsReviewed }) => {
   // 리뷰를 저장하는 이벤트 핸들러
   const handleClickSaveButton = async () => {
     // axios를 사용해 서버에 데이터를 전달
-    console.log(review);
     const URL = `http://localhost:3005/review`;
     try {
       const result = await axios.post(URL, review);

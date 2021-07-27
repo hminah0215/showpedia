@@ -18,7 +18,7 @@ const ReviewContainer = ({ showId }) => {
 
   // 첫 렌더링 때, 해당 id에 맞는 리뷰를 가져온다.
   useEffect(() => {
-    const URL = 'http://localhost:3005/review/' + showId;
+    const URL = 'http://localhost:3005/review/reviewlist/' + showId;
     const fetchReviewList = async () => {
       try {
         const result = await axios.get(URL);
@@ -54,7 +54,7 @@ const ReviewContainer = ({ showId }) => {
 
   // 클릭 시, 리뷰를 더 가져오는 이벤트 핸들러
   const handleClickAdd = () => {
-    const URL = 'http://localhost:3005/review/' + showId + `?page=${addReview}`;
+    const URL = 'http://localhost:3005/review/reviewlist/' + showId + `?page=${addReview}`;
     const fetchReviewList = async () => {
       try {
         const result = await axios.get(URL);

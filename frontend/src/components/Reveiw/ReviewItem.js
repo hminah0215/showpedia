@@ -28,16 +28,8 @@ const ReviewItem = ({ isReviewed, review }) => {
               <Stars key={i} idx={i} rating={review?.reviewStars} />
             ))}
           </span>
-          {/* 내 리뷰일 경우 - 수정 버튼 */}
-          {isReviewed ? (
-            <button className="review-btn review-btn--modify">
-              <PencilSquare size={20} />
-            </button>
-          ) : (
-            <></>
-          )}
         </div>
-        <div className="review-content">{review?.reviewContents}</div>
+        <div className="review-content flex-grow-1">{review?.reviewContents}</div>
         {
           // 내 리뷰일 경우 버튼 숨김
           isReviewed ? (

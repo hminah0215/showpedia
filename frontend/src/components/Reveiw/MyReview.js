@@ -1,14 +1,45 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import ReviewItem from './ReviewItem';
 // css
 import './MyReview.css';
 import WriteReview from './WriteReview';
+//etc
+import axios from 'axios';
 
-const MyReview = () => {
+const MyReview = ({ showId }) => {
   // 리뷰 작성 창을 위한 state
   const [write, setWrite] = useState(false);
+  // 내 리뷰가 존재하는지 판단하는 상태
   const [isReviewed, setIsReviewed] = useState(false);
+  // 가져온 내 리뷰 데이터를 저장하는 state
+  const [myReview, setMyReview] = useState({});
+
+  // 내 리뷰가 존재하는지 판단하기 위해서 첫 렌더링 시, 리뷰를 찾아온다
+  useEffect(() => {
+    const URL = `http://localhost:3005/review?showId=${showId}&memberId=Ayo`;
+
+    const fetchReview = async () => {
+      try {
+        const result = await axios.get(URL);
+        console.log('가져온 리뷰 데이터 정보22', result);
+
+        // 리뷰가 없는 상태
+        if (result.data.data.length === 0) {
+          setIsReviewed(false);
+        }
+        setMyReview(result.data.data);
+        setIsReviewed(true);
+        return;
+
+        // 에러 처리
+      } catch (error) {
+        return;
+      }
+    };
+    fetchReview();
+  }, []);
+
   return (
     <Container className="mb-4 d-flex justify-content-center  align-items-center flex-column">
       {
@@ -16,7 +47,7 @@ const MyReview = () => {
         isReviewed ? (
           <>
             <h3 className="main-title align-self-baseline">내 리뷰</h3>
-            <ReviewItem isReviewed />
+            <ReviewItem isReviewed review={myReview} />
           </>
         ) : (
           <>
