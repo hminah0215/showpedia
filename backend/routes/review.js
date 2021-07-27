@@ -36,14 +36,21 @@ router.post('/', async (req, res) => {
 // 와일드 카드로 공연 id값을 가져온다.
 router.get('/:id', async (req, res) => {
   const showId = req.params.id;
+  const page = req.query.page ? req.query.page : 1;
+
   console.log('공연 아이디 가져오기', showId);
+  console.log('페이지 가져오기', page);
 
   // DB에서 공연 ID 에 맞는 리뷰데이터 가져오기
   try {
+    // offset은 skip할 row 개수
+    // limit는 가져올 row 개수
     const result = await Review.findAll({
       where: {
         showId
-      }
+      },
+      order: [['reviewLikes', 'DESC']],
+      limit: 5 * page
     });
     res.json({
       code: '200',

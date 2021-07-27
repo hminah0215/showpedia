@@ -13,6 +13,8 @@ const ReviewContainer = ({ showId }) => {
     has: true,
     msg: '리뷰가 없습니다!'
   });
+  // 리뷰 더보기 상태
+  const [addReview, setAddReview] = useState(2);
 
   // 첫 렌더링 때, 해당 id에 맞는 리뷰를 가져온다.
   useEffect(() => {
@@ -50,6 +52,43 @@ const ReviewContainer = ({ showId }) => {
     fetchReviewList();
   }, []);
 
+  // 클릭 시, 리뷰를 더 가져오는 이벤트 핸들러
+  const handleClickAdd = () => {
+    const URL = 'http://localhost:3005/review/' + showId + `?page=${addReview}`;
+    const fetchReviewList = async () => {
+      try {
+        const result = await axios.get(URL);
+        console.log('가져온 리뷰 데이터 정보', result);
+        if (result.status === 500) {
+          setHasReview({
+            has: false,
+            msg: '리뷰를 불러오는 데 실패했습니다..'
+          });
+          return;
+        }
+        // 리뷰가 없는 상태
+        if (result.data.data.length === 0) {
+          setHasReview({
+            ...hasReview,
+            has: false
+          });
+        }
+        setReviewList(result.data.data);
+        return;
+
+        // 에러 처리
+      } catch (error) {
+        setHasReview({
+          has: false,
+          msg: '리뷰를 불러오는 데 실패했습니다..'
+        });
+        return;
+      }
+    };
+    fetchReviewList();
+    setAddReview((prev) => prev + 1);
+  };
+
   return (
     <Container className="mb-4 d-flex flex-column align-items-center">
       <h3 className="main-title align-self-baseline">리뷰</h3>
@@ -59,7 +98,7 @@ const ReviewContainer = ({ showId }) => {
           {reviewList.map((review) => (
             <ReviewItem btn key={review.reviewNo} review={review} />
           ))}
-          <Button>더보기</Button>
+          <Button onClick={handleClickAdd}>더보기</Button>
         </>
       ) : (
         <>
