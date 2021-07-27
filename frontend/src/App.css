@@ -26,13 +26,13 @@
   background-color: var(--violet-color-20);
   border: 1px solid var(--violet-color-20);
 }
-.btn.btn-custom--outline {
+.btn-custom--outline {
   background-color: white;
   border: 1px solid var(--violet-color-main);
   color: var(--gray-color-30);
 }
-.btn.btn-custom--outline:hover,
-.btn.btn-custom--outline:focus {
+.btn-custom--outline:hover,
+.btn-custom--outline:focus {
   background-color: var(--violet-color-20);
   border: 1px solid var(--violet-color-20);
   color: white;

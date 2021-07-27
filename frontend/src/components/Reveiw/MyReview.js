@@ -13,7 +13,7 @@ const MyReview = () => {
     <Container className="mb-4 d-flex justify-content-center  align-items-center flex-column">
       {
         // 리뷰 여부 판별 isReviewed
-        true ? (
+        isReviewed ? (
           <>
             <h3 className="main-title align-self-baseline">내 리뷰</h3>
             <ReviewItem isReviewed />
@@ -25,7 +25,7 @@ const MyReview = () => {
               write ? (
                 <>
                   <h3 className="main-title align-self-baseline"> 리뷰 작성하기</h3>
-                  <WriteReview />
+                  <WriteReview setIsReviewed={setIsReviewed} />
                 </>
               ) : (
                 <>
