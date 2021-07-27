@@ -4,10 +4,12 @@
 import { combineReducers } from 'redux';
 // 리듀서 참조
 import show from './show';
+import auth from './auth';
 
 // 리듀서들 병합
 const rootReducer = combineReducers({
-  show
+  show,
+  auth
 });
 
 export default rootReducer;

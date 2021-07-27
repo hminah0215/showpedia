@@ -11,8 +11,9 @@ import Search from './pages/Search';
 import Contents from './pages/Contents';
 import Review from './pages/Review';
 import Profile from './pages/Profile';
-import BoardList from './pages/BoardList';
-import BoardPost from './pages/BoardPost';
+import BoardList from './pages/Board/BoardList';
+import BoardPost from './pages/Board/BoardPost';
+import BoardRegist from './pages/Board/BoardRegist';
 
 // CSS
 import './App.css';
@@ -35,6 +36,7 @@ function App() {
       <Route path="/profile" component={Profile} />
 
       <Route path="/board" component={BoardList} exact />
+      <Route path="/board/regist" component={BoardRegist} />
       <Route path="/board/:id" component={BoardPost} />
       {/* Footer */}
       <Footer />
