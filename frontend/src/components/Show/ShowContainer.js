@@ -41,9 +41,8 @@ const ShowContainer = ({ setIsFetch }) => {
     const URL = `http://localhost:3005/show/${showId}`;
     const fetchData = async () => {
       try {
-        throw 'ggg';
         const result = await axios.get(URL);
-        console.log('올바른 데이터를 가져왔는가?', result.data.data);
+        // console.log('올바른 데이터를 가져왔는가?', result.data.data);
         const showData = result.data.data[0];
         setShow({
           prfnm: showData.prfnm, // 공연 이름
