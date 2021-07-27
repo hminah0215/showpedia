@@ -25,7 +25,7 @@ const Contents = () => {
           <ShowContainer setIsFetch={setIsFetch} showId={showId} />
           {/* 리뷰 항목 */}
           <Container className="d-flex align-items-center flex-column">
-            <MyReview showId={showId} />
+            <MyReview />
             <ReviewContainer showId={showId} />
           </Container>
         </>

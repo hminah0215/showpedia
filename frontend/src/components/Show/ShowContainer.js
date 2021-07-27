@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 // 부트스트랩
 import { Container, Button } from 'react-bootstrap';
 import { StarFill } from 'react-bootstrap-icons';
-import { useHistory, useLocation } from 'react-router-dom';
 // CSS
 import './ShowContainer.css';
 // etc
@@ -22,9 +21,6 @@ const ShowContainer = ({ setIsFetch, showId }) => {
     poster: '', // poster URL
     sty: '줄거리가 없습니다.' // 줄거리
   });
-
-  // 페이지 이동을 위한 history
-  const history = useHistory();
 
   // 첫 로딩 시, 공연 상세 데이터를 가져온다.
   // useEffect에 async를 사용하지 않는다.
@@ -59,7 +55,7 @@ const ShowContainer = ({ setIsFetch, showId }) => {
       }
     };
     fetchData();
-  }, []);
+  }, [showId, setShow]);
 
   // 즐겨찾기 토글 이벤트 핸들러
   const handleClickStar = (e) => {

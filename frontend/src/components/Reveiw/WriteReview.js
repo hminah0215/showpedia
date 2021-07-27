@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 // 부트스트랩
 import { Form, Button } from 'react-bootstrap';
 // CSS
@@ -13,7 +13,6 @@ const WriteReview = ({ setIsReviewed }) => {
   // URL에서 showId 가져오기
   const location = useLocation();
   const showId = location.pathname.split('/')[2];
-  const history = useHistory();
 
   // 서버에 보낼 리뷰 데이터
   const [review, setReview] = useState({
