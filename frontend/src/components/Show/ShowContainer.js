@@ -8,7 +8,7 @@ import './ShowContainer.css';
 // etc
 import axios from 'axios';
 
-const ShowContainer = ({ setIsFetch }) => {
+const ShowContainer = ({ setIsFetch, showId }) => {
   // 공연 상세정보 state
   const [show, setShow] = useState({
     mt20id: '',
@@ -25,9 +25,6 @@ const ShowContainer = ({ setIsFetch }) => {
 
   // 페이지 이동을 위한 history
   const history = useHistory();
-  // 공연 id를 URL에서 가져온다.
-  let location = useLocation();
-  const showId = location.pathname.split('/')[2];
 
   // 첫 로딩 시, 공연 상세 데이터를 가져온다.
   // useEffect에 async를 사용하지 않는다.

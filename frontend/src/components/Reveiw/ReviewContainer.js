@@ -5,7 +5,7 @@ import ReviewItem from './ReviewItem';
 import axios from 'axios';
 import NotFound from '../NotFound/NotFound';
 
-const ReviewContainer = () => {
+const ReviewContainer = ({ showId }) => {
   // 리뷰 리스트를 담을 state
   const [reviewList, setReviewList] = useState([]);
   // 리뷰가 없을 경우를 판단하는 state
@@ -16,16 +16,35 @@ const ReviewContainer = () => {
 
   // 첫 렌더링 때, 해당 id에 맞는 리뷰를 가져온다.
   useEffect(() => {
-    const URL = 'http://localhost:3005/review';
+    const URL = 'http://localhost:3005/review/' + showId;
     const fetchReviewList = async () => {
       try {
         const result = await axios.get(URL);
+        console.log('가져온 리뷰 데이터 정보', result);
+        if (result.status === 500) {
+          setHasReview({
+            has: false,
+            msg: '리뷰를 불러오는 데 실패했습니다..'
+          });
+          return;
+        }
+        // 리뷰가 없는 상태
+        if (result.data.data.length === 0) {
+          setHasReview({
+            ...hasReview,
+            has: false
+          });
+        }
         setReviewList(result.data.data);
+        return;
+
+        // 에러 처리
       } catch (error) {
         setHasReview({
           has: false,
           msg: '리뷰를 불러오는 데 실패했습니다..'
         });
+        return;
       }
     };
     fetchReviewList();

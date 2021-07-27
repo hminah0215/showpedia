@@ -4,38 +4,6 @@ const router = express.Router();
 // DB
 const Review = require('../models').Review;
 
-// 해당 공연 id에 맞는 리뷰리스트 전부 가져오기
-router.get('/', (req, res) => {
-  const reviewList = [
-    {
-      reviewNo: '1',
-      reviewContents: '더미 데이터',
-      reviewLikes: 33,
-      reviewReports: 10,
-      reviewStars: 4,
-      memberId: 'test',
-      createdAt: '2020-07-27',
-      // test용 더미 데이터 프로필 이미지
-      profilePhoto: 'https://www.w3schools.com/w3images/avatar6.png'
-    },
-    {
-      reviewNo: '2',
-      reviewContents: '더미 데이터',
-      reviewLikes: 33,
-      reviewReports: 10,
-      reviewStars: 4,
-      memberId: 'test',
-      createdAt: '2020-07-27',
-      profilePhoto: 'https://www.w3schools.com/w3images/avatar6.png'
-    }
-  ];
-  res.json({
-    code: '200',
-    data: reviewList,
-    msg: '리뷰 등록 성공'
-  });
-});
-
 // 리뷰 생성 라우터
 router.post('/', async (req, res) => {
   // 클라이언트에서 리뷰 정보를 가져온다.
@@ -60,6 +28,32 @@ router.post('/', async (req, res) => {
     res.json({
       code: '500',
       msg: '리뷰 등록 실패'
+    });
+  }
+});
+
+// 해당 공연 id에 맞는 리뷰리스트 전부 가져오기
+// 와일드 카드로 공연 id값을 가져온다.
+router.get('/:id', async (req, res) => {
+  const showId = req.params.id;
+  console.log('공연 아이디 가져오기', showId);
+
+  // DB에서 공연 ID 에 맞는 리뷰데이터 가져오기
+  try {
+    const result = await Review.findAll({
+      where: {
+        showId
+      }
+    });
+    res.json({
+      code: '200',
+      data: result,
+      msg: '데이터 조회 완료'
+    });
+  } catch (error) {
+    res.json({
+      code: '500',
+      msg: '데이터 조회 오류'
     });
   }
 });
