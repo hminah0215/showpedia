@@ -31,7 +31,7 @@ router.get('/list', async (req, res, next) => {
     // limit 숫자로 한페이지에 몇개를 보일지 정한다. 일단 테스트시에는 5로해둠
     const boardAllList = await Board.findAll({ order: [['boardNo', 'DESC']] });
 
-    console.log('boardAllList', boardAllList);
+    // console.log('boardAllList', boardAllList);
 
     // console.log('게시글 목록 boardAllList 정렬되나?', boardAllList);
 
@@ -43,19 +43,23 @@ router.get('/list', async (req, res, next) => {
 
 // 민아) 7/26, 게시글 등록 post 라우터  -> 에디터는 아직 생각중
 // localhost:3005/board/boardRegist.html
-router.post('/regist', isLoggedIn, tokenTest, async (req, res) => {
+// router.post('/regist', isLoggedIn, tokenTest, async (req, res) => {
+router.post('/regist', async (req, res) => {
   // isLoggedIn 미들웨어로 쿠키가 없는 사용자는 로그인 필요함을 나타낸다.
 
   // tokenTest 미들웨어를 거쳐, 인증이 완료된 회원의 memberId를 같이 넘긴다.
-  const memberId = req.user.memberId;
-  console.log('게시글작성 memberId', req.user.memberId);
+  // const memberId = req.user.memberId;
+  // console.log('게시글작성 memberId', req.user.memberId);
+
+  // !!! 리액트에서 아직 로그인, 인증 부분을 구현안해서 게시글 등록 테스트 하느라고
+  // 위에 다 막고, 아래 let board에서 memberId 뺌!
 
   let board = {
     boardTitle: req.body.boardTitle,
     boardCategory: req.body.boardCategory,
     boardContents: req.body.boardContents,
     boardHits: 0,
-    memberId: memberId
+    memberId: 'test2'
   };
 
   try {

@@ -78,3 +78,8 @@
 .btnSign {
   background-color: var(--gray-color--10) !important;
 }
+
+/*  ck 에디터 에디터 최소길이 및 접혔다 펴지는?거 막음 */
+.ck.ck-editor__editable:not(.ck-editor__nested-editable) {
+  min-height: 500px;
+}
