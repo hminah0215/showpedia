@@ -6,6 +6,12 @@
   height: 200px;
   border: 1px solid var(--gray-color-20);
   padding: 1rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.review.hover:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 5px var(--gray-color-10);
 }
 
 /* review-user */
@@ -35,6 +41,7 @@
 
 /* review contents */
 .review .review-contents-container {
+  min-width: 0;
   height: 100%;
 }
 .review .review-contents-header {

@@ -9,7 +9,6 @@ import Login from './pages/Login';
 import Regist from './pages/Regist';
 import Search from './pages/Search';
 import Contents from './pages/Contents';
-import Review from './pages/Review';
 import Profile from './pages/Profile';
 import BoardList from './pages/Board/BoardList';
 // import BoardPost from './pages/Board/BoardPost';
@@ -31,7 +30,6 @@ function App() {
 
       <Route path="/search" component={Search} />
       <Route path="/contents/:id" component={Contents} />
-      <Route path="/review/:id" component={Review} />
 
       <Route path="/profile" component={Profile} />
 

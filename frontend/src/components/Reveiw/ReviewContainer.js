@@ -5,7 +5,7 @@ import ReviewItem from './ReviewItem';
 import axios from 'axios';
 import NotFound from '../NotFound/NotFound';
 
-const ReviewContainer = ({ showId }) => {
+const ReviewContainer = ({ showId, hover, handleShow }) => {
   // 리뷰 리스트를 담을 state
   const [reviewList, setReviewList] = useState([]);
   // 리뷰가 없을 경우를 판단하는 state
@@ -95,7 +95,7 @@ const ReviewContainer = ({ showId }) => {
       {hasReview.has ? (
         <>
           {reviewList.map((review) => (
-            <ReviewItem btn key={review.reviewNo} review={review} />
+            <ReviewItem btn key={review.reviewNo} review={review} handleShow={handleShow} hover />
           ))}
           <Button onClick={handleClickAdd}>더보기</Button>
         </>

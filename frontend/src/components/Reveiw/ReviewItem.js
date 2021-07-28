@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useRef } from 'react';
 // 부트스트랩 icons
 import { HandThumbsUp, ExclamationCircle, PencilSquare } from 'react-bootstrap-icons';
 // css
@@ -6,9 +6,13 @@ import './ReviewItem.css';
 // 참조
 import Stars from '../Stars/Stars';
 
-const ReviewItem = ({ isReviewed, review }) => {
+const ReviewItem = ({ isReviewed, review, style, hover, handleShow }) => {
   return (
-    <div className="review m-3 d-flex align-items-center">
+    <div
+      style={style}
+      className={`review m-3 d-flex align-items-center flex-wrap ${hover ? 'hover' : ''}`}
+      onClick={handleShow}
+    >
       {/* 리뷰 유저정보 */}
       <div className="review-user d-flex flex-column align-items-center">
         <div className="review-user-img img-box">
