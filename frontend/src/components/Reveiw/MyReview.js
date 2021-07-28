@@ -7,7 +7,7 @@ import WriteReview from './WriteReview';
 //etc
 import axios from 'axios';
 
-const MyReview = ({ showId }) => {
+const MyReview = ({ showId, handleShow }) => {
   // 리뷰 작성 창을 위한 state
   const [write, setWrite] = useState(false);
   // 내 리뷰가 존재하는지 판단하는 상태
@@ -48,7 +48,7 @@ const MyReview = ({ showId }) => {
         isReviewed ? (
           <>
             <h3 className="main-title align-self-baseline">내 리뷰</h3>
-            <ReviewItem isReviewed review={myReview} />
+            <ReviewItem isReviewed review={myReview} handleShow={handleShow} />
           </>
         ) : (
           <>

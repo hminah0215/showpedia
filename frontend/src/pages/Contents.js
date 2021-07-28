@@ -33,17 +33,15 @@ const Contents = () => {
     <>
       {isFetch ? (
         <>
-          {/* 공연 정보 항목 */}
-          <Button variant="primary" onClick={handleShow}>
-            모달 테스트용 버튼
-          </Button>
-
+          {/* 리뷰 클릭 시, 나타나는 모달컴포넌트 */}
           <CustomModal handleClose={handleClose} show={modal}>
             {/* 모달 안에 들어갈 내용 children */}
             <ReviewItem style={{ minWidth: '100%', height: '100%' }} review={modalReviewData} />
           </CustomModal>
 
+          {/* 공연 정보 항목 */}
           <ShowContainer setIsFetch={setIsFetch} showId={showId} />
+
           {/* 리뷰 항목 */}
           <Container className="d-flex align-items-center flex-column">
             <MyReview showId={showId} handleShow={handleShow} />
