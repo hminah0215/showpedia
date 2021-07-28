@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Col, Container, Form, Image } from 'react-bootstrap';
+import { Button, Container, Form } from 'react-bootstrap';
 
 import { useDispatch } from 'react-redux';
 import { registUser } from '../redux/auth';

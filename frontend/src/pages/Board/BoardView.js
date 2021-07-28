@@ -33,7 +33,7 @@ const BoardView = ({ history, match }) => {
         console.error(err);
       });
     //
-  }, []); // key가 바뀔때마다 동작
+  });
   return (
     <>
       <Container>
