@@ -5,7 +5,7 @@ const RE_RENDER = 'review/RE_RENDER'; // 리렌더링을 위한 액션
 // [아영] 2. 액션 생성 함수 만들기
 // 외부에서 사용하기 때문에 export
 // 액션은 {type:액션타입, payload:다른데이터} 구조를 가진다.
-export const getReview = (review) => ({ type: GET_REVIEW, payload: review });
+export const setReview = (review) => ({ type: GET_REVIEW, payload: review });
 export const reRenderReview = () => ({ type: RE_RENDER });
 
 // [아영] 3. show리덕스의 초기 상태 만들기
@@ -15,7 +15,7 @@ const initialState = {
     createdAt: '',
     reviewStars: 0,
     reviewContents: '',
-    reviewLikes: '',
+    reviewLikes: 0,
     reviewNo: 0
   },
   rerender: false

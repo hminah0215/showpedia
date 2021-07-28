@@ -27,8 +27,11 @@ export const setShow = (show) => ({ type: SET_SHOW, payload: show });
 
 // [아영] 3. show리덕스의 초기 상태 만들기
 const initialState = {
+  // 검색 결과 공연 리스트
   showList: [], // 공연 리스트는 배열로 넘어오기 때문에, 초기에는 빈 배열
+  // 로딩 상태
   loading: true,
+  // 공연 검색 조건
   condition: {
     stdate: '', // 시작날짜
     eddate: '', // 종료날짜
@@ -38,6 +41,7 @@ const initialState = {
     kidstate: '', // 아동공연여부 - 체크시 on
     prfstate: '' // 공연상태코드
   },
+  // 공연 상세 정보
   show: {
     mt20id: '',
     prfnm: '공연명', // 공연 이름

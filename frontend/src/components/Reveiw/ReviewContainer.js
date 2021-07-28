@@ -99,14 +99,7 @@ const ReviewContainer = ({ showId, hover, handleShow }) => {
       {hasReview.has ? (
         <>
           {reviewList.map((review) => (
-            <ReviewItem
-              btn
-              key={review.reviewNo}
-              review={review}
-              handleShow={handleShow}
-              hover
-              // setLike={setLike}
-            />
+            <ReviewItem btn key={review.reviewNo} review={review} handleShow={handleShow} hover />
           ))}
           <Button onClick={handleClickAdd}>더보기</Button>
         </>

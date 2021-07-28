@@ -1,5 +1,5 @@
 import React from 'react';
-import { getReview, reRenderReview } from '../../redux/review'; // 액션 생성함수
+import { setReview, reRenderReview } from '../../redux/review'; // 액션 생성함수
 import { useDispatch } from 'react-redux';
 
 // 부트스트랩 icons
@@ -25,12 +25,12 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
   // 리뷰 디스패치
   const reviewDispatch = useDispatch();
 
-  // 클릭 시, 해당 리뷰 정보를 리덕스 상태에 저장한다
+  // 리뷰 컨텐츠를 클릭 시, 해당 리뷰 정보를 리덕스 상태에 저장한다
   const handleClickReview = () => {
     // 모달에 존재하는 리뷰의 경우 모달을 열지않는다.
     if (click) return;
     // 리덕스에 해당 리뷰 정보 저장하기
-    reviewDispatch(getReview(review));
+    reviewDispatch(setReview(review));
     // console.log('리뷰를 클릭하면 해당 리뷰 정보를 리덕스에 저장한다.', review);
     handleShow(); // 모달창 열기
   };
@@ -38,7 +38,7 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
   // 리뷰 수정하기 버튼 클릭 이벤트 핸들러
   const handleClickModify = () => {
     // 해당 리뷰 정보를 리덕스에 저장
-    reviewDispatch(getReview(review));
+    reviewDispatch(setReview(review));
 
     // 모달에 보여지는 컴포넌트를 리뷰 수정 컴포넌트로 변경
     setModal({
@@ -49,14 +49,15 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
 
   // 좋아요 버튼 클릭 이벤트 핸들러
   const handleClickLike = async () => {
-    console.log('좋아요 클릭');
-    console.log(review.reviewLikes);
+    // console.log('좋아요 클릭');
+    // console.log(review.reviewLikes);
     // db 수정하기
     const URL = `http://localhost:3005/review`;
     try {
       const result = await axios.put(URL, { ...review, opt: 'like' });
       if (result.status === 200) {
-        // setLike(true);
+        // 모달에 보여지는 리뷰값 다시 설정
+        reviewDispatch(setReview({ ...review, reviewLikes: review.reviewLikes + 1 }));
         reviewDispatch(reRenderReview()); // 리렌더 상태 변경
       }
       // 리뷰 작성 후, 이동하기
@@ -113,6 +114,7 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
             ))}
           </span>
         </div>
+        {/* 리뷰 컨텐츠가 클릭 시, 상세 리뷰 모달 오픈 */}
         <div className="review-content flex-grow-1" onClick={handleClickReview}>
           {review?.reviewContents}
         </div>
