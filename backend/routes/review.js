@@ -33,6 +33,45 @@ router.post('/', async (req, res) => {
   }
 });
 
+// 리뷰 수정 라우터
+router.put('/', async (req, res) => {
+  // 클라이언트 데이터를 가져온다
+  console.log('수정 라우터까지 왔어요???');
+  const memberId = 'Ayo'; // 임의로 설정
+  const reviewNo = req.body.reviewNo;
+  const review = {
+    reviewStars: req.body.reviewStars,
+    reviewContents: req.body.reviewContents
+  };
+  console.log('넘어오는 바디 확인', req.body);
+  console.log('리뷰번호', reviewNo);
+  console.log('리뷰', review);
+  // DB와 통신
+  try {
+    const result = await Review.update(
+      {
+        reviewStars: 1
+      },
+      {
+        where: {
+          reviewNo
+        }
+      }
+    );
+    res.json({
+      code: '200',
+      data: result,
+      msg: '리뷰 수정 성공'
+    });
+  } catch (error) {
+    console.error(error);
+    res.json({
+      code: '500',
+      msg: '리뷰 수정 실패'
+    });
+  }
+});
+
 // 단일 리뷰를 가져오는 라우터
 router.get('/', async (req, res) => {
   // 검색 조건을 search 쿼리로 가져온다.
