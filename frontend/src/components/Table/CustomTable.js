@@ -1,8 +1,10 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
 
+// 민아) 7/27, 게시글 목록 + 상세보기 페이지 이동
 const CustomTab = ({ boardList }) => {
   // console.log('boardList?', boardList);
+
   return (
     <Table bordered hover>
       <thead>
@@ -19,7 +21,9 @@ const CustomTab = ({ boardList }) => {
         {boardList.map((item, index) => (
           <tr key={item.boardNo}>
             <td>{item.boardNo}</td>
-            <td>{item.boardTitle}</td>
+            <td>
+              <a href={`/board/${item.boardNo}`}>{item.boardTitle}</a>
+            </td>
             <td>{item.boardCategory}</td>
             <td>{item.memberId}</td>
             <td>{item.boardHits}</td>

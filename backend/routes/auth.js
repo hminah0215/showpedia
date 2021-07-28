@@ -24,37 +24,6 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-// html로 테스트하려고 만든 get 라우터, 추후 지울 것
-router.get('/', async (req, res) => {
-  let result = { code: '', data: [], msg: '' };
-
-  try {
-    // const cookieLogin = req.cookies.member;
-
-    const memberList = await Member.findAll({
-      // 조건을 걸어서 특정 컬럼만 가져오기 (비번같은건 가져올필요없으니까)
-      // 가져올 컬럼, 조건
-      attributes: ['memberId', 'nickName'],
-      where: { memberRole: '1' }
-    });
-
-    result.code = '200';
-    result.data = memberList;
-    result.msg = 'OK';
-    return res.json(result);
-
-    //
-  } catch (error) {
-    console.log('서버에러 발생');
-
-    result.code = '500';
-    result.data = [];
-    result.msg = '서버에러발생!!';
-
-    return res.json(result);
-  }
-});
-
 // 민아) 7/24, 프로필 이미지 관련 처리
 router.post('/uploads', upload.single('profilePhoto'), async (req, res) => {
   const uploadedFile = req.file;
@@ -83,24 +52,27 @@ router.post('/regist', isNotLoggedIn, async (req, res, next) => {
     const exMember = await Member.findOne({ where: { memberId } });
 
     if (exMember) {
-      // 같은 이메일로 가입한 사용자가 있다면
-      return res.redirect('/regist?error=exist_memberId');
-    } // 그런데 회원가입시 아이디 중복검사도 할거니까 굳이 필요치는 않음. 일단 postman 테스트용으로 적음.
+      // 같은 이메일로 가입한 사용자가 있다면, checkId에 false 값을 담아 보낸다.
+      let checkId = false;
+      return res.json({ code: 400, message: '중복된 아이디입니다.', data: checkId });
+    } else {
+      // 같은 이메일로 가입한 사용자가 없다면 , 비밀번호 암호화 후 회원등록
+      // bcrypt의 두번째 인수에 적힌 숫자가 커질수록 비밀번호를 알아내기 더 어려움. 31까지 가능하다.
+      const hash = await bcrypt.hash(pwd, 12);
 
-    // 같은 이메일로 가입한 사용자가 없다면 , 비밀번호 암호화 후 회원등록
-    // bcrypt의 두번째 인수에 적힌 숫자가 커질수록 비밀번호를 알아내기 더 어려움. 31까지 가능하다.
-    const hash = await bcrypt.hash(pwd, 12);
+      await Member.create({
+        memberId,
+        pwd: hash,
+        nickName,
+        profilePhoto
+      });
 
-    await Member.create({
-      memberId,
-      pwd: hash,
-      nickName,
-      profilePhoto
-    });
+      let checkId = true;
 
-    console.log('회원가입 성공!');
-    return res.json({ code: 200, message: '회원가입 완료' });
-    // return res.redirect("/");
+      console.log('회원가입 성공!');
+
+      return res.json({ code: 200, message: '회원가입 완료', data: checkId });
+    }
   } catch (error) {
     console.error('회원가입 에러!', error);
     return next(error);
@@ -110,7 +82,7 @@ router.post('/regist', isNotLoggedIn, async (req, res, next) => {
 // 민아) 7/23 ,로그인 post 라우터
 // localhost:3005/login
 router.post('/login', isNotLoggedIn, async (req, res, next) => {
-  // console.log('reqbody 로그인', req.body);
+  console.log('reqbody 로그인', req.body);
 
   // 로그인 요청이 들어오면 passport.authenticate('local') 미들웨어가 로컬 로그인 전략을 수행함
   passport.authenticate('local', async (authError, member, info) => {
@@ -150,7 +122,7 @@ router.post('/login', isNotLoggedIn, async (req, res, next) => {
 
         // signed:true 줘서 암호화된 쿠키를 사용하는 게 좋다고 함.
         // 일단 테스트 다하고 변경예정
-        res.cookie('member', accessToken, { httpOnly: true });
+        res.cookie('member', accessToken, { httpOnly: true, sameSite: 'None' });
 
         console.log('accessToken==>', accessToken);
         console.log('쿠키값이요.', req.cookies);
@@ -167,8 +139,7 @@ router.post('/login', isNotLoggedIn, async (req, res, next) => {
 
 // 민아) 7/23, 로그아웃 get 라우터
 // localhost:3005/logout
-// 반쪽자리 성공..? router.get("/logout",  isLoggedIn, (req, res) => {
-// isLoggedIn을 넣으면 작동이 아예 안됨 왜죠???
+
 router.get('/logout', isLoggedIn, (req, res) => {
   console.log('req.isAuthenticated()', req.isAuthenticated());
 

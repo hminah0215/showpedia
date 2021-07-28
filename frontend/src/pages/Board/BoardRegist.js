@@ -14,6 +14,7 @@ const BoardRegist = () => {
     boardTitle: '',
     boardCategory: '',
     boardContents: ''
+    // memberId: ''  로그인 상태를 유지해야 멤버아이디를 가져올 수 있음
   });
 
   // 입력요소와 useState간 데이터 바인딩 적용

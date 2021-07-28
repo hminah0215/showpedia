@@ -25,8 +25,11 @@ const PORT = process.env.PORT || 3005;
 dotenv.config();
 passportConfig();
 
-// cors
-app.use(cors());
+// cors { origin: true, credentials: true }
+// credentials: true, 리액트에서 로그인 구현시 다른도메인에 쿠키를 전송하기 위해서 씀 (react, axios에도 관련 코드 추가)
+//  origin: true, 요청주소와 같게!
+// 참고 ) https://www.zerocho.com/category/NodeJS/post/5e9bf5b18dcb9c001f36b275
+app.use(cors({ origin: true, credentials: true }));
 
 // 미들웨어 사용, 라우터 경로 지정하기 전에 있어야 경로에 엑세스한다.
 app.use(express.urlencoded({ extended: false }));

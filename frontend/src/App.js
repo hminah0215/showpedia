@@ -11,13 +11,45 @@ import Search from './pages/Search';
 import Contents from './pages/Contents';
 import Profile from './pages/Profile';
 import BoardList from './pages/Board/BoardList';
-// import BoardPost from './pages/Board/BoardPost';
 import BoardRegist from './pages/Board/BoardRegist';
+import BoardView from './pages/Board/BoardView';
 
 // CSS
 import './App.css';
+import axios from 'axios';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { isLogin } from './redux/auth';
 
 function App() {
+  // useDispatch를 사용해서 로그아웃 액션을 실행한다
+  const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   const isCookie = document.cookie.match('member');
+
+  //   console.log('isCookie', isCookie);
+  //   if (isCookie) {
+  //     // 로그인 상태 확인, 로그인 상태면 true 반환, 로그아웃하면 undefined
+  //     dispatch(isLogin());
+  //   }
+  // });
+
+  const loginSuccess = useSelector((state) => state.auth.loginSucess);
+
+  useEffect(() => {
+    axios.defaults.withCredentials = true; // 쿠키 데이터를 전송받기 위해
+    axios.get('http://localhost:3005/tokenTest').then((result) => {
+      console.log('result', result);
+      if (result.data.code === '200') {
+        dispatch(isLogin(true));
+      } else {
+        dispatch(isLogin(false));
+      }
+    });
+  }, [loginSuccess]);
+
   return (
     <>
       {/* Header */}
@@ -35,7 +67,8 @@ function App() {
 
       <Route path="/board" component={BoardList} exact />
       <Route path="/board/regist" component={BoardRegist} />
-      {/* <Route path="/board/:id" component={BoardPost} /> */}
+      <Route path="/board/:idx" component={BoardView} />
+
       {/* Footer */}
       <Footer />
     </>
