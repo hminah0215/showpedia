@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { setShow } from '../../redux/show';
 // 부트스트랩
 import { Container, Button } from 'react-bootstrap';
 import { StarFill } from 'react-bootstrap-icons';
@@ -6,6 +7,7 @@ import { StarFill } from 'react-bootstrap-icons';
 import './ShowContainer.css';
 // etc
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 
 // 공연 상세 정보를 보여주는 컴포넌트
 /*
@@ -14,28 +16,13 @@ import axios from 'axios';
   showId - [Contents.js] / 해당 공연의 id값
 */
 const ShowContainer = ({ setIsFetch, showId }) => {
-  // 공연 상세정보 state
-  const [show, setShow] = useState({
-    mt20id: '',
-    prfnm: '공연명', // 공연 이름
-    prfpdfrom: '공연 시작일', // 공연 시작일
-    prfpdto: '공연 종료일', // 공연 종료일
-    fcltynm: '공연 장소', // 공연 장소
-    prfcast: '배우들', // 배우들
-    prfruntime: '공연 시간', // 공연 시간
-    pcseguidance: '공연 가격', // 공연 가격
-    poster: '', // poster URL
-    sty: '줄거리가 없습니다.' // 줄거리
-  });
+  // 공연 상세정보 리덕스 state
+  const show = useSelector((state) => state.show.show);
+  const showDispatch = useDispatch();
 
   // 첫 로딩 시, 공연 상세 데이터를 가져온다.
   // useEffect에 async를 사용하지 않는다.
   useEffect(() => {
-    // 첫 로딩 시, 공연 id 값 설정
-    setShow({
-      ...show,
-      mt20id: showId
-    });
     // 백엔드에서 공연 상세 데이터 가져오기
     const URL = `http://localhost:3005/show/${showId}`;
     // useEffect 내부에서 async를 사용한다.
@@ -43,25 +30,17 @@ const ShowContainer = ({ setIsFetch, showId }) => {
       try {
         const result = await axios.get(URL);
         const showData = result.data.data[0];
-        setShow({
-          prfnm: showData.prfnm, // 공연 이름
-          prfpdfrom: showData.prfpdfrom, // 공연 시작일
-          prfpdto: showData.prfpdto, // 공연 종료일
-          fcltynm: showData.fcltynm, // 공연 장소
-          prfcast: showData.prfcast, // 배우들
-          prfruntime: showData.prfruntime, // 공연 시간
-          pcseguidance: showData.pcseguidance, // 공연 가격
-          poster: showData.poster, // poster URL
-          sty: showData.sty[0] !== ' ' ? showData.sty : '줄거리가 없습니다' // 줄거리
-        });
+        // 공연 상세 정보를 세팅한다.
+        showDispatch(setShow(showData));
         return;
       } catch (error) {
+        // 상세정보를 가져오는데 실패했다면 isFetch에 false 입력
         setIsFetch(false);
         return;
       }
     };
     fetchData();
-  }, [showId, setShow]);
+  }, [showId]);
 
   // 즐겨찾기 토글 이벤트 핸들러 - 미완
   const handleClickStar = (e) => {

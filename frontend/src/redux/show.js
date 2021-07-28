@@ -6,6 +6,7 @@ const LOADING = 'show/LOADING';
 const LOADED = 'show/LOADED';
 const SET_CONDITION = 'show/SET_CONDITION';
 const RESET_CONDITION = 'show/RESET_CONDITION';
+const SET_SHOW = 'show/SET_SHOW';
 
 // [아영] 2. 액션 생성 함수 만들기
 // 외부에서 사용하기 때문에 export
@@ -22,6 +23,7 @@ export const setCondition = (key, value) => ({
   }
 });
 export const resetCondition = () => ({ type: RESET_CONDITION });
+export const setShow = (show) => ({ type: SET_SHOW, payload: show });
 
 // [아영] 3. show리덕스의 초기 상태 만들기
 const initialState = {
@@ -35,6 +37,18 @@ const initialState = {
     signgucode: '', // 지역코드
     kidstate: '', // 아동공연여부 - 체크시 on
     prfstate: '' // 공연상태코드
+  },
+  show: {
+    mt20id: '',
+    prfnm: '공연명', // 공연 이름
+    prfpdfrom: '공연 시작일', // 공연 시작일
+    prfpdto: '공연 종료일', // 공연 종료일
+    fcltynm: '공연 장소', // 공연 장소
+    prfcast: '배우들', // 배우들
+    prfruntime: '공연 시간', // 공연 시간
+    pcseguidance: '공연 가격', // 공연 가격
+    poster: '', // poster URL
+    sty: '줄거리가 없습니다.' // 줄거리
   }
 };
 
@@ -84,6 +98,22 @@ const show = (state = initialState, action) => {
           signgucode: '', // 지역코드
           kidstate: '', // 아동공연여부 - 체크시 on
           prfstate: '' // 공연상태코드
+        }
+      };
+    case SET_SHOW:
+      return {
+        ...state,
+        show: {
+          mt20id: action.payload.mt20id,
+          prfnm: action.payload.prfnm, // 공연 이름
+          prfpdfrom: action.payload.prfpdfrom, // 공연 시작일
+          prfpdto: action.payload.prfpdto, // 공연 종료일
+          fcltynm: action.payload.fcltynm, // 공연 장소
+          prfcast: action.payload.prfcast, // 배우들
+          prfruntime: action.payload.prfruntime, // 공연 시간
+          pcseguidance: action.payload.pcseguidance, // 공연 가격
+          poster: action.payload.poster, // poster URL
+          sty: action.payload.sty[0] !== ' ' ? action.payload.sty : '줄거리가 없습니다'
         }
       };
     default:

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 // bootstrap
 import { Container } from 'react-bootstrap';
@@ -9,7 +10,6 @@ import MyReview from '../components/Reveiw/MyReview';
 import ShowContainer from '../components/Show/ShowContainer';
 import NotFound from '../components/NotFound/NotFound';
 import CustomModal from '../components/Modal/CustomModal';
-import { useSelector } from 'react-redux';
 import WriteReview from '../components/Reveiw/WriteReview';
 // etc
 
@@ -26,6 +26,8 @@ const Contents = () => {
     state: false,
     option: 'review'
   });
+
+  // 모달 온오프 이벤트 핸들러
   const handleClose = () =>
     setModal({
       option: 'review',
@@ -66,7 +68,7 @@ const Contents = () => {
             )}
           </CustomModal>
 
-          {/* 공연 정보 항목 */}
+          {/* 공연 상세 정보 항목 */}
           <ShowContainer setIsFetch={setIsFetch} showId={showId} />
 
           {/* 리뷰 항목 */}

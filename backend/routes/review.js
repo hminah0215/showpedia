@@ -76,32 +76,6 @@ router.put('/', async (req, res) => {
   }
 });
 
-// 단일 리뷰 삭제 하는 라우터
-router.delete('/:id', async (req, res) => {
-  // 리뷰id 가져오기
-  const reviewNo = req.params.id;
-  console.log('==reviewNo==', reviewNo);
-  try {
-    // 삭제하기
-    const result = await Review.destroy({
-      where: {
-        reviewNo
-      }
-    });
-    res.json({
-      code: '200',
-      msg: '단일 리뷰 데이터 조회 완료',
-      data: result
-    });
-  } catch (error) {
-    console.error(error);
-    res.json({
-      code: '500',
-      msg: '단일 리뷰 데이터 조회 실패'
-    });
-  }
-});
-
 // 단일 리뷰를 가져오는 라우터
 router.get('/', async (req, res) => {
   // 검색 조건을 search 쿼리로 가져온다.
@@ -125,6 +99,32 @@ router.get('/', async (req, res) => {
         data: result
       });
     }
+  } catch (error) {
+    console.error(error);
+    res.json({
+      code: '500',
+      msg: '단일 리뷰 데이터 조회 실패'
+    });
+  }
+});
+
+// 단일 리뷰 삭제 하는 라우터
+router.delete('/:id', async (req, res) => {
+  // 리뷰id 가져오기
+  const reviewNo = req.params.id;
+  console.log('==reviewNo==', reviewNo);
+  try {
+    // 삭제하기
+    const result = await Review.destroy({
+      where: {
+        reviewNo
+      }
+    });
+    res.json({
+      code: '200',
+      msg: '단일 리뷰 데이터 조회 완료',
+      data: result
+    });
   } catch (error) {
     console.error(error);
     res.json({
