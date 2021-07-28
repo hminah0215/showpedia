@@ -15,6 +15,8 @@ const ReviewContainer = ({ showId, hover, handleShow }) => {
   });
   // 리뷰 더보기 상태
   const [addReview, setAddReview] = useState(2);
+  // 리뷰 체인지
+  const [like, setLike] = useState(false);
 
   // 첫 렌더링 때, 해당 공연id에 맞는 리뷰를 가져온다.
   useEffect(() => {
@@ -38,6 +40,7 @@ const ReviewContainer = ({ showId, hover, handleShow }) => {
           });
         }
         setReviewList(result.data.data);
+        setLike(false);
         return;
 
         // 에러 처리
@@ -46,11 +49,12 @@ const ReviewContainer = ({ showId, hover, handleShow }) => {
           has: false,
           msg: '리뷰를 불러오는 데 실패했습니다..'
         });
+        setLike(false);
         return;
       }
     };
     fetchReviewList();
-  }, []);
+  }, [like]);
 
   // 클릭 시, 리뷰를 더 가져오는 이벤트 핸들러
   const handleClickAdd = () => {
@@ -95,7 +99,14 @@ const ReviewContainer = ({ showId, hover, handleShow }) => {
       {hasReview.has ? (
         <>
           {reviewList.map((review) => (
-            <ReviewItem btn key={review.reviewNo} review={review} handleShow={handleShow} hover />
+            <ReviewItem
+              btn
+              key={review.reviewNo}
+              review={review}
+              handleShow={handleShow}
+              hover
+              setLike={setLike}
+            />
           ))}
           <Button onClick={handleClickAdd}>더보기</Button>
         </>

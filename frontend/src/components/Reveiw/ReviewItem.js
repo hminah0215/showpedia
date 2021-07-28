@@ -3,12 +3,14 @@ import { getReview } from '../../redux/review'; // 액션 생성함수
 import { useDispatch } from 'react-redux';
 
 // 부트스트랩 icons
-import { HandThumbsUp, ExclamationCircle, PencilSquare } from 'react-bootstrap-icons';
+import { HandThumbsUp, ExclamationCircle } from 'react-bootstrap-icons';
 import { Button } from 'react-bootstrap';
 // css
 import './ReviewItem.css';
 // 참조
 import Stars from '../Stars/Stars';
+// etx
+import axios from 'axios';
 
 /*
   [props]
@@ -19,7 +21,17 @@ import Stars from '../Stars/Stars';
   isReviewed - [MyReview.js] / 사용자 리뷰 여부에 따른 숨김 버튼
 */
 
-const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, click }) => {
+const ReviewItem = ({
+  modal,
+  setLike,
+  setModal,
+  isReviewed,
+  review,
+  style,
+  hover,
+  handleShow,
+  click
+}) => {
   // 리뷰 디스패치
   const reviewDispatch = useDispatch();
 
@@ -44,6 +56,26 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
       state: true,
       option: 'myReview'
     });
+  };
+
+  // 좋아요 버튼 클릭 이벤트 핸들러
+  const handleClickLike = async () => {
+    if (modal) return;
+    console.log('좋아요 클릭');
+    console.log(review.reviewLikes);
+    // db 수정하기
+    const URL = `http://localhost:3005/review`;
+    try {
+      const result = await axios.put(URL, review);
+      if (result.status === 200) {
+        setLike(true);
+      }
+      // 리뷰 작성 후, 이동하기
+    } catch (error) {
+      alert('좋아요 실패');
+      console.log(error);
+      return false;
+    }
   };
 
   return (
@@ -87,10 +119,12 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
             </>
           ) : (
             <div className="review-btns d-flex align-items-center justify-content-end">
-              <button className="review-btn">
+              {/* 좋아요 버튼 */}
+              <button className="review-btn" onClick={handleClickLike}>
                 <HandThumbsUp size={20} />
               </button>
               <span className="review-like">{review?.reviewLikes}</span>
+              {/* 신고 버튼 */}
               <button className="review-btn review-btn--alert">
                 <ExclamationCircle size={20} />
               </button>

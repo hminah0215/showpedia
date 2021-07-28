@@ -55,6 +55,7 @@ const Contents = () => {
                   style={{ minWidth: '100%', height: '100%' }}
                   review={modalReviewData}
                   click
+                  modal
                 />
               </>
             ) : (

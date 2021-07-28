@@ -64,6 +64,7 @@ const WriteReview = ({ setIsReviewed, modify }) => {
         return false;
       }
     } else {
+      // 리뷰 작성
       // axios를 사용해 서버에 데이터를 전달
       try {
         const result = await axios.post(URL, review);
@@ -82,11 +83,13 @@ const WriteReview = ({ setIsReviewed, modify }) => {
     }
   };
 
+  // 리뷰를 삭제하는 이벤트 핸들러
   const handleClickDeleteButton = async () => {
     console.log('삭제 버튼 클릭 시', review);
     if (window.confirm('정말 삭제하시겠습니까?')) {
       const URL = `http://localhost:3005/review`;
       try {
+        // 삭제할 리뷰 id를 params로 전달
         const result = await axios.delete(URL + `/${review.reviewNo}`);
 
         if (result.status === 200) {

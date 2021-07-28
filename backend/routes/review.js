@@ -39,9 +39,11 @@ router.put('/', async (req, res) => {
   // 수정할 리뷰 번호
   const reviewNo = req.body.reviewNo;
   // 수정할 리뷰 값
+  console.log(req.body);
   const review = {
     reviewStars: req.body.reviewStars,
-    reviewContents: req.body.reviewContents
+    reviewContents: req.body.reviewContents,
+    reviewLikes: req.body.reviewLikes + 1
   };
 
   // DB와 통신
