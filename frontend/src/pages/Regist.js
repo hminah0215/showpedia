@@ -4,6 +4,7 @@ import { Button, Col, Container, Form, Image } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { registUser } from '../redux/auth';
 
+// 민아) 7/28, 회원가입
 const Regist = (props) => {
   const [memberId, setMemberId] = useState('');
   const [pwd, setPwd] = useState('');
@@ -37,6 +38,7 @@ const Regist = (props) => {
     console.log('setConfirmPasword');
   };
   const onPhotoHandler = (e) => {
+    e.preventDefault();
     setProfilePhoto(e.target.value);
     console.log('setProfilePhoto');
   };
@@ -138,13 +140,15 @@ const Regist = (props) => {
 
           <Form.Group controlId="formFile" className="mb-3">
             <Form.Label>프로필 이미지</Form.Label>
-            <Form.Control type="file" value={profilePhoto} onChange={onPhotoHandler} />
+            <Form.Control
+              type="file"
+              value={profilePhoto}
+              accept="image/jpg,impge/png,image/jpeg,image/gif"
+              onChange={onPhotoHandler}
+            />
           </Form.Group>
 
           {/* 프로필이미지로 선택한 사진을 보여주고 싶음.. 이건 좀더 생각해봐야겠음  */}
-          <Col xs={6} md={4}>
-            <Image src="profilePhoto/171x180" rounded />
-          </Col>
 
           <Button variant="primary" type="submit" style={{ width: '100%', marginBottom: '1rem' }}>
             회원가입
