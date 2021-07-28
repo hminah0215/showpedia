@@ -1,3 +1,4 @@
+import axios from 'axios';
 // [아영] 1. 액션 타입 만들기
 const GET_SHOWLIST = 'show/GET_SHOWLIST'; // 모듈이름/액션이름
 const RESET_SHOWLIST = 'show/RESET_SHOWLIST';

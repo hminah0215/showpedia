@@ -10,6 +10,15 @@ import './ReviewItem.css';
 // 참조
 import Stars from '../Stars/Stars';
 
+/*
+  [props]
+  style - css style 객체 prop
+  hover - hover 기능 여부
+  click - click 시, 모달 창 열림 여부
+  handleShow - [Contents.js -> ReviewContainer.js] / 모달창 온오프 핸들러
+  isReviewed - [MyReview.js] / 사용자 리뷰 여부에 따른 숨김 버튼
+*/
+
 const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, click }) => {
   // 리뷰 디스패치
   const reviewDispatch = useDispatch();
@@ -18,9 +27,21 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
   const handleClickReview = () => {
     // 모달에 존재하는 리뷰의 경우 모달을 열지않는다.
     if (click) return;
+
     // 리덕스에 해당 리뷰 정보 저장하기
     reviewDispatch(getReview(review));
     handleShow(); // 모달창 열기
+  };
+
+  // 리뷰 수정하기 버튼 클릭 이벤트 핸들러
+  const handleClickModify = () => {
+    // 해당 리뷰 정보를 리덕스에 저장
+    reviewDispatch(getReview(review));
+    // 모달에 보여지는 컴포넌트를 리뷰 수정 컴포넌트로 변경
+    setModal({
+      state: true,
+      option: 'myReview'
+    });
   };
 
   return (
@@ -57,15 +78,7 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
               <Button
                 size="sm"
                 style={{ width: '100px', alignSelf: 'flex-end' }}
-                onClick={() => {
-                  //
-                  console.log('제발 리뷰창 그만!');
-                  reviewDispatch(getReview(review));
-                  setModal({
-                    state: true,
-                    option: 'myReview'
-                  });
-                }}
+                onClick={handleClickModify}
               >
                 수정하기
               </Button>

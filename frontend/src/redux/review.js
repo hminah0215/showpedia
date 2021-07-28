@@ -13,7 +13,8 @@ const initialState = {
     createdAt: '',
     reviewStars: 0,
     reviewContents: '',
-    reviewLikes: ''
+    reviewLikes: '',
+    reviewNo: 0
   }
 };
 
@@ -32,7 +33,8 @@ const review = (state = initialState, action) => {
           createdAt: action.payload.createdAt,
           reviewStars: action.payload.reviewStars,
           reviewContents: action.payload.reviewContents,
-          reviewLikes: action.payload.reviewLikes
+          reviewLikes: action.payload.reviewLikes,
+          reviewNo: action.payload.reviewNo
         }
       };
     default:

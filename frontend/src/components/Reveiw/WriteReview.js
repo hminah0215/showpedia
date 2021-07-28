@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 // 부트스트랩
 import { Form, Button } from 'react-bootstrap';
@@ -9,7 +9,12 @@ import Stars from '../Stars/Stars';
 // etc
 import axios from 'axios';
 
-const WriteReview = ({ setIsReviewed }) => {
+/*
+  setIsReviewed -
+  preReview - 수정 할 데이터 정보
+*/
+const WriteReview = ({ setIsReviewed, preReview }) => {
+  // console.log('지금 수정모드입니까?', preReview);
   // URL에서 showId 가져오기
   const location = useLocation();
   const showId = location.pathname.split('/')[2];
@@ -21,6 +26,18 @@ const WriteReview = ({ setIsReviewed }) => {
     memberId: 'Ayo', // 멤버 아이디를 임의로 지정
     showId: showId
   });
+
+  // 첫 렌더링 시, preReview가 존재한다면 리뷰 수정모드이다.
+  // preReview에서 읽은 데이터를 현재 리뷰 데이터로 설정한다.
+  useEffect(() => {
+    if (preReview) {
+      setReview({
+        ...review,
+        reviewStars: preReview.reviewStars,
+        reviewContents: preReview.reviewContents
+      });
+    }
+  }, []);
 
   // input change 핸들러
   const handleChangeInput = (e) => {
@@ -40,6 +57,8 @@ const WriteReview = ({ setIsReviewed }) => {
 
   // 리뷰를 저장하는 이벤트 핸들러
   const handleClickSaveButton = async () => {
+    // 만약 preReview가 존재한다면, 새로 리뷰를 작성하는 것이 아닌 리뷰를 수정한다
+
     // axios를 사용해 서버에 데이터를 전달
     const URL = `http://localhost:3005/review`;
     try {
@@ -76,6 +95,7 @@ const WriteReview = ({ setIsReviewed }) => {
             placeholder="리뷰를 남겨주세요"
             style={{ height: '100px' }}
             onChange={handleChangeInput}
+            // 리뷰 수정일 경우, preReivew에서 읽어온 데이터를 value에 넣어둔다
             value={review.reviewContents}
           />
         </div>

@@ -14,6 +14,7 @@ import SearchModal from '../Modal/SearchModal';
 import axios from 'axios';
 
 const Header = () => {
+  // 페이지 이동을 위한 history
   const history = useHistory();
   // 검색 조건 모달의 열림/닫힘을 위한 state
   const [search, setSearch] = useState(false);
@@ -36,12 +37,12 @@ const Header = () => {
   };
 
   // 서버에서 검색 조건 찾아오는 이벤트 핸들러
+  // 리덕스 비동기처리 미들웨어를 사용하지 않기 때문에 여기서 비동기 처리를 한 후, 가져온 데이터를 리덕스 상태에 저장한다.
   const handleClickSearchButton = async () => {
     // 현재 들어있는 검색 결과값들 초기화하기
     showDispatch(resetShowList());
-    // 다시 로딩 상태로 설정하기
+    // 현재 상태를 로딩 상태로 설정하기
     showDispatch(isLoading());
-
     // 검색 결과 페이지로 이동하기
     history.push('/search?page=1');
 
@@ -49,12 +50,14 @@ const Header = () => {
     const URL = `http://localhost:3005/show/result`;
     try {
       const result = await axios.post(URL, condition);
-      // 상태에 검색 결과 저장하기
       // console.log('데이터가 없는 경우 서버에서는 어떻게 던져줍니까?', result.data.data); // undefined
       const showList = result.data.data ? result.data.data : { msg: '검색 결과가 없습니다' }; // undefined로 넘어올 경우 처리해주기
+
+      // 리덕스 상태에 검색 결과 저장하기
       showDispatch(getShowList(showList));
     } catch (error) {
-      console.log('공연 리스트를 가져오는데 실패했습니다');
+      // console.log('공연 리스트를 가져오는데 실패했습니다');
+      showDispatch(getShowList({ msg: '검색에 실패했습니다..' }));
       return false;
     }
   };

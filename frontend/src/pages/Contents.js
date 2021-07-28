@@ -43,10 +43,11 @@ const Contents = () => {
 
   return (
     <>
+      {/* isFetch가 true 경우 공연 정보 렌더링*/}
       {isFetch ? (
         <>
-          {/* 리뷰 클릭 시, 나타나는 모달컴포넌트 */}
-          <CustomModal handleClose={handleClose} show={modal.state}>
+          {/* 리뷰 클릭 시, 나타나는 모달 컴포넌트 */}
+          <CustomModal handleClose={handleClose} show={modal.state} title="리뷰 상세보기">
             {/* 모달 안에 들어갈 내용 children */}
             {modal.option === 'review' ? (
               <>
@@ -57,8 +58,9 @@ const Contents = () => {
                 />
               </>
             ) : (
+              // 수정하기 버튼 클릭 시, 나타나는 모달 컴포넌트
               <>
-                <WriteReview></WriteReview>
+                <WriteReview preReview={modalReviewData} />
               </>
             )}
           </CustomModal>

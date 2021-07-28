@@ -7,8 +7,15 @@ import { Row, Col, Modal, Form, Container, Button } from 'react-bootstrap';
 // css
 import './SearchModal.css';
 
+/*
+[prop]
+  [이름] - [부모 컴포넌트] / [설명]
+  search - [header.js] / 검색 모달의 열림닫힘 여부
+  setSearch - [header.js] / search의 set함수
+  handleChangeInput - [header.js] / 검색 조건 상태 변화 저장 함수
+*/
 const SearchModal = ({ search, setSearch, handleChangeInput }) => {
-  // 검색 조건 상태 저장
+  // 검색 조건 state
   const condition = useSelector((state) => state.show.condition);
   // 디스패치
   const showDispatch = useDispatch();
@@ -22,13 +29,13 @@ const SearchModal = ({ search, setSearch, handleChangeInput }) => {
   const handleClickOutter = () => {
     showDispatch(resetCondition());
     setSearch(false);
-    console.log('닫힙니다.');
+    // console.log('닫힙니다.');
   };
 
   // 리셋 버튼 이벤트 핸들러
   const handleClickResetButton = () => {
     showDispatch(resetCondition());
-    console.log(condition);
+    // console.log(condition);
   };
 
   // 검색 조건 저장
@@ -44,13 +51,11 @@ const SearchModal = ({ search, setSearch, handleChangeInput }) => {
       eddateRef.current.focus();
       return;
     }
-
+    // 모달 닫기
     setSearch(false);
-    // console.log('닫힙니다.');
-    // console.log(condition);
   };
 
-  // 버튼 토글 액션
+  // 체크박스 버튼 확인을 위한 토글 액션
   const handleClickActive = (e) => {
     e.target.classList.toggle('active');
   };

@@ -7,6 +7,12 @@ import './ShowContainer.css';
 // etc
 import axios from 'axios';
 
+// 공연 상세 정보를 보여주는 컴포넌트
+/*
+  [props]
+  setIsFetch - [Contents.js] / 상세 정보를 가져왔는지 확인하는 isFetch를 set하는 함수, 가져오는데 실패 = false, 성공 = true
+  showId - [Contents.js] / 해당 공연의 id값
+*/
 const ShowContainer = ({ setIsFetch, showId }) => {
   // 공연 상세정보 state
   const [show, setShow] = useState({
@@ -32,10 +38,10 @@ const ShowContainer = ({ setIsFetch, showId }) => {
     });
     // 백엔드에서 공연 상세 데이터 가져오기
     const URL = `http://localhost:3005/show/${showId}`;
+    // useEffect 내부에서 async를 사용한다.
     const fetchData = async () => {
       try {
         const result = await axios.get(URL);
-        // console.log('올바른 데이터를 가져왔는가?', result.data.data);
         const showData = result.data.data[0];
         setShow({
           prfnm: showData.prfnm, // 공연 이름
@@ -57,10 +63,9 @@ const ShowContainer = ({ setIsFetch, showId }) => {
     fetchData();
   }, [showId, setShow]);
 
-  // 즐겨찾기 토글 이벤트 핸들러
+  // 즐겨찾기 토글 이벤트 핸들러 - 미완
   const handleClickStar = (e) => {
     e.target.classList.toggle('active');
-    console.log('show 데이터 테스트용 콘솔 입니다', show);
   };
 
   return (
