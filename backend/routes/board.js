@@ -41,15 +41,15 @@ router.get('/list', async (req, res, next) => {
   }
 });
 
-// 민아) 7/26, 게시글 등록 post 라우터  -> 에디터는 아직 생각중
+// 민아) 7/26, 게시글 등록 post 라우터  -> 에디터는 ck에디터5 쓰고있음
 // localhost:3005/board/boardRegist.html
 // router.post('/regist', isLoggedIn, tokenTest, async (req, res) => {
-router.post('/regist', async (req, res) => {
+router.post('/regist', isLoggedIn, async (req, res) => {
   // isLoggedIn 미들웨어로 쿠키가 없는 사용자는 로그인 필요함을 나타낸다.
 
   // tokenTest 미들웨어를 거쳐, 인증이 완료된 회원의 memberId를 같이 넘긴다.
-  // const memberId = req.user.memberId;
-  // console.log('게시글작성 memberId', req.user.memberId);
+  const memberId = req.user.memberId;
+  console.log('게시글작성 memberId', req.user.memberId);
 
   // !!! 리액트에서 아직 로그인, 인증 부분을 구현안해서 게시글 등록 테스트 하느라고
   // 위에 다 막고, 아래 let board에서 memberId 뺌!
@@ -59,7 +59,7 @@ router.post('/regist', async (req, res) => {
     boardCategory: req.body.boardCategory,
     boardContents: req.body.boardContents,
     boardHits: 0,
-    memberId: 'test2'
+    memberId: memberId
   };
 
   try {
@@ -70,6 +70,22 @@ router.post('/regist', async (req, res) => {
   } catch (error) {
     console.log('서버에러내용: ', error);
     return res.json({ code: '500', data: {}, msg: '게시글 등록 서버에러발생!!' });
+  }
+});
+
+// 민아) 7/28, 게시글 상세보기 get 라우터
+router.get('/view/:id', async (req, res) => {
+  const boardIdx = req.params.id;
+  console.log('상세보기 게시물 번호', boardIdx);
+  try {
+    //
+    const board = await Board.findOne({ where: { boardNo: boardIdx } });
+
+    return res.json({ code: '200', data: board, msg: '게시글 상세보기 OK' });
+    //
+  } catch (error) {
+    console.log('서버에러내용: ', error);
+    return res.json({ code: '500', data: {}, msg: '관리자에게 문의하세요.' });
   }
 });
 
