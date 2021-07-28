@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 // bootstrap
-import { Container, Button } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 // 참조 컴포넌트
 import ReviewContainer from '../components/Reveiw/ReviewContainer';
 import ReviewItem from '../components/Reveiw/ReviewItem';

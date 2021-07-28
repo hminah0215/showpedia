@@ -35,17 +35,26 @@ router.post('/', async (req, res) => {
 
 // 리뷰 수정 라우터
 router.put('/', async (req, res) => {
-  // 클라이언트 데이터를 가져온다
   // 수정할 리뷰 번호
   const reviewNo = req.body.reviewNo;
-  // 수정할 리뷰 값
-  console.log(req.body);
+
+  // 수정 상태를 정하는 변수 - 좋아요 / 신고
+  const opt = req.body.opt;
+  // opt가 like 일 경우 reviewLikes + 1
+  const reviewLikes = opt == 'like' ? req.body.reviewLikes + 1 : req.body.reviewLikes;
+  // opt가 report일 경우 reviewReports + 1
+  const reviewReports = opt == 'report' ? req.body.reviewReports + 1 : req.body.reviewReports;
+
+  console.log('리뷰 라이크', reviewLikes);
+  console.log('리뷰 리포트', reviewReports);
   const review = {
     reviewStars: req.body.reviewStars,
     reviewContents: req.body.reviewContents,
-    reviewLikes: req.body.reviewLikes + 1
+    reviewLikes,
+    reviewReports
   };
 
+  console.log('수정할 데이터', review);
   // DB와 통신
   try {
     const result = await Review.update(review, {

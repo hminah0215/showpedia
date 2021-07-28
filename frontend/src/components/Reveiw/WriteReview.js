@@ -54,7 +54,7 @@ const WriteReview = ({ setIsReviewed, modify }) => {
 
         if (result.status === 200) {
           // 리뷰를 저장했다면 페이지를 새로 고친다.
-          window.location.replace(`/contents/${showId}`);
+          // window.location.replace(`/contents/${showId}`);
           return;
         }
         // 리뷰 작성 후, 이동하기

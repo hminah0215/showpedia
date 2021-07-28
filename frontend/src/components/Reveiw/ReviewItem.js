@@ -66,7 +66,7 @@ const ReviewItem = ({
     // db 수정하기
     const URL = `http://localhost:3005/review`;
     try {
-      const result = await axios.put(URL, review);
+      const result = await axios.put(URL, { ...review, opt: 'like' });
       if (result.status === 200) {
         setLike(true);
       }
@@ -75,6 +75,30 @@ const ReviewItem = ({
       alert('좋아요 실패');
       console.log(error);
       return false;
+    }
+  };
+
+  // 신고 버튼 클릭 이벤트 핸들러
+  const handleClickReport = async () => {
+    if (modal) return;
+    console.log('신고 클릭');
+    console.log(review);
+    // db 수정하기
+    const URL = `http://localhost:3005/review`;
+    if (window.confirm('신고하시겠습니까?')) {
+      try {
+        const result = await axios.put(URL, { ...review, opt: 'report' });
+        if (result.status === 200) {
+          alert('신고 완료');
+          // 리렌더링을 위한 상태
+          setLike(true);
+        }
+        // 리뷰 작성 후, 이동하기
+      } catch (error) {
+        alert('신고 실패');
+        console.log(error);
+        return false;
+      }
     }
   };
 
@@ -125,7 +149,7 @@ const ReviewItem = ({
               </button>
               <span className="review-like">{review?.reviewLikes}</span>
               {/* 신고 버튼 */}
-              <button className="review-btn review-btn--alert">
+              <button className="review-btn review-btn--alert" onClick={handleClickReport}>
                 <ExclamationCircle size={20} />
               </button>
             </div>
