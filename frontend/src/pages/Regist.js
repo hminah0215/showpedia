@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Col, Container, Form, Image } from 'react-bootstrap';
 
 import { useDispatch } from 'react-redux';
-import { registUser, checkId } from '../redux/auth';
+import { registUser } from '../redux/auth';
 
 const Regist = (props) => {
   const [memberId, setMemberId] = useState('');
@@ -15,7 +15,6 @@ const Regist = (props) => {
   // true 상태여야 회원가입이 가능하다.
   const [checkId, setCheckId] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
-  // const [idError, setIdError] = useState('');
 
   // 디스패치 사용
   const dispatch = useDispatch();
@@ -50,6 +49,8 @@ const Regist = (props) => {
       return setCheckId(true);
     }
 
+    // 중복된 아이디고, 비밀번호 확인도 틀리면 password 에러메시지도 떠야하는데 왜 안뜨나???
+    // 거기다가 아이디가 중복된 아이디가 아니고 비밀번호만 틀려도 이게 안뜨네? 왜죠?
     if (pwd !== ConfirmPasword) {
       return setPasswordError(true);
     }

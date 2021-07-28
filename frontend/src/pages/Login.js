@@ -1,37 +1,50 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import { Button, Container, Form } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../redux/auth';
 
 const Login = (props) => {
-  const [memberId, setMemberId] = useState('');
-  const [pwd, setPwd] = useState('');
+  const [member, setMember] = useState({
+    memberId: '',
+    pwd: ''
+  });
 
   const dispatch = useDispatch();
 
-  // 아이디 입력 onChange 이벤트
-  const onIdHandler = (e) => {
-    setMemberId(e.currentTarget.value);
-  };
-
-  // 비밀번호 입력 onChange 이벤트
-  const onPasswordHanlder = (e) => {
-    setPwd(e.currentTarget.value);
+  // onChange 이벤트
+  const onChLogin = (e) => {
+    setMember({ ...member, [e.target.name]: e.target.value });
   };
 
   // 로그인 폼 이벤트
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    // 로그인을 진행하기위해서
-    // 첫번째 useDispatch(액션) 을 활용해서 액션을 dispatch해준다
-    const body = {
-      memberId: memberId,
-      pwd: pwd
-    };
 
-    // 로그인을 실행하고, 성공하면 메인으로 이동한다.
-    dispatch(loginUser(body));
-    props.history.push('/');
+    // 로그인 axios post
+    axios.defaults.withCredentials = true; // 쿠키 데이터를 전송받기 위해
+    axios
+      .post('http://localhost:3005/login', member)
+      .then((result) => {
+        console.log('회원로그인===>', result);
+
+        if (result.data.code === 200) {
+          // alert('로그인 성공');
+
+          // 로그인이 성공하면 쿠키에 jwt 토큰값을 넣는다.
+          document.cookie = 'member=' + result.data.data;
+          console.log('로그인 성공, 쿠키' + document.cookie);
+
+          // 로그인 dispatch를 실행하고,  메인으로 이동한다.
+          dispatch(loginUser('true'));
+          props.history.push('/');
+        } else {
+          alert('백엔드 에러 발생 - 로그인 문제');
+        }
+      })
+      .catch((err) => {
+        console.err(err);
+      });
   };
 
   return (
@@ -60,8 +73,8 @@ const Login = (props) => {
             <Form.Control
               type="email"
               name="memberId"
-              value={memberId}
-              onChange={onIdHandler}
+              value={member.memberId}
+              onChange={onChLogin}
               placeholder="아이디를 입력해주세요."
             />
             <Form.Text className="text-muted">
@@ -74,8 +87,8 @@ const Login = (props) => {
             <Form.Control
               type="password"
               name="pwd"
-              value={pwd}
-              onChange={onPasswordHanlder}
+              value={member.pwd}
+              onChange={onChLogin}
               placeholder="비밀번호를 입력해주세요."
             />
           </Form.Group>
