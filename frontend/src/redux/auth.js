@@ -30,27 +30,9 @@ export const registUser = (dataToSubmit) => {
 };
 
 export const loginUser = (dataToSubmit) => {
-  axios.defaults.withCredentials = true; // 쿠키 데이터를 전송받기 위해
-  const data = axios
-    .post('http://localhost:3005/login', dataToSubmit)
-    .then((result) => {
-      console.log('회원로그인===>', result);
-
-      document.cookie = 'member=' + result.data.data;
-      console.log('쿠키' + document.cookie);
-
-      if (result.data.code === 200) {
-        alert('로그인 성공');
-      } else {
-        alert('백엔드 에러 발생 - 로그인 문제');
-      }
-    })
-    .catch((err) => {
-      console.err(err);
-    });
   return {
     type: LOGIN_USER,
-    payload: data
+    payload: dataToSubmit
   };
 };
 

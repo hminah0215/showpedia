@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 // 리덕스
 import { useSelector, useDispatch } from 'react-redux'; // 리덕스 훅스
 import { getShowList, resetShowList, isLoading, setCondition } from '../../redux/show'; // 액션생성함수
+import { logoutUser } from '../../redux/auth';
 // react-bootstrap
 import { Nav, Navbar, FormControl, Button, Container } from 'react-bootstrap';
 // 리액트 라우터
@@ -13,8 +14,23 @@ import SearchModal from '../Modal/SearchModal';
 // etc
 import axios from 'axios';
 
-const Header = () => {
+const Header = (props) => {
   const history = useHistory();
+
+  // useDispatch를 사용해서 로그아웃 액션을 실행한다
+  const dispatch = useDispatch();
+
+  // 로그인 상태 확인, 로그인 상태면 true 반환, 로그아웃하면 undefined
+  const isLogin = useSelector((state) => state.auth.loginSucess);
+  console.log('is로그인??', isLogin);
+
+  // 로그아웃 이벤트
+  const onClickHandler = () => {
+    // useDispatch와 logout 액션이 두가지 필요하다
+    dispatch(logoutUser());
+    props.history.push('/');
+  };
+
   // 검색 조건 모달의 열림/닫힘을 위한 state
   const [search, setSearch] = useState(false);
   // 서버에 보낼 검색조건을 위한 state
@@ -100,9 +116,21 @@ const Header = () => {
             </div>
             {/* 회원가입 / 로그인 */}
             <Nav>
-              <Nav.Link href="/login" style={{ minWidth: '70px' }} className="textCenter">
-                로그인
-              </Nav.Link>
+              {isLogin ? (
+                <Nav.Link
+                  href="/logout"
+                  style={{ minWidth: '70px' }}
+                  className="textCenter"
+                  onClick={onClickHandler}
+                >
+                  로그아웃
+                </Nav.Link>
+              ) : (
+                <Nav.Link href="/login" style={{ minWidth: '70px' }} className="textCenter">
+                  로그인
+                </Nav.Link>
+              )}
+
               <Button href="/regist" className=".btn-custom" style={{ minWidth: '90px' }}>
                 회원가입
               </Button>
