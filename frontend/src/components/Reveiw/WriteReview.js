@@ -10,34 +10,22 @@ import Stars from '../Stars/Stars';
 import axios from 'axios';
 
 /*
-  setIsReviewed -
-  preReview - 수정 할 데이터 정보
+  setIsReviewed - [MyReview.js] / 내 리뷰가 존재하는지 판단하는 상태 설정 함수
+  modify - 수정 모드로 사용하는 경우, 여기에 현재 리덕스에 있는 리뷰 데이터를 담아서 전달한다
 */
-const WriteReview = ({ setIsReviewed, preReview }) => {
-  // console.log('지금 수정모드입니까?', preReview);
+const WriteReview = ({ setIsReviewed, modify }) => {
   // URL에서 showId 가져오기
   const location = useLocation();
   const showId = location.pathname.split('/')[2];
 
   // 서버에 보낼 리뷰 데이터
   const [review, setReview] = useState({
-    reviewStars: 1,
-    reviewContents: '',
-    memberId: 'Ayo', // 멤버 아이디를 임의로 지정
-    showId: showId
+    reviewStars: modify ? modify.reviewStars : 0,
+    reviewContents: modify ? modify.reviewContents : '',
+    // memberId: 'Ayo', // 서버에서 임의로 지정중
+    showId: showId,
+    reviewNo: modify ? modify.reviewNo : ''
   });
-
-  // 첫 렌더링 시, preReview가 존재한다면 리뷰 수정모드이다.
-  // preReview에서 읽은 데이터를 현재 리뷰 데이터로 설정한다.
-  useEffect(() => {
-    if (preReview) {
-      setReview({
-        ...review,
-        reviewStars: preReview.reviewStars,
-        reviewContents: preReview.reviewContents
-      });
-    }
-  }, []);
 
   // input change 핸들러
   const handleChangeInput = (e) => {
@@ -57,24 +45,62 @@ const WriteReview = ({ setIsReviewed, preReview }) => {
 
   // 리뷰를 저장하는 이벤트 핸들러
   const handleClickSaveButton = async () => {
-    // 만약 preReview가 존재한다면, 새로 리뷰를 작성하는 것이 아닌 리뷰를 수정한다
-
-    // axios를 사용해 서버에 데이터를 전달
     const URL = `http://localhost:3005/review`;
-    try {
-      const result = await axios.post(URL, review);
-      if (result.status === 200) {
-        setIsReviewed(true);
-        // 리뷰를 저장했다면 페이지를 새로 고친다.
-        window.location.replace(`/contents/${showId}`);
-        return;
+    // 만약 preReview가 존재한다면, 새로 리뷰를 작성하는 것이 아닌 리뷰를 수정한다
+    if (modify) {
+      console.log('수정을 위한 리뷰값 ', review);
+      try {
+        const result = await axios.put(URL, review);
+
+        if (result.status === 200) {
+          // 리뷰를 저장했다면 페이지를 새로 고친다.
+          window.location.replace(`/contents/${showId}`);
+          return;
+        }
+        // 리뷰 작성 후, 이동하기
+      } catch (error) {
+        alert('리뷰 작성에 실패했습니다.');
+        console.log(error);
+        return false;
       }
-      // 리뷰 작성 후, 이동하기
-    } catch (error) {
-      alert('리뷰 작성에 실패했습니다.');
-      console.log(error);
-      return false;
+    } else {
+      // axios를 사용해 서버에 데이터를 전달
+      try {
+        const result = await axios.post(URL, review);
+        if (result.status === 200) {
+          setIsReviewed(true);
+          // 리뷰를 저장했다면 페이지를 새로 고친다.
+          window.location.replace(`/contents/${showId}`);
+          return;
+        }
+        // 리뷰 작성 후, 이동하기
+      } catch (error) {
+        alert('리뷰 작성에 실패했습니다.');
+        console.log(error);
+        return false;
+      }
     }
+  };
+
+  const handleClickDeleteButton = async () => {
+    console.log('삭제 버튼 클릭 시', review);
+    if (window.confirm('정말 삭제하시겠습니까?')) {
+      const URL = `http://localhost:3005/review`;
+      try {
+        const result = await axios.delete(URL + `/${review.reviewNo}`);
+
+        if (result.status === 200) {
+          // 리뷰를 저장했다면 페이지를 새로 고친다.
+          window.location.replace(`/contents/${showId}`);
+          return;
+        }
+        // 리뷰 작성 후, 이동하기
+      } catch (error) {
+        alert('리뷰 작성에 실패했습니다.');
+        console.log(error);
+        return false;
+      }
+    } else return;
   };
 
   return (
@@ -99,7 +125,14 @@ const WriteReview = ({ setIsReviewed, preReview }) => {
             value={review.reviewContents}
           />
         </div>
-        <Button onClick={handleClickSaveButton}>작성</Button>
+        <div className="d-flex gap-4 mt-2">
+          <Button className=" flex-grow-1" onClick={handleClickSaveButton}>
+            작성
+          </Button>
+          <Button className=" flex-grow-1 btn" onClick={handleClickDeleteButton}>
+            삭제
+          </Button>
+        </div>
       </div>
     </div>
   );

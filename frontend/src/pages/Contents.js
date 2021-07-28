@@ -60,7 +60,7 @@ const Contents = () => {
             ) : (
               // 수정하기 버튼 클릭 시, 나타나는 모달 컴포넌트
               <>
-                <WriteReview preReview={modalReviewData} />
+                <WriteReview modify={modalReviewData} />
               </>
             )}
           </CustomModal>

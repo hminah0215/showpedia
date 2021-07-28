@@ -36,28 +36,21 @@ router.post('/', async (req, res) => {
 // 리뷰 수정 라우터
 router.put('/', async (req, res) => {
   // 클라이언트 데이터를 가져온다
-  console.log('수정 라우터까지 왔어요???');
-  const memberId = 'Ayo'; // 임의로 설정
+  // 수정할 리뷰 번호
   const reviewNo = req.body.reviewNo;
+  // 수정할 리뷰 값
   const review = {
     reviewStars: req.body.reviewStars,
     reviewContents: req.body.reviewContents
   };
-  console.log('넘어오는 바디 확인', req.body);
-  console.log('리뷰번호', reviewNo);
-  console.log('리뷰', review);
+
   // DB와 통신
   try {
-    const result = await Review.update(
-      {
-        reviewStars: 1
-      },
-      {
-        where: {
-          reviewNo
-        }
+    const result = await Review.update(review, {
+      where: {
+        reviewNo
       }
-    );
+    });
     res.json({
       code: '200',
       data: result,
@@ -68,6 +61,32 @@ router.put('/', async (req, res) => {
     res.json({
       code: '500',
       msg: '리뷰 수정 실패'
+    });
+  }
+});
+
+// 단일 리뷰 삭제 하는 라우터
+router.delete('/:id', async (req, res) => {
+  // 리뷰id 가져오기
+  const reviewNo = req.params.id;
+  console.log('==reviewNo==', reviewNo);
+  try {
+    // 삭제하기
+    const result = await Review.destroy({
+      where: {
+        reviewNo
+      }
+    });
+    res.json({
+      code: '200',
+      msg: '단일 리뷰 데이터 조회 완료',
+      data: result
+    });
+  } catch (error) {
+    console.error(error);
+    res.json({
+      code: '500',
+      msg: '단일 리뷰 데이터 조회 실패'
     });
   }
 });

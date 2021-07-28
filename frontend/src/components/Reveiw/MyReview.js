@@ -10,7 +10,7 @@ import axios from 'axios';
 const MyReview = ({ showId, handleShow, setModal }) => {
   // 리뷰 작성 창을 위한 state
   const [write, setWrite] = useState(false);
-  // 내 리뷰가 존재하는지 판단하는 상태
+  // 내 리뷰가 존재하는지 판단하는 state
   const [isReviewed, setIsReviewed] = useState(false);
   // 가져온 내 리뷰 데이터를 저장하는 state
   const [myReview, setMyReview] = useState({});

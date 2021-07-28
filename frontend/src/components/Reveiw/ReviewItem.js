@@ -30,6 +30,7 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
 
     // 리덕스에 해당 리뷰 정보 저장하기
     reviewDispatch(getReview(review));
+    console.log('리뷰를 클릭하면 해당 리뷰 정보를 리덕스에 저장한다.', review);
     handleShow(); // 모달창 열기
   };
 
@@ -37,6 +38,7 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
   const handleClickModify = () => {
     // 해당 리뷰 정보를 리덕스에 저장
     reviewDispatch(getReview(review));
+    console.log('리뷰를 클릭하면 해당 리뷰 정보를 리덕스에 저장한다.', review);
     // 모달에 보여지는 컴포넌트를 리뷰 수정 컴포넌트로 변경
     setModal({
       state: true,
