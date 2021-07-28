@@ -6,6 +6,7 @@ import './MyReview.css';
 import WriteReview from './WriteReview';
 //etc
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 const MyReview = ({ showId, handleShow, setModal }) => {
   // 리뷰 작성 창을 위한 state
@@ -14,6 +15,8 @@ const MyReview = ({ showId, handleShow, setModal }) => {
   const [isReviewed, setIsReviewed] = useState(false);
   // 가져온 내 리뷰 데이터를 저장하는 state
   const [myReview, setMyReview] = useState({});
+  // 리렌더링을 위한 상태
+  const reRender = useSelector((state) => state.review.rerender);
 
   // 내 리뷰가 존재하는지 판단하기 위해서 첫 렌더링 시, 내 리뷰가 있다면 찾아온다.
   useEffect(() => {
@@ -37,7 +40,7 @@ const MyReview = ({ showId, handleShow, setModal }) => {
       }
     };
     fetchReview();
-  }, []);
+  }, [reRender]);
 
   return (
     <Container className="mb-4 d-flex justify-content-center  align-items-center flex-column">

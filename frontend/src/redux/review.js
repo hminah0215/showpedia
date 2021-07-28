@@ -1,10 +1,12 @@
 // [아영] 1. 액션 타입 만들기
-const GET_REVIEW = 'show/GET_REVIEW'; // 모듈이름/액션이름
+const GET_REVIEW = 'review/GET_REVIEW'; // 모듈이름/액션이름
+const RE_RENDER = 'review/RE_RENDER'; // 리렌더링을 위한 액션
 
 // [아영] 2. 액션 생성 함수 만들기
 // 외부에서 사용하기 때문에 export
 // 액션은 {type:액션타입, payload:다른데이터} 구조를 가진다.
 export const getReview = (review) => ({ type: GET_REVIEW, payload: review });
+export const reRenderReview = () => ({ type: RE_RENDER });
 
 // [아영] 3. show리덕스의 초기 상태 만들기
 const initialState = {
@@ -15,7 +17,8 @@ const initialState = {
     reviewContents: '',
     reviewLikes: '',
     reviewNo: 0
-  }
+  },
+  rerender: false
 };
 
 // [아영] 4. 리듀서 함수를 만들기
@@ -36,6 +39,11 @@ const review = (state = initialState, action) => {
           reviewLikes: action.payload.reviewLikes,
           reviewNo: action.payload.reviewNo
         }
+      };
+    case RE_RENDER:
+      return {
+        ...state,
+        rerender: !state.rerender
       };
     default:
       return state;

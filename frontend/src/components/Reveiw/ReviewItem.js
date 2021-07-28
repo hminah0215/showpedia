@@ -1,5 +1,5 @@
 import React from 'react';
-import { getReview } from '../../redux/review'; // 액션 생성함수
+import { getReview, reRenderReview } from '../../redux/review'; // 액션 생성함수
 import { useDispatch } from 'react-redux';
 
 // 부트스트랩 icons
@@ -21,17 +21,7 @@ import axios from 'axios';
   isReviewed - [MyReview.js] / 사용자 리뷰 여부에 따른 숨김 버튼
 */
 
-const ReviewItem = ({
-  modal,
-  setLike,
-  setModal,
-  isReviewed,
-  review,
-  style,
-  hover,
-  handleShow,
-  click
-}) => {
+const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, click }) => {
   // 리뷰 디스패치
   const reviewDispatch = useDispatch();
 
@@ -39,10 +29,9 @@ const ReviewItem = ({
   const handleClickReview = () => {
     // 모달에 존재하는 리뷰의 경우 모달을 열지않는다.
     if (click) return;
-
     // 리덕스에 해당 리뷰 정보 저장하기
     reviewDispatch(getReview(review));
-    console.log('리뷰를 클릭하면 해당 리뷰 정보를 리덕스에 저장한다.', review);
+    // console.log('리뷰를 클릭하면 해당 리뷰 정보를 리덕스에 저장한다.', review);
     handleShow(); // 모달창 열기
   };
 
@@ -50,7 +39,7 @@ const ReviewItem = ({
   const handleClickModify = () => {
     // 해당 리뷰 정보를 리덕스에 저장
     reviewDispatch(getReview(review));
-    console.log('리뷰를 클릭하면 해당 리뷰 정보를 리덕스에 저장한다.', review);
+
     // 모달에 보여지는 컴포넌트를 리뷰 수정 컴포넌트로 변경
     setModal({
       state: true,
@@ -60,7 +49,6 @@ const ReviewItem = ({
 
   // 좋아요 버튼 클릭 이벤트 핸들러
   const handleClickLike = async () => {
-    if (modal) return;
     console.log('좋아요 클릭');
     console.log(review.reviewLikes);
     // db 수정하기
@@ -68,7 +56,8 @@ const ReviewItem = ({
     try {
       const result = await axios.put(URL, { ...review, opt: 'like' });
       if (result.status === 200) {
-        setLike(true);
+        // setLike(true);
+        reviewDispatch(reRenderReview()); // 리렌더 상태 변경
       }
       // 리뷰 작성 후, 이동하기
     } catch (error) {
@@ -80,9 +69,7 @@ const ReviewItem = ({
 
   // 신고 버튼 클릭 이벤트 핸들러
   const handleClickReport = async () => {
-    if (modal) return;
     console.log('신고 클릭');
-    console.log(review);
     // db 수정하기
     const URL = `http://localhost:3005/review`;
     if (window.confirm('신고하시겠습니까?')) {
@@ -91,7 +78,7 @@ const ReviewItem = ({
         if (result.status === 200) {
           alert('신고 완료');
           // 리렌더링을 위한 상태
-          setLike(true);
+          reviewDispatch(reRenderReview()); // 리렌더 상태 변경
         }
         // 리뷰 작성 후, 이동하기
       } catch (error) {

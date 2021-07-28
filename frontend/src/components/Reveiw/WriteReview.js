@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { reRenderReview } from '../../redux/review';
 import { useLocation } from 'react-router-dom';
 // 부트스트랩
 import { Form, Button } from 'react-bootstrap';
@@ -13,10 +15,12 @@ import axios from 'axios';
   setIsReviewed - [MyReview.js] / 내 리뷰가 존재하는지 판단하는 상태 설정 함수
   modify - 수정 모드로 사용하는 경우, 여기에 현재 리덕스에 있는 리뷰 데이터를 담아서 전달한다
 */
-const WriteReview = ({ setIsReviewed, modify }) => {
+const WriteReview = ({ handleClose, setIsReviewed, modify }) => {
   // URL에서 showId 가져오기
   const location = useLocation();
   const showId = location.pathname.split('/')[2];
+  // 리덕스
+  const reviewDispatch = useDispatch();
 
   // 서버에 보낼 리뷰 데이터
   const [review, setReview] = useState({
@@ -46,15 +50,18 @@ const WriteReview = ({ setIsReviewed, modify }) => {
   // 리뷰를 저장하는 이벤트 핸들러
   const handleClickSaveButton = async () => {
     const URL = `http://localhost:3005/review`;
-    // 만약 preReview가 존재한다면, 새로 리뷰를 작성하는 것이 아닌 리뷰를 수정한다
+    // 리뷰  수정
+    // 만약 modify가 존재한다면, 새로 리뷰를 작성하는 것이 아닌 리뷰를 수정한다
     if (modify) {
       console.log('수정을 위한 리뷰값 ', review);
       try {
         const result = await axios.put(URL, review);
 
         if (result.status === 200) {
-          // 리뷰를 저장했다면 페이지를 새로 고친다.
           // window.location.replace(`/contents/${showId}`);
+          handleClose();
+          // 리렌더링
+          reviewDispatch(reRenderReview());
           return;
         }
         // 리뷰 작성 후, 이동하기

@@ -39,7 +39,7 @@ const Contents = () => {
 
   // 리뷰 리덕스에서 리뷰 상태 가져오기
   const modalReviewData = useSelector((state) => state.review.review);
-  console.log('모달 데이터', modalReviewData);
+  // console.log('모달 데이터', modalReviewData);
 
   return (
     <>
@@ -61,7 +61,7 @@ const Contents = () => {
             ) : (
               // 수정하기 버튼 클릭 시, 나타나는 모달 컴포넌트
               <>
-                <WriteReview modify={modalReviewData} />
+                <WriteReview handleClose={handleClose} modify={modalReviewData} />
               </>
             )}
           </CustomModal>
