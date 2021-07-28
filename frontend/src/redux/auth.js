@@ -44,7 +44,7 @@ export const logoutUser = () => {
       console.log('로그아웃res', result);
 
       if (result.data.code === 200) {
-        alert('로그아웃 성공');
+        // alert('로그아웃 성공');
       } else {
         alert('백엔드 에러 발생 - 로그아웃 문제');
       }

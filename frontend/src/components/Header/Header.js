@@ -115,6 +115,7 @@ const Header = (props) => {
               </Button>
             </div>
             {/* 회원가입 / 로그인 */}
+            {/* 로그인 상태면 로그아웃 이라는 글자가 보인다. */}
             <Nav>
               {isLogin ? (
                 <Nav.Link
@@ -130,10 +131,16 @@ const Header = (props) => {
                   로그인
                 </Nav.Link>
               )}
-
-              <Button href="/regist" className=".btn-custom" style={{ minWidth: '90px' }}>
-                회원가입
-              </Button>
+              {/* 로그인 상태면 회원가입 대신 마이페이지 버튼을 보여주고, 로그인상태가 아니면 회원가입 버튼 보이기 */}
+              {isLogin ? (
+                <Button href="#" className=".btn-custom" style={{ minWidth: '90px' }}>
+                  마이페이지
+                </Button>
+              ) : (
+                <Button href="/regist" className=".btn-custom" style={{ minWidth: '90px' }}>
+                  회원가입
+                </Button>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>
