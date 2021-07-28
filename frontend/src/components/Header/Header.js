@@ -21,7 +21,7 @@ const Header = (props) => {
   const dispatch = useDispatch();
 
   // 로그인 상태 확인, 로그인 상태면 true 반환, 로그아웃하면 undefined
-  const isLogin = useSelector((state) => state.auth.loginSucess);
+  const isLogin = useSelector((state) => state.auth.isLogin);
   console.log('is로그인??', isLogin);
 
   // 로그아웃 이벤트

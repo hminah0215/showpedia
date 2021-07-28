@@ -17,11 +17,13 @@ router.get(
       // 유저가 없거나 인증이 실패하면 에러 발생
       if (!member || authError) {
         return res.json({
+          code: '400',
           msg: '유저가없거나 인증이 실패하면 에러발생'
         });
       }
       // req.user = member.dataValues;
       res.json({
+        code: '200',
         msg: '인증성공'
         // data: req.user
       });

@@ -33,7 +33,7 @@ const BoardView = ({ history, match }) => {
         console.error(err);
       });
     //
-  });
+  }, []);
   return (
     <>
       <Container>
