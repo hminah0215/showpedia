@@ -91,15 +91,16 @@
 @media screen and (max-width: 1200px) {
   .show-container .show-story-content {
     margin-top: 3rem;
-    padding-top: 3rem;
-    padding-bottom: 3rem;
+    margin-bottom: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
   }
 }
 @media screen and (max-width: 992px) {
   .show-container .show-story-content {
     margin-top: 3rem;
-    padding-top: 3rem;
-    padding-bottom: 3rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
   }
 }
 @media screen and (max-width: 768px) {
@@ -124,7 +125,7 @@
   }
   .show-container .show-content {
     text-align: center;
-    margin-top: 3rem;
+    margin-top: 2rem;
     margin-left: 0rem !important;
     padding-left: 0;
     padding-top: 3rem;
