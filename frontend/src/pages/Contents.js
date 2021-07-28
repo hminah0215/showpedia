@@ -10,6 +10,7 @@ import ShowContainer from '../components/Show/ShowContainer';
 import NotFound from '../components/NotFound/NotFound';
 import CustomModal from '../components/Modal/CustomModal';
 import { useSelector } from 'react-redux';
+import WriteReview from '../components/Reveiw/WriteReview';
 // etc
 
 const Contents = () => {
@@ -21,9 +22,20 @@ const Contents = () => {
   const showId = location.pathname.split('/')[2];
 
   // 모달 온오프를 위한 state
-  const [modal, setModal] = useState(false);
-  const handleClose = () => setModal(false);
-  const handleShow = () => setModal(true);
+  const [modal, setModal] = useState({
+    state: false,
+    option: 'review'
+  });
+  const handleClose = () =>
+    setModal({
+      option: 'review',
+      state: false
+    });
+  const handleShow = () =>
+    setModal({
+      ...modal,
+      state: true
+    });
 
   // 리뷰 리덕스에서 리뷰 상태 가져오기
   const modalReviewData = useSelector((state) => state.review.review);
@@ -34,9 +46,21 @@ const Contents = () => {
       {isFetch ? (
         <>
           {/* 리뷰 클릭 시, 나타나는 모달컴포넌트 */}
-          <CustomModal handleClose={handleClose} show={modal}>
+          <CustomModal handleClose={handleClose} show={modal.state}>
             {/* 모달 안에 들어갈 내용 children */}
-            <ReviewItem style={{ minWidth: '100%', height: '100%' }} review={modalReviewData} />
+            {modal.option === 'review' ? (
+              <>
+                <ReviewItem
+                  style={{ minWidth: '100%', height: '100%' }}
+                  review={modalReviewData}
+                  click
+                />
+              </>
+            ) : (
+              <>
+                <WriteReview></WriteReview>
+              </>
+            )}
           </CustomModal>
 
           {/* 공연 정보 항목 */}
@@ -44,7 +68,7 @@ const Contents = () => {
 
           {/* 리뷰 항목 */}
           <Container className="d-flex align-items-center flex-column">
-            <MyReview showId={showId} handleShow={handleShow} />
+            <MyReview showId={showId} handleShow={handleShow} setModal={setModal} />
             <ReviewContainer showId={showId} handleShow={handleShow} />
           </Container>
         </>

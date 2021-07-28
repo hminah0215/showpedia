@@ -4,28 +4,27 @@ import { useDispatch } from 'react-redux';
 
 // 부트스트랩 icons
 import { HandThumbsUp, ExclamationCircle, PencilSquare } from 'react-bootstrap-icons';
+import { Button } from 'react-bootstrap';
 // css
 import './ReviewItem.css';
 // 참조
 import Stars from '../Stars/Stars';
 
-const ReviewItem = ({ isReviewed, review, style, hover, handleShow }) => {
+const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, click }) => {
   // 리뷰 디스패치
   const reviewDispatch = useDispatch();
 
   // 클릭 시, 해당 리뷰 정보를 리덕스 상태에 저장한다
   const handleClickReview = () => {
+    // 모달에 존재하는 리뷰의 경우 모달을 열지않는다.
+    if (click) return;
     // 리덕스에 해당 리뷰 정보 저장하기
     reviewDispatch(getReview(review));
     handleShow(); // 모달창 열기
   };
 
   return (
-    <div
-      style={style}
-      className={`review m-3 d-flex align-items-center flex-wrap ${hover ? 'hover' : ''}`}
-      onClick={handleClickReview}
-    >
+    <div style={style} className={`review m-3 d-flex align-items-center ${hover ? 'hover' : ''}`}>
       {/* 리뷰 유저정보 */}
       <div className="review-user d-flex flex-column align-items-center">
         <div className="review-user-img img-box">
@@ -48,11 +47,29 @@ const ReviewItem = ({ isReviewed, review, style, hover, handleShow }) => {
             ))}
           </span>
         </div>
-        <div className="review-content flex-grow-1">{review?.reviewContents}</div>
+        <div className="review-content flex-grow-1" onClick={handleClickReview}>
+          {review?.reviewContents}
+        </div>
         {
           // 내 리뷰일 경우 버튼 숨김
           isReviewed ? (
-            <></>
+            <>
+              <Button
+                size="sm"
+                style={{ width: '100px', alignSelf: 'flex-end' }}
+                onClick={() => {
+                  //
+                  console.log('제발 리뷰창 그만!');
+                  reviewDispatch(getReview(review));
+                  setModal({
+                    state: true,
+                    option: 'myReview'
+                  });
+                }}
+              >
+                수정하기
+              </Button>
+            </>
           ) : (
             <div className="review-btns d-flex align-items-center justify-content-end">
               <button className="review-btn">

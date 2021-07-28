@@ -7,7 +7,7 @@ import WriteReview from './WriteReview';
 //etc
 import axios from 'axios';
 
-const MyReview = ({ showId, handleShow }) => {
+const MyReview = ({ showId, handleShow, setModal }) => {
   // 리뷰 작성 창을 위한 state
   const [write, setWrite] = useState(false);
   // 내 리뷰가 존재하는지 판단하는 상태
@@ -23,8 +23,6 @@ const MyReview = ({ showId, handleShow }) => {
     const fetchReview = async () => {
       try {
         const result = await axios.get(URL);
-        // console.log('가져온 리뷰 데이터 정보22', result);
-
         // 리뷰가 없는 상태
         if (result.data.data.length === 0) {
           setIsReviewed(false);
@@ -48,7 +46,7 @@ const MyReview = ({ showId, handleShow }) => {
         isReviewed ? (
           <>
             <h3 className="main-title align-self-baseline">내 리뷰</h3>
-            <ReviewItem isReviewed review={myReview} handleShow={handleShow} />
+            <ReviewItem isReviewed review={myReview} handleShow={handleShow} setModal={setModal} />
           </>
         ) : (
           <>
