@@ -20,6 +20,11 @@ exports.isLoggedIn = (req, res, next) => {
     next();
   } else {
     res.status(403).send('로그인 필요한 상태입니다.');
+    // 로그인 되지 않았으면 되지않았음을 리턴한다
+    // return res.json({
+    //   code: '400',
+    //   msg: '로그인을 진행해주세요'
+    // });
   }
 };
 
@@ -51,12 +56,14 @@ exports.tokenTest = async (req, res, next) => {
     // 유저가 없거나 인증이 실패하면 에러 발생
     if (!member || authError) {
       return res.json({
+        code: '400',
         msg: '유저가없거나 인증이 실패하면 에러발생'
       });
     }
 
     // 토큰인증확인이 끝나면, req.user에 현재 로그인한 멤버 정보를 넘긴다.
     req.user = member.dataValues;
+    // console.log('토큰 미들웨어에서 유저 정보를 가져옵니다.', req.user);
     next();
   })(req, res, next);
 };

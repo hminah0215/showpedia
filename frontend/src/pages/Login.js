@@ -71,7 +71,7 @@ const Login = (props) => {
           <Form.Group className="mb-3" controlId="formBasicEmail" style={{ marginTop: '2rem' }}>
             <Form.Label>이메일</Form.Label>
             <Form.Control
-              type="email"
+              type="text"
               name="memberId"
               value={member.memberId}
               onChange={onChLogin}

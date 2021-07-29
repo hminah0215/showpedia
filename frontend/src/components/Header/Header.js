@@ -28,7 +28,9 @@ const Header = (props) => {
   const onClickHandler = () => {
     // useDispatch와 logout 액션이 두가지 필요하다
     dispatch(logoutUser());
-    props.history.push('/');
+    // props.history.push('/');
+    // [아영-에러코드 수정]
+    history.push('/');
   };
 
   // 검색 조건 모달의 열림/닫힘을 위한 state

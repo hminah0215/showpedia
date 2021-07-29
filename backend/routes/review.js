@@ -3,9 +3,11 @@ const express = require('express');
 const router = express.Router();
 // DB
 const Review = require('../models').Review;
+// 로그인 확인 미들웨어
+const { isLoggedIn, tokenTest } = require('./middleware');
 
 // 리뷰 생성 라우터
-router.post('/', async (req, res) => {
+router.post('/', isLoggedIn, async (req, res) => {
   // 클라이언트에서 리뷰 정보를 가져온다.
   console.log('바디로 넘어오는 모든 것들', req.body);
   const memberId = 'Ayo'; // token 미들웨어에서 전달해준다.
@@ -34,8 +36,17 @@ router.post('/', async (req, res) => {
 });
 
 // 리뷰 수정 라우터
-router.put('/', async (req, res) => {
+router.put('/', isLoggedIn, tokenTest, async (req, res) => {
   // 수정할 리뷰 번호
+  console.log('user로 넘어오는 memberId', req.user.memberId);
+  const memberId = req.user.memberId;
+  // 멤버 아이디가 없을 경우 리뷰 수정 불가
+  if (!memberId) {
+    return res.json({
+      code: '500',
+      msg: '리뷰 수정 실패'
+    });
+  }
   const reviewNo = req.body.reviewNo;
 
   // 수정 상태를 정하는 변수 - 좋아요 / 신고
@@ -45,8 +56,8 @@ router.put('/', async (req, res) => {
   // opt가 report일 경우 reviewReports + 1
   const reviewReports = opt == 'report' ? req.body.reviewReports + 1 : req.body.reviewReports;
 
-  console.log('리뷰 라이크', reviewLikes);
-  console.log('리뷰 리포트', reviewReports);
+  // console.log('리뷰 라이크', reviewLikes);
+  // console.log('리뷰 리포트', reviewReports);
   const review = {
     reviewStars: req.body.reviewStars,
     reviewContents: req.body.reviewContents,
@@ -77,14 +88,19 @@ router.put('/', async (req, res) => {
 });
 
 // 단일 리뷰를 가져오는 라우터
-router.get('/', async (req, res) => {
+// 해당하는 공연id에 작성한 유저 리뷰를 가져온다.
+router.get('/', tokenTest, async (req, res) => {
+  // tokenTest에서 로그인이 되지않은 경우 return
   // 검색 조건을 search 쿼리로 가져온다.
+  console.log('단일 리뷰에서 user id 정보', req.user.memberId);
   const showId = req.query.showId;
 
   // 유저 정보는 백엔드가 해준다.
-  const memberId = 'Ayo'; // token 미들웨어에서 전달해준다.
+  // msg: '유저가없거나 인증이 실패하면 에러발생'
+  const memberId = req.user.memberId; // tokenTest 미들웨어에서 전달해준다.
+
   console.log('검색 조건===', memberId);
-  console.log('showId===', showId);
+  // console.log('showId===', showId);
   try {
     if (memberId) {
       const result = await Review.findOne({
@@ -93,6 +109,14 @@ router.get('/', async (req, res) => {
           showId
         }
       });
+      console.log(result);
+      if (!result) {
+        // 리뷰가 존재하지 않는 경우 - data를 보내지 않는다.
+        res.json({
+          code: '200'
+        });
+      }
+      // 리뷰가 존재하는 경우
       res.json({
         code: '200',
         msg: '단일 리뷰 데이터 조회 완료',
@@ -103,7 +127,7 @@ router.get('/', async (req, res) => {
     console.error(error);
     res.json({
       code: '500',
-      msg: '단일 리뷰 데이터 조회 실패'
+      msg: '리뷰 조회 실패'
     });
   }
 });
