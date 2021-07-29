@@ -38,6 +38,29 @@ router.post('/uploads', upload.single('profilePhoto'), async (req, res) => {
   });
 });
 
+// 민아) 7/29, 아이디 중복체크용 라우터
+router.post('/checkId', async (req, res, next) => {
+  let memberId = req.body.memberId;
+  console.log('아이디체크용', memberId);
+
+  try {
+    // 같은 회원아이디로 가입한 사용자가 있는지 조회
+    const exMember = await Member.findOne({ where: { memberId } });
+    if (exMember) {
+      let checkId = false;
+      console.log('중복된 아이디가 있음! checkId=?', checkId);
+      return res.json({ code: 400, message: '중복된 아이디입니다.', data: checkId });
+    } else {
+      let checkId = true;
+      console.log('중복된 아이디없당!!!  checkId=?', checkId);
+      return res.json({ code: 200, message: '사용가능한 아이디입니다.', data: checkId });
+    }
+  } catch (error) {
+    console.error('아이디중복체크 에러!', error);
+    return next(error);
+  }
+});
+
 // 민아) 7/23 ,회원가입 post 라우터
 // localhost:3005/regist
 router.post('/regist', isNotLoggedIn, async (req, res, next) => {
@@ -54,6 +77,8 @@ router.post('/regist', isNotLoggedIn, async (req, res, next) => {
     if (exMember) {
       // 같은 이메일로 가입한 사용자가 있다면, checkId에 false 값을 담아 보낸다.
       let checkId = false;
+      // console.log('중복된 아이디가 있음!! checkId=?', checkId);
+
       return res.json({ code: 400, message: '중복된 아이디입니다.', data: checkId });
     } else {
       // 같은 이메일로 가입한 사용자가 없다면 , 비밀번호 암호화 후 회원등록
