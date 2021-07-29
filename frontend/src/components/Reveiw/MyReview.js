@@ -7,8 +7,10 @@ import WriteReview from './WriteReview';
 //etc
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 const MyReview = ({ showId, handleShow, setModal }) => {
+  const history = useHistory();
   // 리뷰 작성 창을 위한 state
   const [write, setWrite] = useState(false);
   // 내 리뷰가 존재하는지 판단하는 state
@@ -20,16 +22,33 @@ const MyReview = ({ showId, handleShow, setModal }) => {
 
   // 내 리뷰가 존재하는지 판단하기 위해서 첫 렌더링 시, 내 리뷰가 있다면 찾아온다.
   useEffect(() => {
+    console.log('마이 리뷰 렌더링 시작');
     // memberId는 백엔드에서 판단 가능
     const URL = `http://localhost:3005/review?showId=${showId}`;
-
+    // 아이디는 서버에서 임의로 설정중
     const fetchReview = async () => {
       try {
         const result = await axios.get(URL);
         // 리뷰가 없는 상태
-        if (result.data.data.length === 0) {
+        // 개인 리뷰를 가져오는 데 실패한 경우
+
+        // 1.로그인 상태가 아님 => tokenTest 미들웨어에서 code 400
+        // code가 200이 아닌 경우 - 로그인 인증 실패
+        if (result.data.code !== '200') {
+          console.log('여기가 지금 진행되나요?');
           setIsReviewed(false);
+          setMyReview({ msg: '로그인을 진행해주세요..' });
+          return;
         }
+
+        // 2. 로그인 상태지만 리뷰가 없음 백엔드에서 data에 문자열을 보낸다
+        // code는 200 이지만 데이터가 없는 경우
+        if (typeof result.data.data === 'string') {
+          setMyReview({});
+          setIsReviewed(false);
+          return;
+        }
+        // 개인 리뷰가 존재하는 경우
         setMyReview(result.data.data);
         setIsReviewed(true);
         return;
@@ -66,10 +85,13 @@ const MyReview = ({ showId, handleShow, setModal }) => {
                   <button
                     className="review-btn--write m-4"
                     onClick={() => {
+                      if (myReview.msg) history.push('/login');
                       setWrite(true);
                     }}
                   >
-                    아직 리뷰를 작성하지 않았어요! 리뷰를 작성해 볼까요? (click)
+                    {myReview.msg
+                      ? myReview.msg
+                      : '아직 리뷰를 작성하지 않았어요! 리뷰를 작성해 볼까요? (click)'}
                   </button>
                 </>
               )

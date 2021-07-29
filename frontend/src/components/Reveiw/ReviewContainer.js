@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Button } from 'react-bootstrap';
 import ReviewItem from './ReviewItem';
+import { getReviewList } from '../../redux/review';
+
 // etc
 import axios from 'axios';
 import NotFound from '../NotFound/NotFound';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 const ReviewContainer = ({ showId, hover, handleShow }) => {
-  // 리뷰 리스트를 담을 state
-  const [reviewList, setReviewList] = useState([]);
+  // 리뷰 리스트를 담을 state를 리덕스로 옮기겠습니다.
+  // const [reviewList, setReviewList] = useState([]);
+  const reviewList = useSelector((state) => state.review.reviewList);
+
   // 리뷰가 없을 경우를 판단하는 state
   const [hasReview, setHasReview] = useState({
     has: true,
@@ -18,6 +22,7 @@ const ReviewContainer = ({ showId, hover, handleShow }) => {
   const [addReview, setAddReview] = useState(2);
   // 리뷰 체인지
   // const [like, setLike] = useState(false);
+  const reviewDispatch = useDispatch();
   const reRender = useSelector((state) => state.review.rerender);
 
   // 첫 렌더링 때, 해당 공연id에 맞는 리뷰를 가져온다.
@@ -26,7 +31,7 @@ const ReviewContainer = ({ showId, hover, handleShow }) => {
     const fetchReviewList = async () => {
       try {
         const result = await axios.get(URL);
-        // console.log('가져온 리뷰 데이터 정보', result);
+        // console.log('가져온 리뷰 리스트 정보', result);
         if (result.status === 500) {
           setHasReview({
             has: false,
@@ -41,7 +46,8 @@ const ReviewContainer = ({ showId, hover, handleShow }) => {
             has: false
           });
         }
-        setReviewList(result.data.data);
+        // setReviewList(result.data.data);
+        reviewDispatch(getReviewList(result.data.data));
         return;
 
         // 에러 처리
@@ -54,6 +60,7 @@ const ReviewContainer = ({ showId, hover, handleShow }) => {
       }
     };
     fetchReviewList();
+    // console.log('리뷰있어?', hasReview);
   }, [reRender]);
 
   // 클릭 시, 리뷰를 더 가져오는 이벤트 핸들러
@@ -76,7 +83,11 @@ const ReviewContainer = ({ showId, hover, handleShow }) => {
             has: false
           });
         }
-        setReviewList(result.data.data);
+        // setReviewList(result.data.data);
+        reviewDispatch(getReviewList(result.data.data));
+        setHasReview({
+          has: true
+        });
         return;
 
         // 에러 처리

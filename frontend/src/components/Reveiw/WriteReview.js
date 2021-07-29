@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { reRenderReview } from '../../redux/review';
 import { useLocation } from 'react-router-dom';
 // 부트스트랩
@@ -28,7 +28,8 @@ const WriteReview = ({ handleClose, setIsReviewed, modify }) => {
     reviewContents: modify ? modify.reviewContents : '',
     // memberId: 'Ayo', // 서버에서 임의로 지정중
     showId: showId,
-    reviewNo: modify ? modify.reviewNo : ''
+    reviewNo: modify ? modify.reviewNo : '',
+    memberId: modify ? modify.memberId : ''
   });
 
   // input change 핸들러
@@ -53,18 +54,24 @@ const WriteReview = ({ handleClose, setIsReviewed, modify }) => {
     // 리뷰  수정
     // 만약 modify가 존재한다면, 새로 리뷰를 작성하는 것이 아닌 리뷰를 수정한다
     if (modify) {
+      // 수정모드
       console.log('수정을 위한 리뷰값 ', review);
       try {
         const result = await axios.put(URL, review);
-
-        if (result.status === 200) {
+        console.log('테스트 로그', result);
+        // 리뷰 수정에 성공한 경우
+        if (result.data.code === '200') {
           // window.location.replace(`/contents/${showId}`);
           handleClose();
           // 리렌더링
           reviewDispatch(reRenderReview());
           return;
         }
-        // 리뷰 작성 후, 이동하기
+        // 리뷰 수정에 실패한 경우
+        else {
+          alert('리뷰 수정에 실패했습니다. 다시 시도해주세요.');
+          handleClose();
+        }
       } catch (error) {
         alert('리뷰 작성에 실패했습니다.');
         console.log(error);
@@ -78,7 +85,9 @@ const WriteReview = ({ handleClose, setIsReviewed, modify }) => {
         if (result.status === 200) {
           setIsReviewed(true);
           // 리뷰를 저장했다면 페이지를 새로 고친다.
-          window.location.replace(`/contents/${showId}`);
+          // window.location.replace(`/contents/${showId}`);
+          // 새로고치는게 아니라 리렌더링을 한다.
+          reviewDispatch(reRenderReview());
           return;
         }
         // 리뷰 작성 후, 이동하기
@@ -101,7 +110,10 @@ const WriteReview = ({ handleClose, setIsReviewed, modify }) => {
 
         if (result.status === 200) {
           // 리뷰를 저장했다면 페이지를 새로 고친다.
-          window.location.replace(`/contents/${showId}`);
+          // window.location.replace(`/contents/${showId}`);
+          // 새로고침이 아니라 리렌더링을 한다.
+          handleClose();
+          reviewDispatch(reRenderReview());
           return;
         }
         // 리뷰 작성 후, 이동하기
