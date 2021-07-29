@@ -1,25 +1,14 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button, Container, Form } from 'react-bootstrap';
-// import { CKEditor } from '@ckeditor/ckeditor5-react';
-// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-// import CKFinder from '@ckeditor/ckeditor5-ckfinder/src/ckfinder';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CKFinder from '@ckeditor/ckeditor5-ckfinder/src/ckfinder';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
 // 민아) 7/27, 게시글 등록 - ckEditor 사용
 const BoardRegist = () => {
   const history = useHistory();
-
-  // 에디터에 입력한 내용
-  const [editorContents, setEditorContents] = useState('');
-
-  // 에디터 글 onChange
-  const onChangeContents = (boardContents) => {
-    setEditorContents(boardContents);
-    console.log(boardContents);
-  };
 
   // 단일 게시글 정보 구조 정의 및 초기화
   const [board, setBoard] = useState({
@@ -33,45 +22,21 @@ const BoardRegist = () => {
   // board 내용을 복사해서 그 안의 name 이름의 키의 값을 value로 바꿔 저장!
   // 리액트에서는 값을 직접 수정하면 안되고 이렇게 복사해서 수정하는 방식을 이용한다.
   const onChangeRegist = (e) => {
-    // const { name, value } = e.target;
-    setBoard({ ...board, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setBoard({ ...board, [name]: value });
     console.log(board);
   };
 
-  const modules = useEffect(
-    () => ({
-      toolbar: {
-        container: [
-          [{ header: [1, 2, false] }],
-          ['bold', 'italic', 'underline'],
-          [{ list: 'ordered' }, { list: 'bullet' }],
-          ['link', 'image']
-        ],
-        handlers: {
-          // imgUrl: imageUrlHandler,
-          // image: imageHandler
-        }
-      }
-    }),
-    []
-  );
-
   // 게시글 등록버튼
   const onSave = () => {
-    let newBoard = {
-      boardTitle: board.boardTitle,
-      boardCategory: board.boardCategory,
-      boardContents: editorContents
-      // memberId:board.memberId
-    };
-    if (newBoard.boardTitle.length === 0 || newBoard.boardContents.length === 0) {
+    if (board.boardTitle.length === 0 || board.boardContents.length === 0) {
       alert('게시글 제목과 내용을 입력해주세요!');
       return false;
     }
 
     // axios post
     axios
-      .post('http://localhost:3005/board/regist', newBoard)
+      .post('http://localhost:3005/board/regist', board)
       .then((result) => {
         console.log('게시글등록===>', result);
 
@@ -122,17 +87,23 @@ const BoardRegist = () => {
           <option value="together">같이가요</option>
         </Form.Select>
       </Form>
-      <ReactQuill
-        name="boardContents"
-        theme="snow"
-        modules={modules}
-        value={editorContents}
-        style={{ height: '500px' }}
-        placeholder={'플레이스 홀더임'}
-        onChange={onChangeContents}
+      <CKEditor
+        plugins={CKFinder}
+        editor={ClassicEditor}
+        data="<p>바른말 고운말을 씁시다! 이 글은 지우고 작성하시면 됩니다.</p>"
+        onReady={(editor) => {
+          // You can store the "editor" and use when it is needed.
+          console.log('Editor is ready to use!', editor);
+        }}
+        onChange={(event, editor) => {
+          const data = editor.getData();
+          console.log({ event, editor, data });
+          // 에디터에 쓴 글은 data에 저장되기때문에 여기서 처리해준다.
+          setBoard({ ...board, boardContents: data });
+          console.log('에디터=>', board);
+        }}
       />
-      <br />
-      <Button style={{ marginTop: '2rem', width: '20%' }} onClick={onSave}>
+      <Button style={{ marginTop: '1rem', width: '20%' }} onClick={onSave}>
         등록
       </Button>
     </Container>
