@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { reRenderReview } from '../../redux/review';
 import { useLocation } from 'react-router-dom';
 // 부트스트랩
@@ -85,7 +85,9 @@ const WriteReview = ({ handleClose, setIsReviewed, modify }) => {
         if (result.status === 200) {
           setIsReviewed(true);
           // 리뷰를 저장했다면 페이지를 새로 고친다.
-          window.location.replace(`/contents/${showId}`);
+          // window.location.replace(`/contents/${showId}`);
+          // 새로고치는게 아니라 리렌더링을 한다.
+          reviewDispatch(reRenderReview());
           return;
         }
         // 리뷰 작성 후, 이동하기
@@ -108,7 +110,10 @@ const WriteReview = ({ handleClose, setIsReviewed, modify }) => {
 
         if (result.status === 200) {
           // 리뷰를 저장했다면 페이지를 새로 고친다.
-          window.location.replace(`/contents/${showId}`);
+          // window.location.replace(`/contents/${showId}`);
+          // 새로고침이 아니라 리렌더링을 한다.
+          handleClose();
+          reviewDispatch(reRenderReview());
           return;
         }
         // 리뷰 작성 후, 이동하기

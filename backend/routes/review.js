@@ -42,19 +42,20 @@ router.put('/', tokenTest, async (req, res) => {
   // console.log('user로 넘어오는 memberId', req.user.memberId);
   const memberId = req.user.memberId; // tokenTest가 보내주는 memberId
   const reviewNo = req.body.reviewNo; // 수정할 리뷰의 No
+  // 리뷰 수정 상태를 정하는 변수 - 좋아요 / 신고
+  const opt = req.body.opt;
   // 클라이언트에서 넘어오는 해당 리뷰의 멤버아이디
   // console.log('수정 시 넘어오는 바디', req.body.memberId);
 
   // 토큰 인증 멤버 아이디와 클라이언트에서 전송한 해당 리뷰의 멤버아이디가 다를 경우 수정 불가
-  if (memberId !== req.body.memberId) {
+  // opt가 있는 경우는 id와 상관없음.
+  if (!opt && memberId !== req.body.memberId) {
     return res.json({
       code: '500',
       msg: '다시 로그인을 진행해주세요'
     });
   }
 
-  // 리뷰 수정 상태를 정하는 변수 - 좋아요 / 신고
-  const opt = req.body.opt;
   // opt가 like 일 경우 reviewLikes + 1
   const reviewLikes = opt == 'like' ? req.body.reviewLikes + 1 : req.body.reviewLikes;
   // opt가 report일 경우 reviewReports + 1

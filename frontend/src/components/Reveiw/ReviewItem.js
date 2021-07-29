@@ -55,7 +55,7 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
     const URL = `http://localhost:3005/review`;
     try {
       const result = await axios.put(URL, { ...review, opt: 'like' });
-      console.log('좋아요 버튼 클릭', result);
+      // console.log('좋아요 버튼 클릭', result);
 
       // 로그인 상태가 아닐 경우 & 리뷰 수정에 실패할 경우
       if (result.data.code !== '200') {

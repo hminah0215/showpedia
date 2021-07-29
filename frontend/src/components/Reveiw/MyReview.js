@@ -30,16 +30,16 @@ const MyReview = ({ showId, handleShow, setModal }) => {
         const result = await axios.get(URL);
         // 리뷰가 없는 상태
         // 개인 리뷰를 가져오는 데 실패한 경우
-        // 로그인이 되지않았다면 백엔드 서버에서 data를 넘겨주지 않는다.
-        // 1. 로그인 상태지만 리뷰가 없음 => data가 null
-        // 2. 로그인 상태가 아님 => tokenTest 미들웨어에서 code 400
-        console.log('왜 로그인 진행해달라고 뜨냐>', result.data);
+
+        // 1.로그인 상태가 아님 => tokenTest 미들웨어에서 code 400
         // code가 200이 아닌 경우 - 로그인 인증 실패
         if (result.data.code !== '200') {
           setIsReviewed(false);
           setMyReview({ msg: '로그인을 진행해주세요..' });
           return;
         }
+
+        // 2. 로그인 상태지만 리뷰가 없음 => data가 null
         // code는 200 이지만 데이터가 없는 경우
         if (!result.data.data) {
           setIsReviewed(false);
