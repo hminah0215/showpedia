@@ -7,10 +7,11 @@ const Review = require('../models').Review;
 const { isLoggedIn, tokenTest } = require('./middleware');
 
 // 리뷰 생성 라우터
-router.post('/', isLoggedIn, async (req, res) => {
+router.post('/', isLoggedIn, tokenTest, async (req, res) => {
   // 클라이언트에서 리뷰 정보를 가져온다.
   console.log('바디로 넘어오는 모든 것들', req.body);
-  const memberId = 'Ayo'; // token 미들웨어에서 전달해준다.
+  const memberId = req.user.memberId; // token 미들웨어에서 전달해준다.
+
   const review = {
     reviewStars: req.body.reviewStars,
     reviewContents: req.body.reviewContents,
@@ -35,29 +36,32 @@ router.post('/', isLoggedIn, async (req, res) => {
   }
 });
 
-// 리뷰 수정 라우터
-router.put('/', isLoggedIn, tokenTest, async (req, res) => {
+// 리뷰 수정 라우터 - 로그인한 사람만 좋아요/싫어요/수정가능
+router.put('/', tokenTest, async (req, res) => {
   // 수정할 리뷰 번호
-  console.log('user로 넘어오는 memberId', req.user.memberId);
-  const memberId = req.user.memberId;
-  // 멤버 아이디가 없을 경우 리뷰 수정 불가
-  if (!memberId) {
+  // console.log('user로 넘어오는 memberId', req.user.memberId);
+  const memberId = req.user.memberId; // tokenTest가 보내주는 memberId
+  const reviewNo = req.body.reviewNo; // 수정할 리뷰의 No
+  // 클라이언트에서 넘어오는 해당 리뷰의 멤버아이디
+  // console.log('수정 시 넘어오는 바디', req.body.memberId);
+
+  // 토큰 인증 멤버 아이디와 클라이언트에서 전송한 해당 리뷰의 멤버아이디가 다를 경우 수정 불가
+  if (memberId !== req.body.memberId) {
     return res.json({
       code: '500',
-      msg: '리뷰 수정 실패'
+      msg: '다시 로그인을 진행해주세요'
     });
   }
-  const reviewNo = req.body.reviewNo;
 
-  // 수정 상태를 정하는 변수 - 좋아요 / 신고
+  // 리뷰 수정 상태를 정하는 변수 - 좋아요 / 신고
   const opt = req.body.opt;
   // opt가 like 일 경우 reviewLikes + 1
   const reviewLikes = opt == 'like' ? req.body.reviewLikes + 1 : req.body.reviewLikes;
   // opt가 report일 경우 reviewReports + 1
   const reviewReports = opt == 'report' ? req.body.reviewReports + 1 : req.body.reviewReports;
-
   // console.log('리뷰 라이크', reviewLikes);
   // console.log('리뷰 리포트', reviewReports);
+
   const review = {
     reviewStars: req.body.reviewStars,
     reviewContents: req.body.reviewContents,
@@ -65,7 +69,6 @@ router.put('/', isLoggedIn, tokenTest, async (req, res) => {
     reviewReports
   };
 
-  console.log('수정할 데이터', review);
   // DB와 통신
   try {
     const result = await Review.update(review, {
@@ -109,7 +112,7 @@ router.get('/', tokenTest, async (req, res) => {
           showId
         }
       });
-      console.log(result);
+      // console.log(result);
       if (!result) {
         // 리뷰가 존재하지 않는 경우 - data를 보내지 않는다.
         res.json({
@@ -133,7 +136,7 @@ router.get('/', tokenTest, async (req, res) => {
 });
 
 // 단일 리뷰 삭제 하는 라우터
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', isLoggedIn, async (req, res) => {
   // 리뷰id 가져오기
   const reviewNo = req.params.id;
   console.log('==reviewNo==', reviewNo);

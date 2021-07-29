@@ -55,7 +55,16 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
     const URL = `http://localhost:3005/review`;
     try {
       const result = await axios.put(URL, { ...review, opt: 'like' });
-      if (result.status === 200) {
+      console.log('좋아요 버튼 클릭', result);
+
+      // 로그인 상태가 아닐 경우 & 리뷰 수정에 실패할 경우
+      if (result.data.code !== '200') {
+        alert('로그인을 해주세요!');
+        return;
+      }
+
+      // 수정에 성공한 경우
+      if (result.data.code === '200') {
         // 모달에 보여지는 리뷰값 다시 설정
         reviewDispatch(setReview({ ...review, reviewLikes: review.reviewLikes + 1 }));
         reviewDispatch(reRenderReview()); // 리렌더 상태 변경
@@ -76,7 +85,14 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
     if (window.confirm('신고하시겠습니까?')) {
       try {
         const result = await axios.put(URL, { ...review, opt: 'report' });
-        if (result.status === 200) {
+
+        // 로그인 여부
+        if (result.data.code !== '200') {
+          alert('로그인을 해주세요!');
+          return;
+        }
+        // 백엔드 통신 성공
+        if (result.data.code === '200') {
           alert('신고 완료');
           // 리렌더링을 위한 상태
           reviewDispatch(reRenderReview()); // 리렌더 상태 변경
