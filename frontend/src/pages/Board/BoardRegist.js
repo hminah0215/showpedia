@@ -1,14 +1,15 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Button, Container, Form } from 'react-bootstrap';
-// import { CKEditor } from '@ckeditor/ckeditor5-react';
-// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-// import CKFinder from '@ckeditor/ckeditor5-ckfinder/src/ckfinder';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import ImageUploader from 'quill.imageUploader.js';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
-// 민아) 7/27, 게시글 등록 - ckEditor 사용
+ReactQuill.register('modules/imageUploader', ImageUploader);
+
+// ReactQuill.register('modules/imageUploader', ImageUploader);
+// 민아) 7/27, 게시글 등록
 const BoardRegist = () => {
   const history = useHistory();
 
@@ -38,23 +39,82 @@ const BoardRegist = () => {
     console.log(board);
   };
 
-  const modules = useEffect(
+  // 이미지제어
+  // const imageHandler = () => {
+  //   this.quillEditor = this.quillRef.getEditor();
+  //   // input file 태그를 만든다.
+  //   const input = document.createElement('input');
+  //   input.setAttribute('type', 'file');
+  //   input.setAttribute('accept', 'image/*');
+  //   input.click();
+  //   input.onchange = async function () {
+  //     const file = input.files[0];
+  //     console.log('업로드하려는 이미지:', file);
+
+  //     const formData = new FormData();
+  //   };
+
+  // 에디터 툴바 모듈과 포맷
+  // const modules = {
+  //   toolbar: {
+  //     container: [
+  //       [{ header: [1, 2, false] }],
+  //       ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+  //       [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
+  //       ['link', 'image'],
+  //       ['clean']
+  //     ]
+  //   }
+  // };
+  // };
+  // useMemo 사용해야 툴바가 정한대로 나온다.
+  const modules = useMemo(
     () => ({
       toolbar: {
         container: [
           [{ header: [1, 2, false] }],
-          ['bold', 'italic', 'underline'],
-          [{ list: 'ordered' }, { list: 'bullet' }],
-          ['link', 'image']
+          ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+          [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
+          ['link', 'image'],
+          ['clean']
         ],
-        handlers: {
-          // imgUrl: imageUrlHandler,
-          // image: imageHandler
+        ImageUploader: {
+          upload: async (file) => {
+            const bodyFormData = new FormData();
+            bodyFormData.append('image', file);
+            //본문에 이미지가 <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMTEhUSExMVFRUXFhcWF
+            // 이런식으로 글로 등록됨
+            console.log('bodyFormData', bodyFormData);
+            const response = await axios({
+              method: 'post',
+              url: "'http://localhost:3005/board/uploads",
+              data: bodyFormData,
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+            });
+            console.log('이미지업로드 axios', response);
+            return response.data.data.url;
+          }
         }
       }
     }),
     []
   );
+
+  const formats = [
+    'header',
+    'bold',
+    'italic',
+    'underline',
+    'strike',
+    'blockquote',
+    'list',
+    'bullet',
+    'indent',
+    'link',
+    'image'
+  ];
 
   // 게시글 등록버튼
   const onSave = () => {
@@ -124,8 +184,8 @@ const BoardRegist = () => {
       </Form>
       <ReactQuill
         name="boardContents"
-        theme="snow"
         modules={modules}
+        formats={formats}
         value={editorContents}
         style={{ height: '500px' }}
         placeholder={'플레이스 홀더임'}

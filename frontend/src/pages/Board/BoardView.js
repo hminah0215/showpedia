@@ -11,7 +11,7 @@ const BoardView = ({ history, match }) => {
   // const { boardNo } = match.params;
   // 게시글 번호를 url에서 가져온다.
   let location = useLocation();
-  const boardNo = location.pathname.split('/')[2];
+  const boardNo = location.pathname.split('/')[3];
 
   console.log('조회할게시글번호', boardNo);
 

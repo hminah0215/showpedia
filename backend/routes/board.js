@@ -1,8 +1,38 @@
 const express = require('express');
+const multer = require('multer');
 const { Board } = require('../models/');
 const { isLoggedIn, tokenTest } = require('./middleware');
 
 const router = express.Router();
+
+// 민아) 7/29, 멀터패키지 사용, 파일명 저장 옵션 설정
+const storage = multer.diskStorage({
+  // 저장 경로 설정
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  // 파일명 설정, 중복되지 않게 파일명 생성
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}_${file.originalname}`);
+  }
+});
+const upload = multer({ storage: storage });
+
+// 민아) 7/29, 게시글에 첨부되는 이미지 파일 처리
+// 게시글 이미지 테이블에는 boardImageFileName, boardImageFilePath, boardNo 컬럼이 있음
+// upload.array('파일전부를 배열형태로전달받음', 5 ) 숫자는 몇개의 이미지까지 허용인지
+router.post('/uploads', upload.array('boardImageFileName', 5), async (req, res) => {
+  const uploadedFile = req.file;
+  console.log('게시글에 업로드된 파일정보: ', uploadedFile);
+
+  let filepath = '/uploads/' + uploadedFile.filename;
+
+  return res.json({
+    success: true,
+    message: '게시글 이미지가 등록되었습니다.',
+    filepath: filepath
+  });
+});
 
 // 민아) 7/26, 게시글 전체목록 get 라우터
 // localhost:3005/board/list?page=1&boardCategory=free
@@ -44,7 +74,7 @@ router.get('/list', async (req, res, next) => {
 // 민아) 7/26, 게시글 등록 post 라우터  -> 에디터는 ck에디터5 쓰고있음
 // localhost:3005/board/boardRegist.html
 // router.post('/regist', isLoggedIn, tokenTest, async (req, res) => {
-router.post('/regist', isLoggedIn, async (req, res) => {
+router.post('/regist', tokenTest, isLoggedIn, async (req, res) => {
   // isLoggedIn 미들웨어로 쿠키가 없는 사용자는 로그인 필요함을 나타낸다.
 
   // tokenTest 미들웨어를 거쳐, 인증이 완료된 회원의 memberId를 같이 넘긴다.

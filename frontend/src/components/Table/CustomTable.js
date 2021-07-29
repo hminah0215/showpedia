@@ -2,7 +2,7 @@ import React from 'react';
 import { Table } from 'react-bootstrap';
 
 // 민아) 7/27, 게시글 목록 + 상세보기 페이지 이동
-const CustomTab = ({ boardList }) => {
+const CustomTable = ({ boardList }) => {
   // console.log('boardList?', boardList);
 
   return (
@@ -22,7 +22,7 @@ const CustomTab = ({ boardList }) => {
           <tr key={item.boardNo}>
             <td>{item.boardNo}</td>
             <td>
-              <a href={`/board/${item.boardNo}`}>{item.boardTitle}</a>
+              <a href={`/board/view/${item.boardNo}`}>{item.boardTitle}</a>
             </td>
             <td>{item.boardCategory}</td>
             <td>{item.memberId}</td>
@@ -35,4 +35,4 @@ const CustomTab = ({ boardList }) => {
   );
 };
 
-export default CustomTab;
+export default CustomTable;
