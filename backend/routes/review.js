@@ -7,7 +7,7 @@ const Review = require('../models').Review;
 const { isLoggedIn, tokenTest } = require('./middleware');
 
 // 리뷰 생성 라우터
-router.post('/', isLoggedIn, tokenTest, async (req, res) => {
+router.post('/', tokenTest, isLoggedIn, async (req, res) => {
   // 클라이언트에서 리뷰 정보를 가져온다.
   console.log('바디로 넘어오는 모든 것들', req.body);
   const memberId = req.user.memberId; // token 미들웨어에서 전달해준다.
@@ -22,14 +22,14 @@ router.post('/', isLoggedIn, tokenTest, async (req, res) => {
   // 데이터를 저장한다.
   try {
     const result = await Review.create(review);
-    res.json({
+    return res.json({
       code: '200',
       data: result,
       msg: '리뷰 등록 성공'
     });
   } catch (error) {
     console.error(error);
-    res.json({
+    return res.json({
       code: '500',
       msg: '리뷰 등록 실패'
     });
@@ -37,7 +37,7 @@ router.post('/', isLoggedIn, tokenTest, async (req, res) => {
 });
 
 // 리뷰 수정 라우터 - 로그인한 사람만 좋아요/싫어요/수정가능
-router.put('/', tokenTest, async (req, res) => {
+router.put('/', tokenTest, isLoggedIn, async (req, res) => {
   // 수정할 리뷰 번호
   // console.log('user로 넘어오는 memberId', req.user.memberId);
   const memberId = req.user.memberId; // tokenTest가 보내주는 memberId
@@ -85,14 +85,14 @@ router.put('/', tokenTest, async (req, res) => {
         reviewNo
       }
     });
-    res.json({
+    return res.json({
       code: '200',
       data: result,
       msg: '리뷰 수정 성공'
     });
   } catch (error) {
     console.error(error);
-    res.json({
+    return res.json({
       code: '500',
       msg: '리뷰 수정 실패'
     });
@@ -101,7 +101,7 @@ router.put('/', tokenTest, async (req, res) => {
 
 // 단일 리뷰를 가져오는 라우터
 // 해당하는 공연id에 작성한 유저 리뷰를 가져온다.
-router.get('/', tokenTest, async (req, res) => {
+router.get('/', tokenTest, isLoggedIn, async (req, res) => {
   // tokenTest에서 로그인이 되지않은 경우 return
   // 검색 조건을 search 쿼리로 가져온다.
   console.log('단일 리뷰에서 user id 정보', req.user.memberId);
@@ -124,13 +124,13 @@ router.get('/', tokenTest, async (req, res) => {
       // console.log(result);
       if (!result) {
         // 리뷰가 존재하지 않는 경우
-        res.json({
+        return res.json({
           code: '200',
           data: 'no' // 존재하지않는 경우, string을 보낸다.
         });
       }
       // 리뷰가 존재하는 경우
-      res.json({
+      return res.json({
         code: '200',
         msg: '단일 리뷰 데이터 조회 완료',
         data: result
@@ -138,7 +138,7 @@ router.get('/', tokenTest, async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.json({
+    return res.json({
       code: '500',
       msg: '리뷰 조회 실패'
     });
@@ -146,7 +146,7 @@ router.get('/', tokenTest, async (req, res) => {
 });
 
 // 단일 리뷰 삭제 하는 라우터
-router.delete('/:id', isLoggedIn, async (req, res) => {
+router.delete('/:id', tokenTest, isLoggedIn, async (req, res) => {
   // 리뷰id 가져오기
   const reviewNo = req.params.id;
   console.log('==reviewNo==', reviewNo);
@@ -157,14 +157,14 @@ router.delete('/:id', isLoggedIn, async (req, res) => {
         reviewNo
       }
     });
-    res.json({
+    return res.json({
       code: '200',
       msg: '단일 리뷰 데이터 조회 완료',
       data: result
     });
   } catch (error) {
     console.error(error);
-    res.json({
+    return res.json({
       code: '500',
       msg: '단일 리뷰 데이터 조회 실패'
     });
@@ -191,14 +191,14 @@ router.get('/reviewlist/:id', async (req, res) => {
       order: [['reviewLikes', 'DESC']],
       limit: 5 * page
     });
-    res.json({
+    return res.json({
       code: '200',
       data: result,
       msg: '데이터 조회 완료'
     });
   } catch (error) {
     console.error(error);
-    res.json({
+    return res.json({
       code: '500',
       msg: '데이터 조회 오류'
     });

@@ -140,7 +140,8 @@ router.post('/login', isNotLoggedIn, async (req, res, next) => {
 // 민아) 7/23, 로그아웃 get 라우터
 // localhost:3005/logout
 
-router.get('/logout', isLoggedIn, (req, res) => {
+// router.get('/logout', isLoggedIn, (req, res) => {
+router.get('/logout', (req, res) => {
   console.log('req.isAuthenticated()', req.isAuthenticated());
 
   var cookielog = req.cookies;
