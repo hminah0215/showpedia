@@ -123,9 +123,10 @@ router.get('/', tokenTest, async (req, res) => {
       });
       // console.log(result);
       if (!result) {
-        // 리뷰가 존재하지 않는 경우 - data를 보내지 않는다.
+        // 리뷰가 존재하지 않는 경우
         res.json({
-          code: '200'
+          code: '200',
+          data: 'no' // 존재하지않는 경우, string을 보낸다.
         });
       }
       // 리뷰가 존재하는 경우

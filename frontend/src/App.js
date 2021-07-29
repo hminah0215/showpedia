@@ -51,8 +51,8 @@ function App() {
       }
     });
 
-    // 리뷰를 리렌더링 하기?
-    dispatch(reRenderReview());
+    // // 리뷰를 리렌더링 하기?
+    // dispatch(reRenderReview());
   }, [loginSuccess]);
 
   return (

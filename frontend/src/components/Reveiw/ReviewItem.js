@@ -1,6 +1,6 @@
 import React from 'react';
 import { setReview, reRenderReview } from '../../redux/review'; // 액션 생성함수
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 // 부트스트랩 icons
 import { HandThumbsUp, ExclamationCircle } from 'react-bootstrap-icons';
@@ -24,6 +24,7 @@ import axios from 'axios';
 const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, click }) => {
   // 리뷰 디스패치
   const reviewDispatch = useDispatch();
+  const isLogin = useSelector((state) => state.auth.isLogin);
 
   // 리뷰 컨텐츠를 클릭 시, 해당 리뷰 정보를 리덕스 상태에 저장한다
   const handleClickReview = () => {
@@ -53,14 +54,15 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
     // console.log(review.reviewLikes);
     // db 수정하기
     const URL = `http://localhost:3005/review`;
+    if (!isLogin) return alert('로그인을 해주세요!');
+
     try {
       const result = await axios.put(URL, { ...review, opt: 'like' });
       // console.log('좋아요 버튼 클릭', result);
-
       // 로그인 상태가 아닐 경우 & 리뷰 수정에 실패할 경우
       if (result.data.code !== '200') {
         if (result.data.code === '400') {
-          return alert('자기 리뷰에는 좋아요를 할 수없습니다.');
+          return alert('자기 리뷰에는 좋아요를 할 수 없습니다.');
         }
         alert('로그인을 해주세요!');
         return;
@@ -85,6 +87,7 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
     console.log('신고 클릭');
     // db 수정하기
     const URL = `http://localhost:3005/review`;
+    if (!isLogin) return alert('로그인을 해주세요!');
     if (window.confirm('신고하시겠습니까?')) {
       try {
         const result = await axios.put(URL, { ...review, opt: 'report' });

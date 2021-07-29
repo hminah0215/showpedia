@@ -22,6 +22,7 @@ const MyReview = ({ showId, handleShow, setModal }) => {
 
   // 내 리뷰가 존재하는지 판단하기 위해서 첫 렌더링 시, 내 리뷰가 있다면 찾아온다.
   useEffect(() => {
+    console.log('마이 리뷰 렌더링 시작');
     // memberId는 백엔드에서 판단 가능
     const URL = `http://localhost:3005/review?showId=${showId}`;
     // 아이디는 서버에서 임의로 설정중
@@ -34,14 +35,16 @@ const MyReview = ({ showId, handleShow, setModal }) => {
         // 1.로그인 상태가 아님 => tokenTest 미들웨어에서 code 400
         // code가 200이 아닌 경우 - 로그인 인증 실패
         if (result.data.code !== '200') {
+          console.log('여기가 지금 진행되나요?');
           setIsReviewed(false);
           setMyReview({ msg: '로그인을 진행해주세요..' });
           return;
         }
 
-        // 2. 로그인 상태지만 리뷰가 없음 => data가 null
+        // 2. 로그인 상태지만 리뷰가 없음 백엔드에서 data에 문자열을 보낸다
         // code는 200 이지만 데이터가 없는 경우
-        if (!result.data.data) {
+        if (typeof result.data.data === 'string') {
+          setMyReview({});
           setIsReviewed(false);
           return;
         }
