@@ -8,7 +8,7 @@ exports.isLoggedIn = (req, res, next) => {
   // 쿠키에 있는 member값을 req객체의 user에 담고 있으면 login상태, 없으면 로그인필요
 
   // req객체에 isAuthenticated 메서드를 추가, 로그인 중이면 true!
-  req.user = req.cookies.member ? 'login' : '';
+  // req.user = req.cookies.member ? 'login' : '';
 
   // console.log('req.user가 있는가?', req.cookies.member);
   console.log('req.user는?', req.user); // true, false 반환
@@ -19,7 +19,12 @@ exports.isLoggedIn = (req, res, next) => {
     console.log('isLoggedIn에서의 isAuth 로그인 성공 if문', req.isAuthenticated());
     next();
   } else {
-    res.status(403).send('로그인 필요한 상태입니다.');
+    // res.status(403).send('로그인 필요한 상태입니다.');
+    // 로그인 되지 않았으면 되지않았음을 리턴한다
+    return res.json({
+      code: '400',
+      msg: '유저가없거나 인증이 실패하면 에러발생'
+    });
   }
 };
 
