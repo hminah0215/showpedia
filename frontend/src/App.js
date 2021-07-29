@@ -26,16 +26,7 @@ function App() {
   // useDispatch를 사용해서 로그아웃 액션을 실행한다
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   const isCookie = document.cookie.match('member');
-
-  //   console.log('isCookie', isCookie);
-  //   if (isCookie) {
-  //     // 로그인 상태 확인, 로그인 상태면 true 반환, 로그아웃하면 undefined
-  //     dispatch(isLogin());
-  //   }
-  // });
-
+  // 민아) 7/28, 로그인 상태 체크
   const loginSuccess = useSelector((state) => state.auth.loginSucess);
 
   useEffect(() => {
@@ -67,7 +58,7 @@ function App() {
 
       <Route path="/board" component={BoardList} exact />
       <Route path="/board/regist" component={BoardRegist} />
-      <Route path="/board/:idx" component={BoardView} />
+      <Route path="/board/view/:idx" component={BoardView} />
 
       {/* Footer */}
       <Footer />
