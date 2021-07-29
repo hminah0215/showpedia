@@ -16,8 +16,8 @@ const Regist = () => {
 
   // 아이디 중복체크, 비밀번호 입력확인
   // true 상태여야 회원가입이 가능하다.
-  const [checkIdError, setCheckIdError] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
+  const [checkIdError, setCheckIdError] = useState(undefined);
+  const [passwordError, setPasswordError] = useState(undefined);
 
   // 디스패치 사용
   const dispatch = useDispatch();
@@ -48,6 +48,8 @@ const Regist = () => {
     console.log('setProfilePhoto');
   };
 
+  // console.log('checkIdError', checkIdError);
+
   // 아이디 중복확인 버튼 이벤트
   const IdDBcheck = (e) => {
     e.preventDefault();
@@ -60,6 +62,7 @@ const Regist = () => {
       .post('http://localhost:3005/checkId', checkData)
       .then((result) => {
         console.log('아이디중복체크result', result);
+
         const emailInput = document.getElementById('formBasicEmail').value;
         console.log('emailInput', emailInput);
 
@@ -145,14 +148,21 @@ const Regist = () => {
               onChange={onIdHandler}
               placeholder="name@example.com"
             />
+
             <button onClick={IdDBcheck}>아이디 중복확인</button>
-            {/* {checkIdError && (
-              <div style={{ color: 'red' }}>중복된 아이디 입니다.다른아이디를 입력해주세요.</div>
-            )} */}
-            {checkIdError ? (
-              <div style={{ color: 'red' }}>중복된 아이디 입니다.다른아이디를 입력해주세요.</div>
+            {/* 삼항연산자 중첩사용! */}
+            {checkIdError === undefined ? (
+              <>
+                <div style={{ color: 'black' }}>아이디중복확인 버튼을 눌러주세요</div>
+              </>
+            ) : checkIdError ? (
+              <>
+                <div style={{ color: 'red' }}>중복된 아이디 입니다.다른아이디를 입력해주세요.</div>
+              </>
             ) : (
-              <div style={{ color: 'blue' }}>사용가능한 아이디 입니다.</div>
+              <>
+                <div style={{ color: 'blue' }}>사용가능한 아이디 입니다.</div>
+              </>
             )}
           </Form.Group>
 
@@ -174,8 +184,10 @@ const Regist = () => {
               onChange={onConfirmPasswordHandler}
               placeholder="비밀번호를 다시 입력해주세요"
             />
-            {/* {passwordError && <div style={{ color: 'red' }}>비밀번호가 일치하지 않습니다.</div>} */}
-            {passwordError ? (
+            {/* 삼항연산자 중첩사용,패스워드체크 전에는 메시지가 없음 */}
+            {passwordError === undefined ? (
+              ''
+            ) : passwordError ? (
               <div style={{ color: 'red' }}>비밀번호가 일치하지 않습니다.</div>
             ) : (
               <div style={{ color: 'blue' }}>비밀번호가 일치합니다.</div>
