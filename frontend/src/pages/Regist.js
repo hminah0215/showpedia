@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Button, Container, Form } from 'react-bootstrap';
-
+import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { registUser } from '../redux/auth';
+import axios from 'axios';
 
 // 민아) 7/28, 회원가입
-const Regist = (props) => {
+const Regist = () => {
+  // 폼 내의 각 입력값을 위한 useState
   const [memberId, setMemberId] = useState('');
   const [pwd, setPwd] = useState('');
   const [nickName, setNickname] = useState('');
@@ -14,11 +16,14 @@ const Regist = (props) => {
 
   // 아이디 중복체크, 비밀번호 입력확인
   // true 상태여야 회원가입이 가능하다.
-  const [checkId, setCheckId] = useState(false);
+  const [checkIdError, setCheckIdError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
 
   // 디스패치 사용
   const dispatch = useDispatch();
+
+  // 히스토리
+  const history = useHistory();
 
   // id / nickName / 비밀번호 / 비밀번호 확인/ 프로필이미지 onChange이벤트
   const onIdHandler = (e) => {
@@ -43,35 +48,72 @@ const Regist = (props) => {
     console.log('setProfilePhoto');
   };
 
+  // 아이디 중복확인 버튼 이벤트
+  const IdDBcheck = (e) => {
+    e.preventDefault();
+
+    const checkData = {
+      memberId: memberId
+    };
+
+    axios
+      .post('http://localhost:3005/checkId', checkData)
+      .then((result) => {
+        console.log('아이디중복체크result', result);
+        const emailInput = document.getElementById('formBasicEmail').value;
+        console.log('emailInput', emailInput);
+
+        if (emailInput.length > 0 && result.data.data === false) {
+          // 중복된 아이디가 있으면 false 값이 넘어옴.
+          return setCheckIdError(true); // 중복체크 여부를 표시함
+        } else if (emailInput.length > 0 && result.data.data === true) {
+          // 중복된 아이디가 없으면 setCheckIdError(false)...
+          // useState 정의할때 디폴트 값을 false로 줬는데 그냥 else로 하면
+          // 아이디체크 에러메시지가 제대로 안떠서 else if로 조건 씀
+          return setCheckIdError(false);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
   // 회원가입 form 이벤트
   const onSubmitHandler = (e) => {
     e.preventDefault();
 
-    if (memberId !== checkId) {
-      return setCheckId(true);
-    }
+    let registerUser = {
+      memberId: memberId,
+      nickName: nickName,
+      pwd: pwd,
+      profilePhoto: profilePhoto
+    };
 
     // 중복된 아이디고, 비밀번호 확인도 틀리면 password 에러메시지도 떠야하는데 왜 안뜨나???
-    // 거기다가 아이디가 중복된 아이디가 아니고 비밀번호만 틀려도 이게 안뜨네? 왜죠?
+    // 비밀번호가 틀렸다는 것은 뜬다.
     if (pwd !== ConfirmPasword) {
       return setPasswordError(true);
     }
 
-    if (pwd === ConfirmPasword) {
-      let body = {
-        memberId: memberId,
-        nickName: nickName,
-        pwd: pwd,
-        profilePhoto: profilePhoto
-      };
+    axios
+      .post('http://localhost:3005/regist', registerUser)
+      .then((result) => {
+        console.log('회원가입===>', result);
 
-      dispatch(registUser(body));
-
-      alert('가입이 정상적으로 완료되었습니다');
-      props.history.push('/login');
-    } else {
-      alert('비밀번호가 일치하지 않습니다');
-    }
+        // pwd가 비밀번호 확인과 같고, result data code가 200이면 dispatch실행
+        // 회원가입 리덕스로 만드는게 필요했을까?? 하는 의문...
+        if (result.data.code === 200 && pwd === ConfirmPasword) {
+          setPasswordError(false);
+          dispatch(registUser(registerUser));
+          alert('가입이 정상적으로 완료되었습니다');
+          history.push('/login');
+        } else {
+          alert('회원가입 실패 - 관리자에게 문의하세요.');
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
   return (
     <Container
@@ -92,6 +134,7 @@ const Regist = (props) => {
           alignItems: 'center'
         }}
       >
+        {/* onChange={onRegisterUser} */}
         <Form onSubmit={onSubmitHandler}>
           <h3 style={{ textAlign: 'center', marginTop: '1rem' }}>회원가입</h3>
           <Form.Group className="mb-3" controlId="formBasicEmail" style={{ marginTop: '2rem' }}>
@@ -102,8 +145,14 @@ const Regist = (props) => {
               onChange={onIdHandler}
               placeholder="name@example.com"
             />
-            {checkId && (
-              <div style={{ color: 'red' }}> 중복된 아이디 입니다.다른아이디를 입력해주세요.</div>
+            <button onClick={IdDBcheck}>아이디 중복확인</button>
+            {/* {checkIdError && (
+              <div style={{ color: 'red' }}>중복된 아이디 입니다.다른아이디를 입력해주세요.</div>
+            )} */}
+            {checkIdError ? (
+              <div style={{ color: 'red' }}>중복된 아이디 입니다.다른아이디를 입력해주세요.</div>
+            ) : (
+              <div style={{ color: 'blue' }}>사용가능한 아이디 입니다.</div>
             )}
           </Form.Group>
 
@@ -125,7 +174,12 @@ const Regist = (props) => {
               onChange={onConfirmPasswordHandler}
               placeholder="비밀번호를 다시 입력해주세요"
             />
-            {passwordError && <div style={{ color: 'red' }}>비밀번호가 일치하지 않습니다.</div>}
+            {/* {passwordError && <div style={{ color: 'red' }}>비밀번호가 일치하지 않습니다.</div>} */}
+            {passwordError ? (
+              <div style={{ color: 'red' }}>비밀번호가 일치하지 않습니다.</div>
+            ) : (
+              <div style={{ color: 'blue' }}>비밀번호가 일치합니다.</div>
+            )}
           </Form.Group>
 
           <Form.Group className="mb-3" controlId="formBasicEmail">

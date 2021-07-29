@@ -2,13 +2,16 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { Button, Container, Form } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { loginUser } from '../redux/auth';
 
-const Login = (props) => {
+const Login = () => {
   const [member, setMember] = useState({
     memberId: '',
     pwd: ''
   });
+
+  const history = useHistory();
 
   const dispatch = useDispatch();
 
@@ -37,7 +40,7 @@ const Login = (props) => {
 
           // 로그인 dispatch를 실행하고,  메인으로 이동한다.
           dispatch(loginUser('true'));
-          props.history.push('/');
+          history.push('/');
         } else {
           alert('백엔드 에러 발생 - 로그인 문제');
         }

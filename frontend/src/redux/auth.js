@@ -10,23 +10,9 @@ const IS_LOGIN = 'auth/IS_LOGIN'; // 로그인 상태
 // 외부에서 사용하기 때문에 export
 // 액션은 {type:액션타입, payload:다른데이터} 구조를 가진다.
 export const registUser = (dataToSubmit) => {
-  const data = axios
-    .post('http://localhost:3005/regist', dataToSubmit)
-    .then((result) => {
-      console.log('회원가입===>', result);
-
-      if (result.data.code === 200) {
-        alert('회원가입 성공');
-      } else {
-        alert('백엔드 에러 발생 - 회원가입 문제');
-      }
-    })
-    .catch((err) => {
-      console.err(err);
-    });
   return {
     type: REGISTER_USER,
-    payload: data
+    payload: dataToSubmit
   };
 };
 
@@ -72,7 +58,7 @@ const initialState = {
 // 리듀서 함수는 순수 함수여야한다.
 //    [같은 입력에 항상 같은 출력 / 내부에 랜덤,비동기X / 파라미터 외의 변수 영향 X]
 // const 모듈명 = (초기상태값, action)=>{ // 리듀서 함수 내용 (switch문)}
-const auth = (state = initialState, action) => {
+const auth = (state = { initialState }, action) => {
   switch (action.type) {
     case REGISTER_USER:
       return {
