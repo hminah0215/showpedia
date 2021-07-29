@@ -55,6 +55,14 @@ router.put('/', tokenTest, async (req, res) => {
       msg: '다시 로그인을 진행해주세요'
     });
   }
+  // 좋아요/싫어요 수정이면서 리뷰의 memberId와 현재 로그인한 memberId가 같은경우
+  // 좋아요 싫어요 불가
+  if (opt && memberId === req.body.memberId) {
+    return res.json({
+      code: '400',
+      msg: '자신의 리뷰에 좋아요/싫어요 금지'
+    });
+  }
 
   // opt가 like 일 경우 reviewLikes + 1
   const reviewLikes = opt == 'like' ? req.body.reviewLikes + 1 : req.body.reviewLikes;

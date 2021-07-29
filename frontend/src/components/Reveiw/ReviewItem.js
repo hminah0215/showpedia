@@ -59,6 +59,9 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
 
       // 로그인 상태가 아닐 경우 & 리뷰 수정에 실패할 경우
       if (result.data.code !== '200') {
+        if (result.data.code === '400') {
+          return alert('자기 리뷰에는 좋아요를 할 수없습니다.');
+        }
         alert('로그인을 해주세요!');
         return;
       }
@@ -88,6 +91,9 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
 
         // 로그인 여부
         if (result.data.code !== '200') {
+          if (result.data.code === '400') {
+            return alert('자기 리뷰에는 신고를 할 수없습니다.');
+          }
           alert('로그인을 해주세요!');
           return;
         }
