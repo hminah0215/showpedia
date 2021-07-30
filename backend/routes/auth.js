@@ -20,6 +20,13 @@ const storage = multer.diskStorage({
   // 파일명 설정, 중복되지 않게 파일명 생성
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}_${file.originalname}`);
+  },
+  fileFilter: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    if (ext !== '.png' || ext !== '.jpg') {
+      return cb(res.status(400).end('확장자가 png, jpg인 파일만 업로드가능합니다.'), false);
+    }
+    cb(null, true);
   }
 });
 const upload = multer({ storage: storage });
@@ -63,8 +70,15 @@ router.post('/checkId', async (req, res, next) => {
 
 // 민아) 7/23 ,회원가입 post 라우터
 // localhost:3005/regist
-router.post('/regist', isNotLoggedIn, async (req, res, next) => {
+router.post('/regist', isNotLoggedIn, upload.single('profilePhoto'), async (req, res, next) => {
   const { memberId, pwd, nickName, profilePhoto } = req.body;
+
+  console.log(req.body);
+
+  const uploadedFile = req.body.profilePhoto;
+  console.log('프로필이미지 업로드된 파일정보: ', uploadedFile);
+
+  let filepath = '/uploads/' + uploadedFile;
 
   console.log('reqbody', req.body);
 
@@ -89,7 +103,7 @@ router.post('/regist', isNotLoggedIn, async (req, res, next) => {
         memberId,
         pwd: hash,
         nickName,
-        profilePhoto
+        profilePhoto: filepath
       });
 
       let checkId = true;
