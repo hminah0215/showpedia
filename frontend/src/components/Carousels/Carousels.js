@@ -9,7 +9,7 @@ const Carousels = ({ children }) => {
 
   // 왼쪽 버튼 클릭 이벤트 핸들러
   const handleClickLeft = () => {
-    console.log('x 값', carouselRef.current.getBoundingClientRect().x);
+    // console.log('x 값', carouselRef.current.getBoundingClientRect().x);
     const x = carouselRef.current.getBoundingClientRect().x; // x 기본값이 약 200 정도
     // console.log('x + 350', x + 500);
     if (x > 200) return;
@@ -19,8 +19,8 @@ const Carousels = ({ children }) => {
   const handleClickRight = () => {
     console.log('x 값', carouselRef.current.getBoundingClientRect().x);
     const x = carouselRef.current.getBoundingClientRect().x;
-    if (x < -1900) return;
-    console.log('x - 350', x - 400);
+    if (x < -1500) return;
+    console.log('x - 400', x - 400);
     carouselRef.current.style.transform = `translateX(${x - 400}px)`;
   };
 

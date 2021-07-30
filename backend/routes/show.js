@@ -95,6 +95,7 @@ router.post('/result', async (req, res) => {
 
 // 현재 가장 예매가 많이 된 공연 목록을 제공하는 라우터
 router.get('/boxoffice', async (req, res) => {
+  const catecode = req.query.catecode || '';
   // 현재 날짜를 계산
   const date = new Date();
   // 요청 변수에 맞는 형식으로 변경
@@ -103,7 +104,10 @@ router.get('/boxoffice', async (req, res) => {
     String(date.getMonth()).padStart(2, '0') +
     String(date.getDate()).padStart(2, '0');
 
-  const URL = BASE_URL + `boxoffice?service=${KEY}` + `&ststype=month&date=${defaultStdate}`;
+  const URL =
+    BASE_URL +
+    `boxoffice?service=${KEY}` +
+    `&ststype=month&date=${defaultStdate}&catecode=${catecode}`;
 
   // OPEN API에서 데이터를 가져온다
   const boxoffice = await getShowtoJSON(URL);
