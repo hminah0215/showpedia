@@ -1,0 +1,47 @@
+@import '../../lib/styles/color.css';
+
+.carousel {
+  width: 100%;
+  /* 가릴 내용의 상단에 hidden을 주어야지 이미지가 잘리지 않는다. */
+  overflow: hidden;
+  position: relative;
+}
+
+.carousel-box {
+  transition: all 0.5s ease;
+}
+
+.carousel-btn {
+  background-color: white;
+  border: none;
+  border-radius: 50%;
+  z-index: 10;
+  position: absolute;
+  color: var(--violet-color-main);
+  width: 40px;
+  height: 40px;
+  transition: all 0.3s ease;
+}
+.carousel-btn:hover {
+  color: var(--violet-color-20);
+  /* color: white; */
+}
+.carousel-btn:active,
+.carousel-btn:focus {
+  color: var(--violet-color-20);
+}
+.carousel-btn svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.carousel-btn.left {
+  top: 40%;
+  transform: translateY(-50%);
+  left: 0;
+}
+.carousel-btn.right {
+  top: 40%;
+  right: 0;
+  transform: translateY(-50%);
+}

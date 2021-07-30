@@ -70,7 +70,7 @@ const MyReview = ({ showId, handleShow, setModal, write, setWrite }) => {
       }
     };
     fetchReview();
-  }, [reRender]);
+  }, [reRender, showId]);
 
   return (
     <Container className="mb-4 d-flex justify-content-center  align-items-center flex-column">

@@ -44,7 +44,7 @@ router.get('/list', async (req, res, next) => {
 // 민아) 7/26, 게시글 등록 post 라우터  -> 에디터는 ck에디터5 쓰고있음
 // localhost:3005/board/boardRegist.html
 // router.post('/regist', isLoggedIn, tokenTest, async (req, res) => {
-router.post('/regist', isLoggedIn, async (req, res) => {
+router.post('/regist', tokenTest, isLoggedIn, async (req, res) => {
   // isLoggedIn 미들웨어로 쿠키가 없는 사용자는 로그인 필요함을 나타낸다.
 
   // tokenTest 미들웨어를 거쳐, 인증이 완료된 회원의 memberId를 같이 넘긴다.

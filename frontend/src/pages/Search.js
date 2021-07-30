@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { isLoaded } from '../redux/show';
 // 부트스트랩 참조
-import { Container, Row, Spinner } from 'react-bootstrap';
+import { Container, Row } from 'react-bootstrap';
 // 컴포넌트 참조
 import CustomPagenation from '../components/Pagination/CustomPagenation';
 import CardList from '../components/Card/CardList';
@@ -13,7 +13,7 @@ import CustomSpinner from '../components/Spinner/CustomSpinner';
 const Search = () => {
   // state
   // 로딩 여부
-  const loading = useSelector((state) => state.show.loading);
+  const loading = useSelector((state) => state.show.loading); // true
   // 공연 리스트
   const showList = useSelector((state) => state.show.showList);
 

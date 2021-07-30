@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { reRenderReview } from '../../redux/review';
 import { useLocation } from 'react-router-dom';
 // 부트스트랩
