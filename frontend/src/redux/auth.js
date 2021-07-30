@@ -5,6 +5,7 @@ const REGISTER_USER = 'auth/REGISTER_USER'; // 회원가입
 const LOGIN_USER = 'auth/LOGIN_USER'; // 로그인
 const LOGOUT_USER = 'auth/LOGOUT_USER'; // 로그아웃
 const IS_LOGIN = 'auth/IS_LOGIN'; // 로그인 상태
+const LOGIN_MEMBERID = 'auth/LOGIN_MEMBERID'; // 로그인 한 멤버아이디 담아놓음
 
 // 2. 액션 생성 함수 만들기
 // 외부에서 사용하기 때문에 export
@@ -20,6 +21,13 @@ export const loginUser = (dataToSubmit) => {
   return {
     type: LOGIN_USER,
     payload: dataToSubmit
+  };
+};
+
+export const loginMemberId = (enterMemberId) => {
+  return {
+    type: LOGIN_MEMBERID,
+    payload: enterMemberId
   };
 };
 
@@ -51,7 +59,8 @@ export const isLogin = (islogin) => {
 };
 // 3. show리덕스의 초기 상태 만들기
 const initialState = {
-  islogin: false
+  islogin: false, // 로그인여부
+  enterMemberId: '' // 로그인한 사용자 아이디
 };
 
 // 4. 리듀서 함수를 만들기
@@ -79,6 +88,11 @@ const auth = (state = { initialState }, action) => {
       return {
         ...state,
         isLogin: action.payload
+      };
+    case LOGIN_MEMBERID:
+      return {
+        ...state,
+        loginMemberId: action.payload
       };
     default:
       return state;

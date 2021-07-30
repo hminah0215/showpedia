@@ -62,8 +62,10 @@ exports.tokenTest = async (req, res, next) => {
     }
 
     // 토큰인증확인이 끝나면, req.user에 현재 로그인한 멤버 정보를 넘긴다.
+    // 다음 라우터에게 전달하는 용도!
     req.user = member.dataValues;
     // console.log('토큰 미들웨어에서 유저 정보를 가져옵니다.', req.user);
+
     next();
   })(req, res, next);
 };
