@@ -16,7 +16,7 @@ const CarouselItem = ({ show }) => {
       </a>
       {/* 공연 정보 */}
       <div className="boxoffice-content">
-        <h4 className="boxoffice-title">{show.prfnm}</h4>
+        <h5 className="boxoffice-title">{show.prfnm}</h5>
         <p>{show.prfpd}</p>
       </div>
     </div>

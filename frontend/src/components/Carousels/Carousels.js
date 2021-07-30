@@ -5,23 +5,20 @@ import { ArrowLeftCircle, ArrowRightCircle } from 'react-bootstrap-icons';
 import './Carousels.css';
 
 const Carousels = ({ children }) => {
+  // DOM에 접근하기위해서 useRef 사용
   const carouselRef = useRef();
-
   // 왼쪽 버튼 클릭 이벤트 핸들러
+  let x = 0;
   const handleClickLeft = () => {
-    // console.log('x 값', carouselRef.current.getBoundingClientRect().x);
-    const x = carouselRef.current.getBoundingClientRect().x; // x 기본값이 약 200 정도
-    // console.log('x + 350', x + 500);
-    if (x > 200) return;
-    carouselRef.current.style.transform = `translateX(${x + 270}px)`;
+    if (x >= 0) return;
+    x = x + 250;
+    carouselRef.current.style.transform = `translateX(${x}px)`;
   };
   // 오른쪽 버튼 클릭 이벤트 핸들러
   const handleClickRight = () => {
-    console.log('x 값', carouselRef.current.getBoundingClientRect().x);
-    const x = carouselRef.current.getBoundingClientRect().x;
-    if (x < -1500) return;
-    console.log('x - 400', x - 400);
-    carouselRef.current.style.transform = `translateX(${x - 400}px)`;
+    if (x < -1800) return;
+    x = x - 250;
+    carouselRef.current.style.transform = `translateX(${x}px)`;
   };
 
   return (
