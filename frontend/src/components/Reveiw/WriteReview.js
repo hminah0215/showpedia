@@ -15,7 +15,7 @@ import axios from 'axios';
   setIsReviewed - [MyReview.js] / 내 리뷰가 존재하는지 판단하는 상태 설정 함수
   modify - 수정 모드로 사용하는 경우, 여기에 현재 리덕스에 있는 리뷰 데이터를 담아서 전달한다
 */
-const WriteReview = ({ handleClose, setIsReviewed, modify }) => {
+const WriteReview = ({ handleClose, setIsReviewed, modify, setWrite }) => {
   // URL에서 showId 가져오기
   const location = useLocation();
   const showId = location.pathname.split('/')[2];
@@ -114,6 +114,7 @@ const WriteReview = ({ handleClose, setIsReviewed, modify }) => {
           // 새로고침이 아니라 리렌더링을 한다.
           handleClose();
           reviewDispatch(reRenderReview());
+          setWrite(false);
           return;
         }
         // 리뷰 작성 후, 이동하기
@@ -124,6 +125,8 @@ const WriteReview = ({ handleClose, setIsReviewed, modify }) => {
       }
     } else return;
   };
+
+  console.log();
 
   return (
     <div className="review m-3 d-flex align-items-center">
@@ -151,9 +154,18 @@ const WriteReview = ({ handleClose, setIsReviewed, modify }) => {
           <Button className=" flex-grow-1" onClick={handleClickSaveButton}>
             작성
           </Button>
-          <Button className=" flex-grow-1 btn" onClick={handleClickDeleteButton}>
+          {modify ? (
+            <>
+              <Button className=" flex-grow-1 btn" onClick={handleClickDeleteButton}>
+                삭제
+              </Button>
+            </>
+          ) : (
+            <></>
+          )}
+          {/* <Button className=" flex-grow-1 btn" onClick={handleClickDeleteButton}>
             삭제
-          </Button>
+          </Button> */}
         </div>
       </div>
     </div>

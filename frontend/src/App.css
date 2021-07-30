@@ -17,6 +17,17 @@
 }
 
 /* 버튼 색상 처리 */
+.btn {
+  background-color: var(--violet-color-main);
+  border: var(--violet-color-main);
+}
+.btn:hover,
+.btn:active,
+.btn:focus {
+  background-color: var(--violet-color-20);
+  border: var(--violet-color-20);
+}
+
 .btn-custom {
   background-color: var(--violet-color-main);
   border: 1px solid var(--violet-color-main);
