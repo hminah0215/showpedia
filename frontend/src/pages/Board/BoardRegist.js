@@ -1,14 +1,13 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useImperativeHandle } from 'react';
 import { Button, Container, Form } from 'react-bootstrap';
-import ReactQuill from 'react-quill';
+import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import ImageUploader from 'quill.imageUploader.js';
+import ImageUploader from 'quill-image-uploader';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
-ReactQuill.register('modules/imageUploader', ImageUploader);
+Quill.register('modules/imageUploader', ImageUploader);
 
-// ReactQuill.register('modules/imageUploader', ImageUploader);
 // 민아) 7/27, 게시글 등록
 const BoardRegist = () => {
   const history = useHistory();
@@ -18,6 +17,10 @@ const BoardRegist = () => {
 
   // 에디터 글 onChange
   const onChangeContents = (boardContents) => {
+    // 글에 이미지 첨부시 이미지태그가 엄청 길게 들어가니까 이미지 태그는 자름!
+    // const img_tag = /<IMG(.*?)>/gi;
+    // boardContents = boardContents.replace(img_tag, '');
+    // 이렇게 하면 이미지 정보가 아예 없어지네
     setEditorContents(boardContents);
     console.log(boardContents);
   };
@@ -26,8 +29,8 @@ const BoardRegist = () => {
   const [board, setBoard] = useState({
     boardTitle: '',
     boardCategory: '',
-    boardContents: ''
-    // memberId: ''  로그인 상태를 유지해야 멤버아이디를 가져올 수 있음
+    boardContents: '',
+    memberId: ''
   });
 
   // 입력요소와 useState간 데이터 바인딩 적용
@@ -36,37 +39,54 @@ const BoardRegist = () => {
   const onChangeRegist = (e) => {
     // const { name, value } = e.target;
     setBoard({ ...board, [e.target.name]: e.target.value });
-    console.log(board);
+    console.log('등록할내용', board);
   };
 
   // 이미지제어
-  // const imageHandler = () => {
-  //   this.quillEditor = this.quillRef.getEditor();
-  //   // input file 태그를 만든다.
-  //   const input = document.createElement('input');
-  //   input.setAttribute('type', 'file');
-  //   input.setAttribute('accept', 'image/*');
-  //   input.click();
-  //   input.onchange = async function () {
-  //     const file = input.files[0];
-  //     console.log('업로드하려는 이미지:', file);
+  const imageHandler = () => {
+    // input file 태그를 만든다.
+    const input = document.createElement('input');
+    input.setAttribute('type', 'file');
+    input.setAttribute('accept', 'image/*');
+    // input.setAttribute('ref', '{fileInput}');
+    console.log('input?', input);
+    input.click();
 
-  //     const formData = new FormData();
-  //   };
+    //  input file 태그 onchange
+    input.onchange = (e) => {
+      const files = e.target.files;
+      console.log('files??', files);
+      console.log('files모냐', files[0].name);
+      let formData = new FormData();
+      formData.append('filename', files[0].name);
 
-  // 에디터 툴바 모듈과 포맷
-  // const modules = {
-  //   toolbar: {
-  //     container: [
-  //       [{ header: [1, 2, false] }],
-  //       ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-  //       [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
-  //       ['link', 'image'],
-  //       ['clean']
-  //     ]
-  //   }
-  // };
-  // };
+      for (let key of formData.keys()) {
+        console.log('이미지핸들러key', key);
+      }
+
+      for (let value of formData.values()) {
+        console.log('이미지핸들러value', value);
+      }
+
+      // 여기까지 잘 되는데... 여기서 저 formData만 넘길 수 있으면 되는데 ㅠㅠㅠㅠ
+
+      const config = {
+        header: { 'content-type': 'multipart/form-data' }
+      };
+
+      // 파일등록
+      axios
+        .post('http://localhost:3005/board/uploads', formData, config)
+        .then((result) => {
+          console.log('image result', result);
+          // 여기서 게시글 번호를 같이 넘겨줘야하는데...
+          // 이미지 핸들러가 저장 버튼 누르기 전에 정의되서..흠...
+          // 어떻게 가져와야할까?
+        })
+        .catch((err) => {});
+    };
+  };
+
   // useMemo 사용해야 툴바가 정한대로 나온다.
   const modules = useMemo(
     () => ({
@@ -78,25 +98,13 @@ const BoardRegist = () => {
           ['link', 'image'],
           ['clean']
         ],
-        ImageUploader: {
-          upload: async (file) => {
-            const bodyFormData = new FormData();
-            bodyFormData.append('image', file);
-            //본문에 이미지가 <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMTEhUSExMVFRUXFhcWF
-            // 이런식으로 글로 등록됨
-            console.log('bodyFormData', bodyFormData);
-            const response = await axios({
-              method: 'post',
-              url: "'http://localhost:3005/board/uploads",
-              data: bodyFormData,
-              headers: {
-                'Content-Type': 'multipart/form-data'
-              }
-            });
-            console.log('이미지업로드 axios', response);
-            return response.data.data.url;
-          }
+        // 이걸쓰면 이미지가 눈에 안보이고... 콘솔에 파일명은 잘 찍히고....
+        handlers: {
+          image: imageHandler
         }
+
+        // 이걸쓰면 사진은 눈에 보이는데, 콘솔에 파일명이 안찍히고...
+        // imageUploader: imageHandler
       }
     }),
     []
@@ -121,17 +129,24 @@ const BoardRegist = () => {
     let newBoard = {
       boardTitle: board.boardTitle,
       boardCategory: board.boardCategory,
-      boardContents: editorContents
-      // memberId:board.memberId
+      boardContents: editorContents,
+      memberId: board.memberId,
+      boardImg: ''
     };
+
+    // console.log('formdata있나요?', formData);
+
     if (newBoard.boardTitle.length === 0 || newBoard.boardContents.length === 0) {
       alert('게시글 제목과 내용을 입력해주세요!');
       return false;
     }
+    const config = {
+      header: { 'content-type': 'multipart/form-data' }
+    };
 
     // axios post
     axios
-      .post('http://localhost:3005/board/regist', newBoard)
+      .post('http://localhost:3005/board/regist', newBoard, config)
       .then((result) => {
         console.log('게시글등록===>', result);
 
@@ -184,11 +199,13 @@ const BoardRegist = () => {
       </Form>
       <ReactQuill
         name="boardContents"
+        id="editor"
         modules={modules}
         formats={formats}
         value={editorContents}
         style={{ height: '500px' }}
         placeholder={'플레이스 홀더임'}
+        // onChange={(content, delta, source, editor) => onChangeContents(editor.getHTML())}
         onChange={onChangeContents}
       />
       <br />

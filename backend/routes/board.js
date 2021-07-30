@@ -1,6 +1,6 @@
 const express = require('express');
 const multer = require('multer');
-const { Board } = require('../models/');
+const { Board, BoardImage } = require('../models/');
 const { isLoggedIn, tokenTest } = require('./middleware');
 
 const router = express.Router();
@@ -14,6 +14,13 @@ const storage = multer.diskStorage({
   // 파일명 설정, 중복되지 않게 파일명 생성
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}_${file.originalname}`);
+  },
+  fileFilter: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    if (ext !== '.png' || ext !== '.jpg') {
+      return cb(res.status(400).end('확장자가 png, jpg인 파일만 업로드가능합니다.'), false);
+    }
+    cb(null, true);
   }
 });
 const upload = multer({ storage: storage });
@@ -21,17 +28,31 @@ const upload = multer({ storage: storage });
 // 민아) 7/29, 게시글에 첨부되는 이미지 파일 처리
 // 게시글 이미지 테이블에는 boardImageFileName, boardImageFilePath, boardNo 컬럼이 있음
 // upload.array('파일전부를 배열형태로전달받음', 5 ) 숫자는 몇개의 이미지까지 허용인지
-router.post('/uploads', upload.array('boardImageFileName', 5), async (req, res) => {
-  const uploadedFile = req.file;
+// upload.single('file'),
+router.post('/uploads', upload.single('file'), async (req, res) => {
+  console.log('req image', req.body);
+  const uploadedFile = req.body.filename;
   console.log('게시글에 업로드된 파일정보: ', uploadedFile);
 
-  let filepath = '/uploads/' + uploadedFile.filename;
+  let filepath = '/uploads/' + uploadedFile;
 
-  return res.json({
-    success: true,
-    message: '게시글 이미지가 등록되었습니다.',
-    filepath: filepath
-  });
+  let images = {
+    boardImageFileName: uploadedFile,
+    boardImageFilePath: filepath,
+    boardNo: ''
+  };
+
+  // let images = { boardImg: filepath };
+  // return res.json({ code: '200', data: images, msg: '이미지정보입니당' });
+  try {
+    // db에 해당 데이터를 저장하고 저장결과를 다시 받아온다.
+    const saveImage = await BoardImage.create(images);
+    return res.json({ code: '200', data: saveImage, msg: '이미지테이블에 저장ok' });
+    //
+  } catch (error) {
+    console.log('서버에러내용: ', error);
+    return res.json({ code: '500', data: {}, msg: '게시글 이미지첨부 서버에러발생!!' });
+  }
 });
 
 // 민아) 7/26, 게시글 전체목록 get 라우터
@@ -81,8 +102,7 @@ router.post('/regist', tokenTest, isLoggedIn, async (req, res) => {
   const memberId = req.user.memberId;
   console.log('게시글작성 memberId', req.user.memberId);
 
-  // !!! 리액트에서 아직 로그인, 인증 부분을 구현안해서 게시글 등록 테스트 하느라고
-  // 위에 다 막고, 아래 let board에서 memberId 뺌!
+  let filepath = '/uploads/' + uploadedFile;
 
   let board = {
     boardTitle: req.body.boardTitle,
@@ -94,8 +114,8 @@ router.post('/regist', tokenTest, isLoggedIn, async (req, res) => {
 
   try {
     // db에 해당 데이터를 저장하고 저장결과를 다시 받아온다.
-    const savedBoard = await Board.create(board);
-    return res.json({ code: '200', data: savedBoard, msg: 'ok' });
+    const savedBoard = Board.create(board);
+    return res.json({ code: '200', data: savedBoard, msg: '게시글저장 ok' });
     //
   } catch (error) {
     console.log('서버에러내용: ', error);

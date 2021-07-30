@@ -4,45 +4,50 @@
 
 module.exports = (sequelize, DataTypes) => {
   return sequelize.define(
-    "board",
+    'board',
     {
       boardNo: {
         // 게시물번호
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
-        autoIncrement: true,
+        autoIncrement: true
       },
       boardTitle: {
         // 게시글제목
         type: DataTypes.STRING(50),
-        allowNull: false,
+        allowNull: false
       },
       boardCategory: {
         // 게시글 카테고리
         type: DataTypes.STRING(50),
-        allowNull: false,
+        allowNull: false
       },
       boardContents: {
         // 게시글 내용
         type: DataTypes.TEXT,
-        allowNull: false,
+        allowNull: false
       },
       boardHits: {
         // 게시글 조회수
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: false
       },
       boardReports: {
         // 게시글 신고수
         type: DataTypes.INTEGER,
         allowNull: true,
-        defaultValue: 0, // 신고수는 기본 0
-      },
+        defaultValue: 0 // 신고수는 기본 0
+      }
+      // boardImg: {
+      //   // 게시글 단일이미지
+      //   type: DataTypes.STRING(500),
+      //   allowNull: true
+      // }
     },
     {
       timestamps: true,
-      paranoid: false,
+      paranoid: false
     }
   );
 };
