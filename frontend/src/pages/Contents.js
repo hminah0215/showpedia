@@ -14,18 +14,19 @@ import WriteReview from '../components/Reveiw/WriteReview';
 // etc
 
 const Contents = () => {
-  // 공연 상세정보 fetch 실패 여부를 판단하는 state
-  const [isFetch, setIsFetch] = useState(true);
-
   // 공연 id를 URL에서 가져온다.
   let location = useLocation();
   const showId = location.pathname.split('/')[2];
 
-  // 모달 온오프를 위한 state
+  // 공연 상세정보 fetch 실패 여부를 판단하는 state
+  const [isFetch, setIsFetch] = useState(true);
+  // 모달창 온오프를 위한 state
   const [modal, setModal] = useState({
     state: false,
     option: 'review'
   });
+  // 리뷰 작성 창 온오프를 위한 state
+  const [write, setWrite] = useState(false);
 
   // 모달 온오프 이벤트 핸들러
   const handleClose = () =>
@@ -39,9 +40,8 @@ const Contents = () => {
       state: true
     });
 
-  // 리뷰 리덕스에서 리뷰 상태 가져오기
+  // 리덕스에서 모달창에서 사용할 review 정보 가져오기
   const modalReviewData = useSelector((state) => state.review.review);
-  // console.log('모달 데이터', modalReviewData);
 
   return (
     <>
@@ -63,7 +63,12 @@ const Contents = () => {
             ) : (
               // 수정하기 버튼 클릭 시, 나타나는 모달 컴포넌트
               <>
-                <WriteReview handleClose={handleClose} modify={modalReviewData} />
+                <WriteReview
+                  handleClose={handleClose}
+                  modify={modalReviewData}
+                  write={write}
+                  setWrite={setWrite}
+                />
               </>
             )}
           </CustomModal>
@@ -73,7 +78,13 @@ const Contents = () => {
 
           {/* 리뷰 항목 */}
           <Container className="d-flex align-items-center flex-column">
-            <MyReview showId={showId} handleShow={handleShow} setModal={setModal} />
+            <MyReview
+              showId={showId}
+              write={write}
+              setWrite={setWrite}
+              handleShow={handleShow}
+              setModal={setModal}
+            />
             <ReviewContainer showId={showId} handleShow={handleShow} />
           </Container>
         </>

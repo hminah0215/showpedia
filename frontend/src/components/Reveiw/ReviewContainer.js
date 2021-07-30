@@ -1,29 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Button } from 'react-bootstrap';
-import ReviewItem from './ReviewItem';
 import { getReviewList } from '../../redux/review';
-
+import { useSelector, useDispatch } from 'react-redux';
+// 부트스트랩
+import { Container, Button } from 'react-bootstrap';
+// 참조 컴포넌트
+import ReviewItem from './ReviewItem';
+import NotFound from '../NotFound/NotFound';
 // etc
 import axios from 'axios';
-import NotFound from '../NotFound/NotFound';
-import { useSelector, useDispatch } from 'react-redux';
 
-const ReviewContainer = ({ showId, hover, handleShow }) => {
-  // 리뷰 리스트를 담을 state를 리덕스로 옮기겠습니다.
-  // const [reviewList, setReviewList] = useState([]);
+/* 
+  showId - [Content.js] / 공연 Id
+  handleShow - [Contents.js] / 모달을 보여주기 위한 이벤트 핸들러
+*/
+const ReviewContainer = ({ showId, handleShow }) => {
+  // 리뷰 리스트를 담는 리덕스 state
   const reviewList = useSelector((state) => state.review.reviewList);
-
-  // 리뷰가 없을 경우를 판단하는 state
+  // 리렌더링을 판단하는 리덕스 state
+  const reRender = useSelector((state) => state.review.rerender);
+  // 리뷰의 유무를 경우를 판단하는 state
   const [hasReview, setHasReview] = useState({
     has: true,
     msg: '리뷰가 없습니다!'
   });
-  // 리뷰 더보기 상태
+  // 더보기 버튼을 눌렀을 때, 서버에 전달할 리뷰 개수를 위한 state
   const [addReview, setAddReview] = useState(2);
-  // 리뷰 체인지
-  // const [like, setLike] = useState(false);
+
+  // 리덕스 디스패치
   const reviewDispatch = useDispatch();
-  const reRender = useSelector((state) => state.review.rerender);
 
   // 첫 렌더링 때, 해당 공연id에 맞는 리뷰를 가져온다.
   useEffect(() => {

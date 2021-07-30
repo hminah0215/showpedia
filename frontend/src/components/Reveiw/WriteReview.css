@@ -1,15 +1,8 @@
 @import url('../../lib/styles/color.css');
-.btn {
-  background-color: var(--violet-color-main);
-  border: var(--violet-color-main);
-}
-.btn:hover,
-.btn:active,
-.btn:focus {
-  background-color: var(--violet-color-20);
-  border: var(--violet-color-20);
-}
 
+.review {
+  min-width: 0;
+}
 .review-star .active {
   color: var(--violet-color-20);
 }

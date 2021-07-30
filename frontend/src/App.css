@@ -3,6 +3,7 @@
 
 .main-title {
   color: var(--gray-color-40);
+  margin-bottom: 1rem;
 }
 .main-title::before {
   content: '✨ ';
@@ -10,6 +11,7 @@
 
 .main-title--secondary {
   color: var(--violet-color-20);
+  margin-bottom: 1rem;
 }
 
 .text-center {
@@ -17,6 +19,17 @@
 }
 
 /* 버튼 색상 처리 */
+.btn {
+  background-color: var(--violet-color-main);
+  border: var(--violet-color-main);
+}
+.btn:hover,
+.btn:active,
+.btn:focus {
+  background-color: var(--violet-color-20);
+  border: var(--violet-color-20);
+}
+
 .btn-custom {
   background-color: var(--violet-color-main);
   border: 1px solid var(--violet-color-main);
@@ -82,4 +95,11 @@
 /*  ck 에디터 에디터 최소길이 및 접혔다 펴지는?거 막음 */
 .ck.ck-editor__editable:not(.ck-editor__nested-editable) {
   min-height: 500px;
+}
+
+/* 이미지 박스 처리 */
+.img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }

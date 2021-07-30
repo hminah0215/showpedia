@@ -1,4 +1,3 @@
-import axios from 'axios';
 // [아영] 1. 액션 타입 만들기
 const GET_SHOWLIST = 'show/GET_SHOWLIST'; // 모듈이름/액션이름
 const RESET_SHOWLIST = 'show/RESET_SHOWLIST';
@@ -7,6 +6,7 @@ const LOADED = 'show/LOADED';
 const SET_CONDITION = 'show/SET_CONDITION';
 const RESET_CONDITION = 'show/RESET_CONDITION';
 const SET_SHOW = 'show/SET_SHOW';
+const SET_BOXOFFICE_LIST = 'show/SET_BOXOFFICE_LIST';
 
 // [아영] 2. 액션 생성 함수 만들기
 // 외부에서 사용하기 때문에 export
@@ -24,6 +24,10 @@ export const setCondition = (key, value) => ({
 });
 export const resetCondition = () => ({ type: RESET_CONDITION });
 export const setShow = (show) => ({ type: SET_SHOW, payload: show });
+export const setBoxofficeList = (boxofficeList) => ({
+  type: SET_BOXOFFICE_LIST,
+  payload: boxofficeList
+});
 
 // [아영] 3. show리덕스의 초기 상태 만들기
 const initialState = {
@@ -53,7 +57,9 @@ const initialState = {
     pcseguidance: '공연 가격', // 공연 가격
     poster: '', // poster URL
     sty: '줄거리가 없습니다.' // 줄거리
-  }
+  },
+  // 박스 오피스
+  boxofficeList: []
 };
 
 // [아영] 4. 리듀서 함수를 만들기
@@ -119,6 +125,11 @@ const show = (state = initialState, action) => {
           poster: action.payload.poster, // poster URL
           sty: action.payload.sty[0] !== ' ' ? action.payload.sty : '줄거리가 없습니다'
         }
+      };
+    case SET_BOXOFFICE_LIST:
+      return {
+        ...state,
+        boxofficeList: action.payload
       };
     default:
       return state;

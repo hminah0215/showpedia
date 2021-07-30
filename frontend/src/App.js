@@ -45,7 +45,7 @@ function App() {
     });
 
     // // 리뷰를 리렌더링 하기?
-    // dispatch(reRenderReview());
+    dispatch(reRenderReview());
   }, [loginSuccess]);
 
   return (
