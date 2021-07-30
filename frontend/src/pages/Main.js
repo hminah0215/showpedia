@@ -16,11 +16,11 @@ const Main = () => {
   const loading = useSelector((state) => state.show.loading);
   // boxoffice List를 저장하는 state
   const boxofficeList = useSelector((state) => state.show.boxofficeList);
+  // dispatch
   const showDispatch = useDispatch();
 
-  // 가져온 boxoffice 데이터를 세션 스토리지에 저장한다
-
   // Main Page 첫 로딩 시, boxoffice 정보를 가져온다.
+  // 가져온 boxoffice 데이터를 세션 스토리지에 저장한다
   useEffect(() => {
     // 가져오는 속도가 느리다 - 우선 만든 후에 loading spinner 넣어주기
     // 브라우저 세션 스토리지에 값을 저장하기..
