@@ -31,7 +31,7 @@ const BoardModify = () => {
     console.log('등록할내용', exBoard);
   };
 
-  // 주소에서 현재 게시글 번호를 추출한다.
+  // 주소에서 현재 게시글 번호를 가져옴
   let location = useLocation();
   const boardNo = location.pathname.split('/')[3];
   console.log('수정할 boardno', boardNo);

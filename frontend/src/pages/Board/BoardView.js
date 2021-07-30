@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import ReactHtmlParser from 'react-html-parser';
 import { Button, Container } from 'react-bootstrap';
+import { ExclamationCircle } from 'react-bootstrap-icons';
 import { useSelector } from 'react-redux';
 
 const BoardView = ({ history, match }) => {
@@ -70,6 +71,47 @@ const BoardView = ({ history, match }) => {
     }
   };
 
+  // 신고버튼 이벤트
+  const handleClickReport = () => {
+    console.log('신고버튼클릭!');
+
+    // db수정하기
+    const URL = `http://localhost:3005/board/${boardNo}`;
+
+    if (window.confirm('게시글을 신고하시겠습니까?')) {
+      try {
+        axios
+          .put(URL, {
+            ...BoardView,
+            opt: 'report', // 신고이면 report 전달
+            reportMember: loginMemberId, // 신고한 사람과 게시글 작성자 아이디비교를 위해 전달
+            boardReports: boardView.boardReports // 기존의 신고수를 전달해서 백엔드에서 +1
+          })
+          .then((result) => {
+            console.log('신고 결과', result);
+            if (result.data.code !== '200') {
+              if (result.data.code === '400') {
+                return alert('본인글에는 신고를 할 수 없습니다.');
+              }
+              alert('로그인을 해주세요!');
+              return;
+            }
+
+            if (result.data.code === '200') {
+              setBoardView({ ...boardView, boardReports: boardView.boardReports + 1 });
+            }
+
+            console.log('신고완료', boardView);
+          })
+          .catch((err) => {
+            alert('신고실패');
+            console.error(err);
+            return false;
+          });
+      } catch (error) {}
+    }
+  };
+
   return (
     <>
       <Container>
@@ -108,6 +150,12 @@ const BoardView = ({ history, match }) => {
           ) : (
             '해당 게시글을 찾을 수 없습니다.'
           )}
+          {/* 신고 버튼 */}
+          <button className="review-btn review-btn--alert" onClick={handleClickReport}>
+            <ExclamationCircle size={20} />
+          </button>
+          <div style={{ color: 'red' }}>신고수 : {boardView.boardReports}</div>
+          <br />
           <button
             className="post-view-go-list-btn"
             onClick={() => history.goBack()}
