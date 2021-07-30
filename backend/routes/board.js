@@ -102,7 +102,7 @@ router.post('/regist', tokenTest, isLoggedIn, async (req, res) => {
   const memberId = req.user.memberId;
   console.log('게시글작성 memberId', req.user.memberId);
 
-  let filepath = '/uploads/' + uploadedFile;
+  // let filepath = '/uploads/' + uploadedFile;
 
   let board = {
     boardTitle: req.body.boardTitle,
@@ -123,10 +123,39 @@ router.post('/regist', tokenTest, isLoggedIn, async (req, res) => {
   }
 });
 
+// 민아) 7/30, 게시글 수정
+router.put('/:id', tokenTest, isLoggedIn, async (req, res) => {
+  const boardIdx = req.params.id;
+  console.log('수정할 게시글 번호', boardIdx);
+  // 회원아이디, 수정할 게시글 번호
+  const memberId = req.user.memberId;
+  console.log('게시글 수정 memberId', memberId);
+  // const boardNo = req.body.boardNo;
+
+  try {
+    const updateCnt = await Board.update(
+      {
+        // 바꿀내용들
+        boardTitle: req.body.boardTitle,
+        boardCategory: req.body.boardCategory,
+        boardContents: req.body.boardContents
+      },
+      {
+        where: { boardNo: boardIdx }
+      }
+    );
+    console.log('수정 결과 반환값', updateCnt);
+    return res.json({ code: '200', data: updateCnt, msg: '게시글수정 OK' });
+  } catch (error) {
+    return res.json({ code: '500', data: {}, msg: '게시글수정 관리자에게 문의하세요.' });
+  }
+});
+
 // 민아) 7/28, 게시글 상세보기 get 라우터
 router.get('/view/:id', async (req, res) => {
   const boardIdx = req.params.id;
   console.log('상세보기 게시물 번호', boardIdx);
+
   try {
     //
     const board = await Board.findOne({ where: { boardNo: boardIdx } });
@@ -136,6 +165,22 @@ router.get('/view/:id', async (req, res) => {
   } catch (error) {
     console.log('서버에러내용: ', error);
     return res.json({ code: '500', data: {}, msg: '관리자에게 문의하세요.' });
+  }
+});
+
+// 민아) 7/30, 게시글 삭제
+router.delete('/:id', async (req, res) => {
+  const boardIdx = req.params.id;
+
+  try {
+    const deleteCnt = await Board.destroy({ where: { boardNo: boardIdx } });
+
+    if (deleteCnt == 1) {
+      console.log('게시글 삭제 건수', deleteCnt);
+      return res.json({ code: '200', data: deleteCnt, msg: 'OK' });
+    }
+  } catch (error) {
+    return res.json({ code: '500', data: 0, msg: '게시글 삭제 서버 에러' });
   }
 });
 

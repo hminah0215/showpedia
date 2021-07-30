@@ -2,11 +2,18 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import ReactHtmlParser from 'react-html-parser';
-import { Container } from 'react-bootstrap';
+import { Button, Container } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 
 const BoardView = ({ history, match }) => {
   // 백엔드에서 가져올 게시글 데이터 구조정의
   const [boardView, setBoardView] = useState({});
+
+  // 수정
+  const [isModify, setIsModify] = useState(false);
+
+  // 로그인한 멤버아이디 확인
+  const loginMemberId = useSelector((state) => state.auth.loginMemberId);
 
   // const { boardNo } = match.params;
   // 게시글 번호를 url에서 가져온다.
@@ -20,20 +27,49 @@ const BoardView = ({ history, match }) => {
     axios
       .get(`http://localhost:3005/board/view/${boardNo}`)
       .then((res) => {
-        console.log('백엔드에서 제공된 전체 게시글목록 데이터 구조 파악', res);
+        console.log('게시글 상세보기 데이터', res);
+
+        if (loginMemberId === res.data.data.memberId) {
+          setIsModify(true);
+        }
+
+        console.log(
+          '게시글작성한사람 아이디 & 현재로그인한 사람아이디',
+          res.data.data.memberId,
+          loginMemberId
+        );
+
+        console.log('게시글수정가능?', isModify);
 
         if (res.data.code === '200') {
           // 게시글 목록 세터함수를 통해 백엔드에서 전달된 json 배열을 데이터로 목록을 갱신한다.
           setBoardView(res.data.data);
         } else {
-          alert('백엔드 호출! 에러 발생 - 게시글목록');
+          alert('백엔드 호출! 에러 발생 - 게시글상세보기');
         }
       })
       .catch((err) => {
         console.error(err);
       });
     //
-  }, []);
+  }, [loginMemberId]);
+
+  // 게시글 삭제버튼 이벤트
+  const deleteBoard = () => {
+    if (window.confirm('게시글을 삭제하시겠습니까?')) {
+      axios
+        .delete(`http://localhost:3005/board/${boardNo}`)
+        .then((result) => {
+          console.log('게시글삭제 res', result);
+          alert('게시글이 삭제되었습니다. 목록으로 돌아갑니다.');
+          history.push('/board');
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  };
+
   return (
     <>
       <Container>
@@ -49,6 +85,10 @@ const BoardView = ({ history, match }) => {
               <div className="post-view-row">
                 <label>제목</label>
                 <label>{boardView.boardTitle}</label>
+              </div>
+              <div className="post-view-row">
+                <label>작성자</label>
+                <label>{boardView.memberId}</label>
               </div>
               <div className="post-view-row">
                 <label>작성일</label>
@@ -68,9 +108,25 @@ const BoardView = ({ history, match }) => {
           ) : (
             '해당 게시글을 찾을 수 없습니다.'
           )}
-          <button className="post-view-go-list-btn" onClick={() => history.goBack()}>
+          <button
+            className="post-view-go-list-btn"
+            onClick={() => history.goBack()}
+            style={{ marginBottom: '2rem' }}
+          >
             목록으로 돌아가기
           </button>
+          <br />
+          {/* 아이디비교해서 수정여부 true, false  */}
+          {isModify && (
+            <Button
+              style={{ marginRight: '1rem' }}
+              onClick={() => history.push({ pathname: `/board/modify/${boardView.boardNo}` })}
+            >
+              수정
+            </Button>
+          )}
+
+          {isModify && <Button onClick={deleteBoard}>삭제</Button>}
         </div>
       </Container>
     </>

@@ -1,9 +1,12 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
+import { useSelector } from 'react-redux'; // 리덕스 훅스
 
 // 민아) 7/27, 게시글 목록 + 상세보기 페이지 이동
 const CustomTable = ({ boardList }) => {
   // console.log('boardList?', boardList);
+  const isLogin = useSelector((state) => state.auth.isLogin);
+  // console.log('is게시글 로그인??', isLogin);
 
   return (
     <Table bordered hover>
@@ -21,9 +24,15 @@ const CustomTable = ({ boardList }) => {
         {boardList.map((item, index) => (
           <tr key={item.boardNo}>
             <td>{item.boardNo}</td>
-            <td>
-              <a href={`/board/view/${item.boardNo}`}>{item.boardTitle}</a>
-            </td>
+            {/* 로그인 한 사용자들만 게시글 상세보기 가능  */}
+            {isLogin ? (
+              <td>
+                <a href={`/board/view/${item.boardNo}`}>{item.boardTitle}</a>
+              </td>
+            ) : (
+              <td>{item.boardTitle}</td>
+            )}
+
             <td>{item.boardCategory}</td>
             <td>{item.memberId}</td>
             <td>{item.boardHits}</td>

@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef, useImperativeHandle } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Button, Container, Form } from 'react-bootstrap';
 import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -99,12 +99,12 @@ const BoardRegist = () => {
           ['clean']
         ],
         // 이걸쓰면 이미지가 눈에 안보이고... 콘솔에 파일명은 잘 찍히고....
-        handlers: {
-          image: imageHandler
-        }
+        // handlers: {
+        //   image: imageHandler
+        // },
 
         // 이걸쓰면 사진은 눈에 보이는데, 콘솔에 파일명이 안찍히고...
-        // imageUploader: imageHandler
+        imageUploader: imageHandler
       }
     }),
     []
@@ -130,8 +130,7 @@ const BoardRegist = () => {
       boardTitle: board.boardTitle,
       boardCategory: board.boardCategory,
       boardContents: editorContents,
-      memberId: board.memberId,
-      boardImg: ''
+      memberId: board.memberId
     };
 
     // console.log('formdata있나요?', formData);

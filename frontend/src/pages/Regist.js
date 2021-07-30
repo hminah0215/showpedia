@@ -44,8 +44,23 @@ const Regist = () => {
   };
   const onPhotoHandler = (e) => {
     e.preventDefault();
-    setProfilePhoto(e.target.value);
-    console.log('setProfilePhoto');
+
+    const files = e.target.files;
+    console.log('files??', files);
+    console.log('files모냐', files[0].name);
+    let formData = new FormData();
+    formData.append('filename', files[0].name);
+
+    for (let key of formData.keys()) {
+      console.log('이미지key', key);
+    }
+
+    for (let value of formData.values()) {
+      console.log('이미지value', value);
+      const regPhoto = value;
+      setProfilePhoto(regPhoto); // 왜 폼데이터를 저장하면 먹통일까 ㅡㅡ
+      console.log('setProfilePhoto', regPhoto);
+    }
   };
 
   // console.log('checkIdError', checkIdError);
@@ -85,6 +100,8 @@ const Regist = () => {
   const onSubmitHandler = (e) => {
     e.preventDefault();
 
+    console.log('profilePhoto??', profilePhoto);
+
     let registerUser = {
       memberId: memberId,
       nickName: nickName,
@@ -98,8 +115,12 @@ const Regist = () => {
       return setPasswordError(true);
     }
 
+    const config = {
+      header: { 'content-type': 'multipart/form-data' }
+    };
+
     axios
-      .post('http://localhost:3005/regist', registerUser)
+      .post('http://localhost:3005/regist', registerUser, config)
       .then((result) => {
         console.log('회원가입===>', result);
 
@@ -109,7 +130,7 @@ const Regist = () => {
           setPasswordError(false);
           dispatch(registUser(registerUser));
           alert('가입이 정상적으로 완료되었습니다');
-          history.push('/login');
+          // history.push('/login');
         } else {
           alert('회원가입 실패 - 관리자에게 문의하세요.');
         }
@@ -208,7 +229,8 @@ const Regist = () => {
             <Form.Label>프로필 이미지</Form.Label>
             <Form.Control
               type="file"
-              value={profilePhoto}
+              // value={profilePhoto}
+              name={profilePhoto}
               accept="image/jpg,impge/png,image/jpeg,image/gif"
               onChange={onPhotoHandler}
             />
