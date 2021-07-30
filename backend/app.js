@@ -4,6 +4,8 @@ const path = require('path');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const bodyParser = require('body-parser');
+const parser = bodyParser.urlencoded({ extended: false });
 
 // passport 패키지 참조
 const passport = require('passport');
@@ -32,7 +34,8 @@ passportConfig();
 app.use(cors({ origin: true, credentials: true }));
 
 // 미들웨어 사용, 라우터 경로 지정하기 전에 있어야 경로에 엑세스한다.
-app.use(express.urlencoded({ extended: false }));
+// extended 를 true로 줘야, 리액트에서 첨부판 파일정보를 req.body로 가져올수있다!
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
