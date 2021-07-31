@@ -31,22 +31,22 @@ const Main = () => {
     const getBoxofficeList = async () => {
       // 세션 스토리지에 저장된 boxoffice List가 있다면 세션 스토리지에서
       // boxoffice List 데이터를 가져온다. = 첫 로딩 시간이 너무 길기 때문...
-      // if (
-      //   sessionStorage.getItem('boxoffice') &&
-      //   sessionStorage.getItem('classicoffice') &&
-      //   sessionStorage.getItem('showoffice')
-      // ) {
-      //   const data = JSON.parse(sessionStorage.getItem('boxoffice'));
-      //   const classicData = JSON.parse(sessionStorage.getItem('classicoffice'));
-      //   const showData = JSON.parse(sessionStorage.getItem('showoffice'));
+      if (
+        sessionStorage.getItem('boxoffice') &&
+        sessionStorage.getItem('classicoffice') &&
+        sessionStorage.getItem('showoffice')
+      ) {
+        const data = JSON.parse(sessionStorage.getItem('boxoffice'));
+        const classicData = JSON.parse(sessionStorage.getItem('classicoffice'));
+        const showData = JSON.parse(sessionStorage.getItem('showoffice'));
 
-      //   showDispatch(setBoxofficeList(data));
-      //   setClassicoffice(classicData);
-      //   setShowoffice(showData);
+        showDispatch(setBoxofficeList(data));
+        setClassicoffice(classicData);
+        setShowoffice(showData);
 
-      //   showDispatch(isLoaded());
-      //   return;
-      // }
+        showDispatch(isLoaded());
+        return;
+      }
 
       const URL = 'http://localhost:3005/show/boxoffice?catecode=';
       try {
@@ -57,7 +57,7 @@ const Main = () => {
         // 연극 TOP 10
         const showBoxoffice = await axios.get(URL + 'AAAA');
 
-        console.log('데이터가 가져와 지나요?', result);
+        // console.log('데이터가 가져와 지나요?', result);
 
         // state에 저장하기
         showDispatch(setBoxofficeList(result.data.data));
