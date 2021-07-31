@@ -23,6 +23,7 @@ const getShowtoJSON = async (URL) => {
   } catch (err) {
     return {
       msg: 'OPEN API 접근 실패',
+      data: [],
       status: 500
     };
   }
@@ -101,13 +102,15 @@ router.get('/boxoffice', async (req, res) => {
   // 요청 변수에 맞는 형식으로 변경
   const defaultStdate =
     String(date.getFullYear()) +
-    String(date.getMonth()).padStart(2, '0') +
+    String(date.getMonth() + 1).padStart(2, '0') +
     String(date.getDate()).padStart(2, '0');
 
   const URL =
     BASE_URL +
     `boxoffice?service=${KEY}` +
-    `&ststype=month&date=${defaultStdate}&catecode=${catecode}`;
+    `&ststype=week&date=${defaultStdate}&catecode=${catecode}`;
+
+  // console.log('박스오피스 URL', URL);
 
   // OPEN API에서 데이터를 가져온다
   const boxoffice = await getShowtoJSON(URL);
