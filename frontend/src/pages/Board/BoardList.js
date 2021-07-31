@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Button, Container, Tab, Tabs } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 // 컴포넌트 참조
@@ -84,9 +85,12 @@ const BoardList = () => {
     return currentPosts;
   }
 
+  const isLogin = useSelector((state) => state.auth.isLogin);
+
   return (
     // Container로 감싸기, className으로 공통된 마진값 주기
     <Container className="my-3 container">
+      <h3 className="main-title">게시판</h3>
       <Tabs
         id="controlled-tab-example"
         activeKey={key}
@@ -114,13 +118,15 @@ const BoardList = () => {
         totalBoardList={boardList.length}
         paginate={setCurrentPage}
       ></BoardPagination>
-      <Button
-        onClick={() => {
-          history.push({ pathname: '/board/regist' });
-        }}
-      >
-        글쓰기
-      </Button>
+      {isLogin && (
+        <Button
+          onClick={() => {
+            history.push({ pathname: '/board/regist' });
+          }}
+        >
+          글쓰기
+        </Button>
+      )}
     </Container>
   );
 };

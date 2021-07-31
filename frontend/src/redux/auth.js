@@ -57,6 +57,7 @@ export const isLogin = (islogin) => {
     payload: islogin
   };
 };
+
 // 3. show리덕스의 초기 상태 만들기
 const initialState = {
   islogin: false, // 로그인여부

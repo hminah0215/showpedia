@@ -125,25 +125,50 @@ router.post('/regist', tokenTest, isLoggedIn, async (req, res) => {
 
 // 민아) 7/30, 게시글 수정
 router.put('/:id', tokenTest, isLoggedIn, async (req, res) => {
-  const boardIdx = req.params.id;
-  console.log('수정할 게시글 번호', boardIdx);
   // 회원아이디, 수정할 게시글 번호
   const memberId = req.user.memberId;
+  const boardIdx = req.params.id;
   console.log('게시글 수정 memberId', memberId);
-  // const boardNo = req.body.boardNo;
+  console.log('수정할 게시글 번호', boardIdx);
+
+  // 리뷰 수정옵션을 결정
+  const opt = req.body.report;
+
+  console.log('신고req,body', req.body.reportMember);
+
+  // 클라이언트에서 신고옵션이 들어오는 경우
+  // 토큰 인증결과의 memberId와 클라이언트에서 전송한 해당 리뷰의 memberId가 다를 경우 수정 불가
+  //단, opt가 있는 경우는 memberId 가 같을 필요가 없다.
+  if (!opt && memberId !== req.body.reportMember) {
+    return res.json({
+      code: '500',
+      msg: '다시 로그인을 진행해주세요'
+    });
+  }
+  // 클라이언트가 opt를 보내는 경우
+  // 좋아요/싫어요 수정이면서 리뷰의 memberId와 현재 로그인한 memberId가 같은경우
+  // 좋아요 싫어요 불가
+  if (opt && memberId === req.body.reportMember) {
+    return res.json({
+      code: '400',
+      msg: '자신의 리뷰에 좋아요/싫어요 금지'
+    });
+  }
+
+  console.log('신고 reqbody', req.body);
+
+  const updateReports = opt == 'report' ? req.body.boardReports + 1 : req.body.boardReports;
+  console.log('신고들어왔어요!', updateReports);
+
+  const updateBoard = {
+    boardTitle: req.body.boardTitle,
+    boardCategory: req.body.boardCategory,
+    boardContents: req.body.boardContents,
+    boardReports: updateReports
+  };
 
   try {
-    const updateCnt = await Board.update(
-      {
-        // 바꿀내용들
-        boardTitle: req.body.boardTitle,
-        boardCategory: req.body.boardCategory,
-        boardContents: req.body.boardContents
-      },
-      {
-        where: { boardNo: boardIdx }
-      }
-    );
+    const updateCnt = await Board.update(updateBoard, { where: { boardNo: boardIdx } });
     console.log('수정 결과 반환값', updateCnt);
     return res.json({ code: '200', data: updateCnt, msg: '게시글수정 OK' });
   } catch (error) {

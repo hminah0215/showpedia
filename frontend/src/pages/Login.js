@@ -25,7 +25,7 @@ const Login = () => {
   const onSubmitHandler = (e) => {
     e.preventDefault();
 
-    // 로그인 axios post
+    // 로컬 로그인 axios post
     axios.defaults.withCredentials = true; // 쿠키 데이터를 전송받기 위해
     axios
       .post('http://localhost:3005/login', member)
@@ -101,7 +101,30 @@ const Login = () => {
           <Button variant="primary" type="submit" style={{ width: '100%', marginBottom: '1rem' }}>
             로그인
           </Button>
+          {/* cors설정도 하고, 디벨로퍼페이지에서 3000번 포트도 등록했는데 에러발생해서 찾아보니 
+          클라이언트에서 rest api 서버로 요청할때는 axios,fetch 등이 아닌 a태그의 href를 사용해야한다고 한다. 
+          https://www.inflearn.com/questions/30479 */}
         </Form>
+        {/* <KaKaoLogin
+          token={'9e8bd5cc80a40d60f3c4a9fbcdab49d3'}
+          onSuccess={onKakao}
+          style={{ width: '100%', marginBottom: '1rem' }}
+        ></KaKaoLogin> */}
+        <Button
+          variant="warning"
+          type="submit"
+          style={{ width: '100%', marginBottom: '1rem' }}
+          // onSuccess={onKakao}
+        >
+          <a
+            href="http://localhost:3005/kakao"
+            style={{ textDecoration: 'none', color: 'black' }}
+            // onClick={onKakao}
+            // key={'9e8bd5cc80a40d60f3c4a9fbcdab49d3'}
+          >
+            카카오 로그인
+          </a>
+        </Button>
       </div>
     </Container>
   );

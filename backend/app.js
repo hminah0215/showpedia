@@ -29,12 +29,13 @@ passportConfig();
 
 // cors { origin: true, credentials: true }
 // credentials: true, 리액트에서 로그인 구현시 다른도메인에 쿠키를 전송하기 위해서 씀 (react, axios에도 관련 코드 추가)
-//  origin: true, 요청주소와 같게!
+//  origin: true, 요청주소와 같게! 'http://localhost:3000'
 // 참고 ) https://www.zerocho.com/category/NodeJS/post/5e9bf5b18dcb9c001f36b275
 app.use(cors({ origin: true, credentials: true }));
 
 // 미들웨어 사용, 라우터 경로 지정하기 전에 있어야 경로에 엑세스한다.
 // extended 를 true로 줘야, 리액트에서 첨부판 파일정보를 req.body로 가져올수있다!
+// 객체안에 객체를 파싱할 수 있게 하려면 true
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
