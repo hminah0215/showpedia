@@ -208,12 +208,26 @@ router.get(
     failureRedirect: '/',
     session: false
   }),
-
   // 로그인 성공시 실행되는 곳
   (req, res) => {
-    console.log('kakao~~~ 라우터~~~~~');
-    // res.redirect("/");
-    res.json({ msg: '성공' });
+    console.log('카카오 성공 라우터의 req.user', req.user.user.dataValues.memberId);
+    console.log('카카오 성공 라우터의 req.user', req.user.accessToken);
+
+    const token = jwt.sign(
+      {
+        id: req.user.user.dataValues.memberId,
+        name: req.user.user.dataValues.nickname
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: '1d', issuer: 'showpedia' }
+    );
+
+    // 쿠키 저장시키기
+    // res.cookie('member', req.user.accessToken, { httpOnly: true });
+    res.cookie('member', token, { httpOnly: true });
+
+    res.redirect('http://localhost:3000/login');
+    // return res.json({ msg: '성공' });
   }
 );
 

@@ -15,9 +15,9 @@ module.exports = () => {
 
       // 기존에 카카오를 통해 회원가입한 사용자가 있는지 조회한다.
       async (accessToken, refreshToken, profile, done) => {
-        console.log('kakao profile 정보', profile);
-        console.log('카카오accessToken', accessToken);
-        console.log('refreshToken카카오~~', refreshToken);
+        // console.log('kakao profile 정보', profile);
+        // console.log('카카오accessToken', accessToken);
+        // console.log('refreshToken카카오~~', refreshToken);
 
         try {
           const exMember = await Member.findOne({
@@ -30,7 +30,7 @@ module.exports = () => {
               accessToken: accessToken || ''
             };
 
-            console.log('kakaoMember정보! ', kakaoMember);
+            // console.log('kakaoMember정보! ', kakaoMember);
 
             // done(null, exMember);
             done(null, kakaoMember); // 로그아웃 구현을 위해 액세스토큰값도 같이 넘긴다.

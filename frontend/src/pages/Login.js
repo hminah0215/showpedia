@@ -4,6 +4,7 @@ import { Button, Container, Form } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { loginUser } from '../redux/auth';
+import KaKaoLogin from 'react-kakao-login';
 
 const Login = () => {
   const [member, setMember] = useState({
@@ -60,6 +61,7 @@ const Login = () => {
         alignItems: 'center'
       }}
     >
+      <a href="http://localhost:3005/kakao">카카오 로그인</a>
       <div
         style={{
           width: '60%',
