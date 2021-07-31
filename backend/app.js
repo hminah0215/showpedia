@@ -38,8 +38,7 @@ app.use(cors({ origin: true, credentials: true }));
 // 객체안에 객체를 파싱할 수 있게 하려면 true
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
-app.use('/uploads', express.static('uploads'));
+app.use(express.static(path.join(__dirname, '/public')));
 
 // cookie-parser 사용
 app.use(cookieParser());

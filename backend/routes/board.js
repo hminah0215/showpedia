@@ -1,58 +1,32 @@
 const express = require('express');
 const multer = require('multer');
-const { Board, BoardImage } = require('../models/');
+const path = require('path');
+const { Board } = require('../models/');
 const { isLoggedIn, tokenTest } = require('./middleware');
 
 const router = express.Router();
 
 // 민아) 7/29, 멀터패키지 사용, 파일명 저장 옵션 설정
-const storage = multer.diskStorage({
-  // 저장 경로 설정
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  // 파일명 설정, 중복되지 않게 파일명 생성
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}_${file.originalname}`);
-  },
-  fileFilter: (req, file, cb) => {
-    const ext = path.extname(file.originalname);
-    if (ext !== '.png' || ext !== '.jpg') {
-      return cb(res.status(400).end('확장자가 png, jpg인 파일만 업로드가능합니다.'), false);
+const upload = multer({
+  // 저장할 장소
+  storage: multer.diskStorage({
+    destination(req, file, cb) {
+      cb(null, 'public/uploads');
+    },
+    // 저장할 파일의 이름 설정
+    filename(req, file, cb) {
+      const ext = path.extname(file.originalname);
+      cb(null, path.basename(file.originalname, ext) + Date.now() + ext); // 유니크한 파일명
     }
-    cb(null, true);
-  }
+  }),
+  limits: { fileSize: 5 * 1024 * 1024 } // 파일 크기 제한
 });
-const upload = multer({ storage: storage });
 
-// 민아) 7/29, 게시글에 첨부되는 이미지 파일 처리
-// 게시글 이미지 테이블에는 boardImageFileName, boardImageFilePath, boardNo 컬럼이 있음
-// upload.array('파일전부를 배열형태로전달받음', 5 ) 숫자는 몇개의 이미지까지 허용인지
-// upload.single('file'),
-router.post('/uploads', upload.single('file'), async (req, res) => {
-  console.log('req image', req.body);
-  const uploadedFile = req.body.filename;
-  console.log('게시글에 업로드된 파일정보: ', uploadedFile);
-
-  let filepath = '/uploads/' + uploadedFile;
-
-  let images = {
-    boardImageFileName: uploadedFile,
-    boardImageFilePath: filepath,
-    boardNo: ''
-  };
-
-  // let images = { boardImg: filepath };
-  // return res.json({ code: '200', data: images, msg: '이미지정보입니당' });
-  try {
-    // db에 해당 데이터를 저장하고 저장결과를 다시 받아온다.
-    const saveImage = await BoardImage.create(images);
-    return res.json({ code: '200', data: saveImage, msg: '이미지테이블에 저장ok' });
-    //
-  } catch (error) {
-    console.log('서버에러내용: ', error);
-    return res.json({ code: '500', data: {}, msg: '게시글 이미지첨부 서버에러발생!!' });
-  }
+// 민아) 7/29, 게시글에 첨부되는 이미지 파일 처리를위한 라우터
+router.post('/uploads', upload.single('img'), (req, res) => {
+  console.log(req.file);
+  console.log('게시글에 업로드된 파일정보: ', req.file);
+  res.json({ url: `http://localhost:3005/uploads/${req.file.filename}` });
 });
 
 // 민아) 7/26, 게시글 전체목록 get 라우터
@@ -132,26 +106,16 @@ router.put('/:id', tokenTest, isLoggedIn, async (req, res) => {
   console.log('수정할 게시글 번호', boardIdx);
 
   // 리뷰 수정옵션을 결정
-  const opt = req.body.report;
+  const opt = req.body.opt;
 
-  console.log('신고req,body', req.body.reportMember);
+  console.log('opt', req.body.opt);
 
-  // 클라이언트에서 신고옵션이 들어오는 경우
-  // 토큰 인증결과의 memberId와 클라이언트에서 전송한 해당 리뷰의 memberId가 다를 경우 수정 불가
-  //단, opt가 있는 경우는 memberId 가 같을 필요가 없다.
-  if (!opt && memberId !== req.body.reportMember) {
-    return res.json({
-      code: '500',
-      msg: '다시 로그인을 진행해주세요'
-    });
-  }
   // 클라이언트가 opt를 보내는 경우
-  // 좋아요/싫어요 수정이면서 리뷰의 memberId와 현재 로그인한 memberId가 같은경우
-  // 좋아요 싫어요 불가
+  // 신고하는 사람의 아이디와 게시글 작성자의 아이디가 같으면!
   if (opt && memberId === req.body.reportMember) {
     return res.json({
       code: '400',
-      msg: '자신의 리뷰에 좋아요/싫어요 금지'
+      msg: '자신의 글에 신고 금지'
     });
   }
 

@@ -12,36 +12,30 @@ const multer = require('multer'); // 파일이미지업로드를 위해 multer �
 const router = express.Router();
 
 // 민아) 7/24, 멀터패키지 사용, 파일명 저장 옵션 설정
-const storage = multer.diskStorage({
-  // 저장 경로 설정
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  // 파일명 설정, 중복되지 않게 파일명 생성
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}_${file.originalname}`);
-  },
-  fileFilter: (req, file, cb) => {
-    const ext = path.extname(file.originalname);
-    if (ext !== '.png' || ext !== '.jpg') {
-      return cb(res.status(400).end('확장자가 png, jpg인 파일만 업로드가능합니다.'), false);
+const upload = multer({
+  // 저장할 장소
+  storage: multer.diskStorage({
+    destination(req, file, cb) {
+      cb(null, 'public/uploads');
+    },
+    // 저장할 파일의 이름 설정
+    filename(req, file, cb) {
+      const ext = path.extname(file.originalname);
+      cb(null, path.basename(file.originalname, ext) + Date.now() + ext); // 유니크한 파일명
     }
-    cb(null, true);
-  }
+  }),
+  limits: { fileSize: 5 * 1024 * 1024 } // 파일 크기 제한
 });
-const upload = multer({ storage: storage });
 
 // 민아) 7/24, 프로필 이미지 관련 처리
 router.post('/uploads', upload.single('profilePhoto'), async (req, res) => {
   const uploadedFile = req.file;
   console.log('프로필이미지 업로드된 파일정보: ', uploadedFile);
 
-  let filepath = '/uploads/' + uploadedFile.filename;
-
   return res.json({
     success: true,
     message: '프로필 이미지가 등록되었습니다.',
-    filepath: filepath
+    url: `http://localhost:3005/auth/uploads/${req.file.filename}`
   });
 });
 
@@ -73,14 +67,10 @@ router.post('/checkId', async (req, res, next) => {
 router.post('/regist', isNotLoggedIn, upload.single('profilePhoto'), async (req, res, next) => {
   const { memberId, pwd, nickName, profilePhoto } = req.body;
 
-  console.log(req.body);
+  console.log('회원가입', req.body);
 
   const uploadedFile = req.body.profilePhoto;
   console.log('프로필이미지 업로드된 파일정보: ', uploadedFile);
-
-  let filepath = '/uploads/' + uploadedFile;
-
-  console.log('reqbody', req.body);
 
   console.log('req.body 프로필이미지', req.body.profilePhoto);
 
@@ -103,7 +93,7 @@ router.post('/regist', isNotLoggedIn, upload.single('profilePhoto'), async (req,
         memberId,
         pwd: hash,
         nickName,
-        profilePhoto: filepath
+        profilePhoto: uploadedFile
       });
 
       let checkId = true;
