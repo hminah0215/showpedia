@@ -30,7 +30,7 @@ module.exports = () => {
               accessToken: accessToken || ''
             };
 
-            console.log('kakaoMember정보! ', kakaoMember);
+            // console.log('kakaoMember정보! ', kakaoMember);
 
             // done(null, exMember);
             done(null, kakaoMember); // 로그아웃 구현을 위해 액세스토큰값도 같이 넘긴다.

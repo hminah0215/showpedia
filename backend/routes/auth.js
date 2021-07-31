@@ -211,9 +211,38 @@ router.get(
 
   // 로그인 성공시 실행되는 곳
   (req, res) => {
-    console.log('kakao~~~ 라우터~~~~~');
-    // res.redirect("/");
-    res.json({ msg: '성공' });
+    console.log('=== 카카오 로그인 성공req.user === ', req.user.user.dataValues.memberId);
+    console.log(req.body);
+    try {
+      // 카카오로그인 전략이 성공하면 jwt 토큰 발급
+      const token = jwt.sign(
+        // sign의 첫번째 인수, payload에 저장할 데이터
+        { id: req.user.user.dataValues.memberId, name: req.user.user.dataValues.nickname },
+        // sign의 두번째 인수
+        process.env.JWT_SECRET,
+        // sign의 세번째 인수 -> 유효기간,발급자 등의 정보를 설정
+        { expiresIn: '1d', issuer: 'showpedia' } // 유효기간 하루로 설정해둠
+      );
+
+      // signed:true 줘서 암호화된 쿠키를 사용하는 게 좋다고 함.
+      // 일단 테스트 다하고 변경예정
+      res.cookie('member', token, { httpOnly: true });
+
+      console.log('카카오로그인 쿠키발급 accessToken==>', token);
+
+      // return res.json({
+      //   code: 200,
+      //   message: '카카오로그인 성공',
+      //   accessToken: req.user.accessToken,
+      //   data: cookieToken
+      // });
+
+      res.redirect('http://localhost:3000/');
+
+      // return res.redirect('http://localhost:3000');
+    } catch (error) {
+      console.error(error);
+    }
   }
 );
 

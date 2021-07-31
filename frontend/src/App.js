@@ -32,6 +32,7 @@ function App() {
 
   useEffect(() => {
     console.log('app.js 리렌더링');
+
     axios.defaults.withCredentials = true; // 쿠키 데이터를 전송받기 위해
     axios.get('http://localhost:3005/tokenTest').then((result) => {
       console.log('app.js result', result);
