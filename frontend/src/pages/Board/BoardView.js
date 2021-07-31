@@ -89,18 +89,14 @@ const BoardView = ({ history, match }) => {
           })
           .then((result) => {
             console.log('신고 결과', result);
-            if (result.data.code !== '200') {
-              if (result.data.code === '400') {
-                return alert('본인글에는 신고를 할 수 없습니다.');
-              }
-              alert('로그인을 해주세요!');
-              return;
+            if (result.data.code !== '200' && result.data.code === '400') {
+              return alert('본인글에는 신고를 할 수 없습니다.');
             }
 
+            // 신고결과가 ok이면 신고수 +1
             if (result.data.code === '200') {
               setBoardView({ ...boardView, boardReports: boardView.boardReports + 1 });
             }
-
             console.log('신고완료', boardView);
           })
           .catch((err) => {
