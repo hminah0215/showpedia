@@ -8,6 +8,7 @@ const { isLoggedIn, isNotLoggedIn } = require('./middleware');
 const { Member } = require('../models/');
 
 const multer = require('multer'); // 파일이미지업로드를 위해 multer 패키지 참조
+const path = require('path');
 
 const router = express.Router();
 
@@ -27,16 +28,11 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 } // 파일 크기 제한
 });
 
-// 민아) 7/24, 프로필 이미지 관련 처리
-router.post('/uploads', upload.single('profilePhoto'), async (req, res) => {
-  const uploadedFile = req.file;
-  console.log('프로필이미지 업로드된 파일정보: ', uploadedFile);
-
-  return res.json({
-    success: true,
-    message: '프로필 이미지가 등록되었습니다.',
-    url: `http://localhost:3005/auth/uploads/${req.file.filename}`
-  });
+// 민아) 7/29,프로필이미지
+router.post('/uploadProfile', upload.single('profilePhoto'), (req, res) => {
+  console.log(req.file);
+  console.log('프로필이미지에 업로드된 파일정보: ', req.file);
+  res.json({ url: `http://localhost:3005/uploads/${req.file.filename}` });
 });
 
 // 민아) 7/29, 아이디 중복체크용 라우터

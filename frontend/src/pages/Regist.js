@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Container, Form } from 'react-bootstrap';
+import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { registUser } from '../redux/auth';
@@ -45,22 +45,24 @@ const Regist = () => {
   const onPhotoHandler = (e) => {
     e.preventDefault();
 
-    const files = e.target.files;
-    console.log('files??', files);
-    console.log('files모냐', files[0].name);
-    let formData = new FormData();
-    formData.append('filename', files[0].name);
+    const formData = new FormData();
 
-    for (let key of formData.keys()) {
-      console.log('이미지key', key);
-    }
+    formData.append('profilePhoto', e.target.files[0]);
 
-    for (let value of formData.values()) {
-      console.log('이미지value', value);
-      const regPhoto = value;
-      setProfilePhoto(regPhoto); // 왜 폼데이터를 저장하면 먹통일까 ㅡㅡ
-      console.log('setProfilePhoto', regPhoto);
-    }
+    axios
+      .post('http://localhost:3005/uploadProfile', formData, {
+        header: { 'content-type': 'multipart/form-data' }
+      })
+      .then((result) => {
+        console.log('통신하나요?');
+        console.log('멀터이미지', result.data);
+        console.log('저장할 url', result.data.url);
+
+        const IMG_URL = result.data.url;
+
+        setProfilePhoto(`${IMG_URL}`);
+      })
+      .catch((err) => {});
   };
 
   // console.log('checkIdError', checkIdError);
@@ -160,7 +162,7 @@ const Regist = () => {
       >
         {/* onChange={onRegisterUser} */}
         <Form onSubmit={onSubmitHandler}>
-          <h3 style={{ textAlign: 'center', marginTop: '1rem' }}>회원가입</h3>
+          <h3 style={{ textAlign: 'center', marginTop: '2rem' }}>회원가입</h3>
           <Form.Group className="mb-3" controlId="formBasicEmail" style={{ marginTop: '2rem' }}>
             <Form.Label>이메일(아이디)</Form.Label>
             <Form.Control
@@ -235,10 +237,24 @@ const Regist = () => {
               onChange={onPhotoHandler}
             />
           </Form.Group>
-
           {/* 프로필이미지로 선택한 사진을 보여주고 싶음.. 이건 좀더 생각해봐야겠음  */}
-
-          <Button variant="primary" type="submit" style={{ width: '100%', marginBottom: '1rem' }}>
+          <div
+            style={{
+              width: '60%',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center'
+            }}
+          >
+            <Col xs={20} md={4}>
+              <Image src={profilePhoto} height="171" width="180" roundedCircle />
+            </Col>
+          </div>
+          <Button
+            variant="primary"
+            type="submit"
+            style={{ width: '100%', marginBottom: '2rem', marginTop: '1rem' }}
+          >
             회원가입
           </Button>
         </Form>
