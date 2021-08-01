@@ -61,7 +61,6 @@ const Login = () => {
         alignItems: 'center'
       }}
     >
-      <a href="http://localhost:3005/kakao">카카오 로그인</a>
       <div
         style={{
           width: '60%',
@@ -71,7 +70,7 @@ const Login = () => {
           alignItems: 'center'
         }}
       >
-        <h3 style={{ textAlign: 'center', marginTop: '1rem' }}>Log in</h3>
+        <h3 style={{ textAlign: 'center', marginTop: '1.5rem' }}>Log in</h3>
         <Form onSubmit={onSubmitHandler}>
           <Form.Group className="mb-3" controlId="formBasicEmail" style={{ marginTop: '2rem' }}>
             <Form.Label>이메일</Form.Label>
@@ -83,7 +82,7 @@ const Login = () => {
               placeholder="아이디를 입력해주세요."
             />
             <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
+              회원가입시 등록한 아이디는 이메일 포맷입니다.
             </Form.Text>
           </Form.Group>
 
@@ -101,30 +100,18 @@ const Login = () => {
           <Button variant="primary" type="submit" style={{ width: '100%', marginBottom: '1rem' }}>
             로그인
           </Button>
-          {/* cors설정도 하고, 디벨로퍼페이지에서 3000번 포트도 등록했는데 에러발생해서 찾아보니 
+          <Button variant="warning" type="submit" style={{ width: '100%', marginBottom: '1.5rem' }}>
+            <a
+              href="http://localhost:3005/kakao"
+              style={{ textDecoration: 'none', color: 'black' }}
+            >
+              카카오 로그인
+            </a>
+            {/* cors설정도 하고, 디벨로퍼페이지에서 3000번 포트도 등록했는데 에러발생해서 찾아보니 
           클라이언트에서 rest api 서버로 요청할때는 axios,fetch 등이 아닌 a태그의 href를 사용해야한다고 한다. 
           https://www.inflearn.com/questions/30479 */}
+          </Button>
         </Form>
-        {/* <KaKaoLogin
-          token={'9e8bd5cc80a40d60f3c4a9fbcdab49d3'}
-          onSuccess={onKakao}
-          style={{ width: '100%', marginBottom: '1rem' }}
-        ></KaKaoLogin> */}
-        <Button
-          variant="warning"
-          type="submit"
-          style={{ width: '100%', marginBottom: '1rem' }}
-          // onSuccess={onKakao}
-        >
-          <a
-            href="http://localhost:3005/kakao"
-            style={{ textDecoration: 'none', color: 'black' }}
-            // onClick={onKakao}
-            // key={'9e8bd5cc80a40d60f3c4a9fbcdab49d3'}
-          >
-            카카오 로그인
-          </a>
-        </Button>
       </div>
     </Container>
   );

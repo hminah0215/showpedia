@@ -1,12 +1,23 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import ReactQuill, { Quill } from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+
 import axios from 'axios';
 import { Button, Container, Form } from 'react-bootstrap';
 import { useHistory, useLocation } from 'react-router-dom';
 
+import ReactQuill, { Quill } from 'react-quill'; // quill에디터
+import 'react-quill/dist/quill.snow.css'; // quill에디터 테마
+
 const BoardModify = () => {
   const history = useHistory();
+
+  // 에디터내 이미지 처리를 위한 ref
+  const imageRef = useRef();
+
+  // quill 메서드를 사용하기 위한 ref
+  const quillRef = useRef();
+
+  // 리렌더 상태를 담는 state
+  const [reRender, setReRender] = useState(false);
 
   // 원래 게시글 정보
   const [exBoard, setExBoard] = useState({
@@ -24,11 +35,49 @@ const BoardModify = () => {
     console.log(boardContents);
   };
 
+  // 이미지를 따로 처리해 저장하기 때문에 imageHandler를 만든다
+  const imageHandler = () => {
+    console.log('이미지 핸들러');
+    // 히든으로 숨겨진 input을 선택하도록 한다.
+    imageRef.current.click(); // 선택을 input으로 하게함
+  };
+
   // 제목,카테고리 등 내용변화 onChange
   const onChangeRegist = (e) => {
     // const { name, value } = e.target;
     setExBoard({ ...exBoard, [e.target.name]: e.target.value });
     console.log('등록할내용', exBoard);
+  };
+
+  // 히든 인풋에 현재 선택된 이미지 값 넣어주기
+  const onChangeImageInput = (e) => {
+    e.preventDefault();
+
+    // server에서 multer 사용을 위한 formData를 만든다.
+    const imageFormData = new FormData();
+    console.log('히든인풋창 온체인지 핸들러 e', e.target.files);
+
+    // e.target.files에 있는 파일들을 멀터에 저장해야댐.
+    imageFormData.append('img', e.target.files[0]);
+
+    // 멀터에 이미지를 저장하고 이미지 경로 URL을 받아온다.
+    axios
+      .post('http://localhost:3005/board/uploads', imageFormData)
+      .then((res) => {
+        // 성공하면 보내주는 데이터 res
+        console.log('멀터 이미지 res', res.data);
+        console.log('이 url을 에디터객체에 넣어야한다.', res.data.url);
+        console.log('지금 에디터 ref', quillRef.current);
+
+        const IMG_URL = res.data.url;
+
+        // URL을 에디터 DOM에 접근해 내부에 추가한다.
+        const editor = quillRef.current.getEditor();
+        editor.root.innerHTML = editor.root.innerHTML + `<img src=${IMG_URL} /><br/>`;
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   // 주소에서 현재 게시글 번호를 가져옴
@@ -51,7 +100,13 @@ const BoardModify = () => {
             boardContents: res.data.data.boardContents
           };
 
+          // 불러온 기존내용을 setExBoard에 담는다.
           setExBoard(exContents);
+
+          // 에디터에 원래 내용을 뿌려주기 위해 setEditorContents에 게시글 내용은 별도로 담음
+          setEditorContents(exBoard.boardContents);
+          // 에디터에 기존 글 내용이 바로 뿌려지지않아, reRender useState를 만들고 그 값을 true로 바꾼다.
+          setReRender(true);
 
           console.log('exboard??', exBoard);
         } else {
@@ -61,18 +116,20 @@ const BoardModify = () => {
       .catch((err) => {
         console.error(err);
       });
-  }, []);
+  }, [reRender]); // 에디터에 기존내용이 바로 뿌려지도록 reRender state가 바뀔때마다 동작
 
   const modules = useMemo(
     () => ({
       toolbar: {
         container: [
           [{ header: [1, 2, false] }],
+          ['image', 'link'],
           ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-          [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
-          ['link', 'image'],
-          ['clean']
-        ]
+          [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }]
+        ],
+        handlers: {
+          image: imageHandler // 이미지 핸들러
+        }
       }
     }),
     []
@@ -104,13 +161,10 @@ const BoardModify = () => {
       alert('게시글 제목과 내용을 입력해주세요!');
       return false;
     }
-    const config = {
-      header: { 'content-type': 'multipart/form-data' }
-    };
 
     // axios put 수정
     axios
-      .put(`http://localhost:3005/board/${boardNo}`, updateBoard, config)
+      .put(`http://localhost:3005/board/${boardNo}`, updateBoard)
       .then((result) => {
         console.log('게시글 수정===>', result);
 
@@ -160,17 +214,17 @@ const BoardModify = () => {
         </Form.Select>
       </Form>
       <ReactQuill
+        ref={quillRef}
         name="boardContents"
-        id="editor"
         modules={modules}
         formats={formats}
         value={editorContents}
-        defaultValue={exBoard.boardContents}
         style={{ height: '500px' }}
-        // placeholder={'플레이스 홀더임'}
-        // onChange={(content, delta, source, editor) => onChangeContents(editor.getHTML())}
         onChange={onChangeContents}
       />
+      <br />
+      {/* <p>여기에 input이 히든으로 존재</p> */}
+      <input hidden type="file" ref={imageRef} onChange={onChangeImageInput} />
       <br />
       <Button style={{ marginTop: '2rem', width: '20%' }} onClick={onUpdate}>
         등록

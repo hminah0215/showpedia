@@ -90,7 +90,9 @@ const BoardList = () => {
   return (
     // Container로 감싸기, className으로 공통된 마진값 주기
     <Container className="my-3 container">
-      <h3 className="main-title">게시판</h3>
+      <h3 className="main-title" style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
+        게시판
+      </h3>
       <Tabs
         id="controlled-tab-example"
         activeKey={key}

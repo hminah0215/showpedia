@@ -27,7 +27,9 @@ const CustomTable = ({ boardList }) => {
             {/* 로그인 한 사용자들만 게시글 상세보기 가능  */}
             {isLogin ? (
               <td>
-                <a href={`/board/view/${item.boardNo}`}>{item.boardTitle}</a>
+                <a href={`/board/view/${item.boardNo}`} className="custom-a">
+                  {item.boardTitle}
+                </a>
               </td>
             ) : (
               <td>{item.boardTitle}</td>

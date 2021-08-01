@@ -1,10 +1,10 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import ReactHtmlParser from 'react-html-parser';
-import { Button, Container } from 'react-bootstrap';
-import { ExclamationCircle } from 'react-bootstrap-icons';
 import { useSelector } from 'react-redux';
+import { Alert, Badge, Button, Container, Form } from 'react-bootstrap';
+import { Clock, ExclamationCircle, ExclamationTriangle, Eye } from 'react-bootstrap-icons';
+import ReactHtmlParser from 'react-html-parser';
+import axios from 'axios';
 
 const BoardView = ({ history, match }) => {
   // 백엔드에서 가져올 게시글 데이터 구조정의
@@ -110,67 +110,86 @@ const BoardView = ({ history, match }) => {
 
   return (
     <>
-      <Container>
-        <h2 align="center">게시글 상세정보</h2>
+      <Container
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginTop: '2rem'
+        }}
+      >
+        {boardView ? (
+          <>
+            {/* 제목, 작성자, 조회수, 신고수, 작성일 Alert */}
+            <Alert variant="secondary">
+              <div>
+                <h5>
+                  {/* 제목 */}
+                  {boardView.boardTitle}&emsp;&emsp;&emsp;&emsp;
+                  {/* 작성자 */}
+                  <Badge bg="primary">{boardView.memberId}</Badge>&emsp;&emsp;
+                  {/* 조회수 */}
+                  <Eye />
+                  &nbsp;{boardView.boardHits}
+                  &emsp;
+                  {/* 신고수 */}
+                  <ExclamationTriangle style={{ color: 'red' }} />
+                  &nbsp;{boardView.boardReports}
+                  &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                  {/* 작성일 */}
+                  <Clock />
+                  &nbsp;{boardView.createdAt}
+                </h5>
+              </div>
+            </Alert>
+            <Alert variant="light">
+              {/* 내용 : 에디터를 통해 게시글을 쓰면 <p>안녕</p>처럼 html태그가 다 저장되서 보일때도 태그들이 보인다.
+            그래서 깔끔하게 ReactHtmlParser를 통해 컨텐츠의 value를 감싸준다! */}
+              <div>{ReactHtmlParser(boardView.boardContents)}</div>
+            </Alert>
+          </>
+        ) : (
+          '해당 게시글을 찾을 수 없습니다.'
+        )}
 
-        <div className="post-view-wrapper">
-          {boardView ? (
-            <>
-              <div className="post-view-row">
-                <label>게시글 번호</label>
-                <label>{boardView.boardNo}</label>
-              </div>
-              <div className="post-view-row">
-                <label>제목</label>
-                <label>{boardView.boardTitle}</label>
-              </div>
-              <div className="post-view-row">
-                <label>작성자</label>
-                <label>{boardView.memberId}</label>
-              </div>
-              <div className="post-view-row">
-                <label>작성일</label>
-                <label>{boardView.createdAt}</label>
-              </div>
-              <div className="post-view-row">
-                <label>조회수</label>
-                <label>{boardView.boardHits}</label>
-              </div>
-              <div className="post-view-row">
-                <label>내용</label>
-                {/* 에디터를 통해 게시글을 쓰면 <p>안녕</p>처럼 html태그가 다 저장되서 보일때 안좋으므로
-                ReactHtmlParser를 통해 컨텐츠의 value를 감싸준다! */}
-                <div>{ReactHtmlParser(boardView.boardContents)}</div>
-              </div>
-            </>
-          ) : (
-            '해당 게시글을 찾을 수 없습니다.'
-          )}
-          {/* 신고 버튼 */}
-          <button className="review-btn review-btn--alert" onClick={handleClickReport}>
-            <ExclamationCircle size={20} />
-          </button>
-          <div style={{ color: 'red' }}>신고수 : {boardView.boardReports}</div>
-          <br />
-          <button
-            className="post-view-go-list-btn"
-            onClick={() => history.goBack()}
-            style={{ marginBottom: '2rem' }}
-          >
+        {/* 목록으로 돌아가기, 수정,삭제, 신고 버튼 */}
+        <div
+          style={{
+            marginBottom: '2rem',
+            marginTop: '1.5rem',
+            display: 'table-cell',
+            verticalAlign: 'middle'
+          }}
+        >
+          {/* 목록으로 돌아가기 버튼 */}
+          <Button variant="outline-secondary" onClick={() => history.goBack()}>
             목록으로 돌아가기
-          </button>
-          <br />
-          {/* 아이디비교해서 수정여부 true, false  */}
+          </Button>
+          &emsp;&emsp;
+          {/* 글쓴 사람에게만 보이는 수정버튼 */}
           {isModify && (
             <Button
+              variant="warning"
               style={{ marginRight: '1rem' }}
               onClick={() => history.push({ pathname: `/board/modify/${boardView.boardNo}` })}
             >
               수정
             </Button>
           )}
-
-          {isModify && <Button onClick={deleteBoard}>삭제</Button>}
+          {/* 글쓴 사람에게만 보이는 삭제버튼 */}
+          {isModify && (
+            <Button variant="danger" onClick={deleteBoard}>
+              삭제
+            </Button>
+          )}
+          &emsp;&emsp;
+          {/* 글쓴이는 본인글에 신고버튼을 볼 수 없다. */}
+          {isModify || (
+            <button className="review-btn review-btn--alert" onClick={handleClickReport}>
+              <ExclamationTriangle size={30} />
+            </button>
+          )}
         </div>
       </Container>
     </>
