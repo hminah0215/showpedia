@@ -132,7 +132,7 @@ const Regist = () => {
           setPasswordError(false);
           dispatch(registUser(registerUser));
           alert('가입이 정상적으로 완료되었습니다');
-          // history.push('/login');
+          history.push('/login');
         } else {
           alert('회원가입 실패 - 관리자에게 문의하세요.');
         }
@@ -237,7 +237,7 @@ const Regist = () => {
               onChange={onPhotoHandler}
             />
           </Form.Group>
-          {/* 프로필이미지로 선택한 사진을 보여주고 싶음.. 이건 좀더 생각해봐야겠음  */}
+          {/* 프로필 이미지 미리보기 */}
           <div
             style={{
               width: '60%',
@@ -246,9 +246,26 @@ const Regist = () => {
               alignItems: 'center'
             }}
           >
-            <Col xs={20} md={4}>
-              <Image src={profilePhoto} height="171" width="180" roundedCircle />
-            </Col>
+            {profilePhoto ? (
+              <Col xs={20} md={4}>
+                <Image
+                  src={profilePhoto}
+                  height="171"
+                  width="180"
+                  style={{ objectFit: 'cover' }}
+                  roundedCircle
+                />
+              </Col>
+            ) : (
+              <Col xs={20} md={4}>
+                <Image
+                  src="https://via.placeholder.com/150"
+                  height="171"
+                  width="180"
+                  roundedCircle
+                />
+              </Col>
+            )}
           </div>
           <Button
             variant="primary"

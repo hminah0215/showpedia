@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Table } from 'react-bootstrap';
 import { useSelector } from 'react-redux'; // 리덕스 훅스
 
@@ -21,26 +21,51 @@ const CustomTable = ({ boardList }) => {
         </tr>
       </thead>
       <tbody>
-        {boardList.map((item, index) => (
-          <tr key={item.boardNo}>
-            <td>{item.boardNo}</td>
-            {/* 로그인 한 사용자들만 게시글 상세보기 가능  */}
-            {isLogin ? (
-              <td>
-                <a href={`/board/view/${item.boardNo}`} className="custom-a">
-                  {item.boardTitle}
-                </a>
-              </td>
-            ) : (
-              <td>{item.boardTitle}</td>
-            )}
+        {boardList.map((item, index) => {
+          let category = item.boardCategory;
 
-            <td>{item.boardCategory}</td>
-            <td>{item.memberId}</td>
-            <td>{item.boardHits}</td>
-            <td>{item.createdAt}</td>
-          </tr>
-        ))}
+          switch (category) {
+            case 'notice':
+              category = '공지';
+              break;
+            case 'free':
+              category = '자유';
+              break;
+            case 'actor':
+              category = '덕질';
+              break;
+            case 'together':
+              category = '같이가요';
+              break;
+            default:
+              break;
+          }
+
+          // 작성일 2021-07-31 이렇게 까지만 잘라서 보여주기
+          let regDate = item.createdAt.slice(0, 10);
+          // console.log(regDate.slice(0, 10));
+
+          return (
+            <tr key={item.boardNo}>
+              <td>{item.boardNo}</td>
+              {/* 로그인 한 사용자들만 게시글 상세보기 가능  */}
+              {isLogin ? (
+                <td>
+                  <a href={`/board/view/${item.boardNo}`} className="custom-a">
+                    {item.boardTitle}
+                  </a>
+                </td>
+              ) : (
+                <td>{item.boardTitle}</td>
+              )}
+              <td>{category}</td>
+              {/* 작성자의 닉네임이 보이도록! */}
+              <td>{item.member.nickName}</td>
+              <td>{item.boardHits}</td>
+              <td>{regDate}</td>
+            </tr>
+          );
+        })}
       </tbody>
     </Table>
   );

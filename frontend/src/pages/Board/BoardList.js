@@ -62,6 +62,8 @@ const BoardList = () => {
       .then((res) => {
         // console.log('백엔드에서 제공된 전체 게시글목록 데이터 구조 파악', res);
 
+        console.log('목록res', res);
+
         if (res.data.code === '200') {
           // 게시글 목록 세터함수를 통해 백엔드에서 전달된 json 배열을 데이터로 목록을 갱신한다.
           setBoardList(res.data.data);
@@ -97,6 +99,28 @@ const BoardList = () => {
       <h3 className="main-title" style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
         게시판
       </h3>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginBottom: '1.5rem'
+        }}
+      >
+        <p style={{ margin: '0' }}>로그인 하지않으면, 게시글을 볼 수 없습니다.</p>
+        {isLogin && (
+          <Button
+            onClick={() => {
+              history.push({ pathname: '/board/regist' });
+            }}
+            style={{
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+            }}
+          >
+            글쓰기
+          </Button>
+        )}
+      </div>
       <Tabs
         id="controlled-tab-example"
         activeKey={key}
@@ -124,15 +148,6 @@ const BoardList = () => {
         totalBoardList={boardList.length}
         paginate={setCurrentPage}
       ></BoardPagination>
-      {isLogin && (
-        <Button
-          onClick={() => {
-            history.push({ pathname: '/board/regist' });
-          }}
-        >
-          글쓰기
-        </Button>
-      )}
     </Container>
   );
 };
