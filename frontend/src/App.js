@@ -29,6 +29,7 @@ function App() {
 
   // 민아) 7/28, 로그인 상태 체크
   const loginSuccess = useSelector((state) => state.auth.loginSucess);
+  const logoutSuccess = useSelector((state) => state.auth.logoutSuccess);
 
   useEffect(() => {
     console.log('app.js 리렌더링');
@@ -47,7 +48,7 @@ function App() {
 
     // // 리뷰를 리렌더링 하기?
     dispatch(reRenderReview());
-  }, [loginSuccess]);
+  }, [loginSuccess, logoutSuccess]);
 
   return (
     <>

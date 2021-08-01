@@ -31,20 +31,7 @@ export const loginMemberId = (enterMemberId) => {
   };
 };
 
-export const logoutUser = () => {
-  axios.defaults.withCredentials = true; // 쿠키 데이터를 전송받기 위해
-  const data = axios
-    .get('http://localhost:3005/logout')
-    .then((result) => {
-      console.log('로그아웃res', result);
-
-      if (result.data.code === 200) {
-        // alert('로그아웃 성공');
-      } else {
-        alert('백엔드 에러 발생 - 로그아웃 문제');
-      }
-    })
-    .catch((err) => console.log(err));
+export const logoutUser = (data) => {
   return {
     type: LOGOUT_USER,
     payload: data
