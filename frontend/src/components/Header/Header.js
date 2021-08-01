@@ -25,12 +25,26 @@ const Header = (props) => {
   console.log('is로그인??', isLogin);
 
   // 로그아웃 이벤트
-  const onClickHandler = () => {
-    // useDispatch와 logout 액션이 두가지 필요하다
-    dispatch(logoutUser());
+  const onClickHandler = (e) => {
+    e.preventDefault();
+    axios.defaults.withCredentials = true; // 쿠키 데이터를 전송받기 위해
+    axios
+      .get('http://localhost:3005/logout')
+      .then((result) => {
+        console.log('로그아웃res', result);
+
+        if (result.data.code === 200) {
+          dispatch(logoutUser(true));
+          history.push('/');
+          // alert('로그아웃 성공');
+        } else {
+          alert('백엔드 에러 발생 - 로그아웃 문제');
+        }
+      })
+      .catch((err) => console.log(err));
+
     // props.history.push('/');
     // [아영-에러코드 수정]
-    history.push('/');
   };
 
   // 검색 조건 모달의 열림/닫힘을 위한 state

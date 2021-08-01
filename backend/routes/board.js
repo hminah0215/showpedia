@@ -1,7 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
-const { Board } = require('../models/');
+const { Board, Member } = require('../models/');
 const { isLoggedIn, tokenTest } = require('./middleware');
 
 const router = express.Router();
@@ -44,8 +44,16 @@ router.get('/list', async (req, res, next) => {
       // 전달된 카테고리가 있다면, 검색조건에 카테고리 넣어서 조회
       let boardList = await Board.findAll({
         where: { boardCategory: category },
+        include: [
+          {
+            model: Member,
+            attributes: ['nickName']
+          }
+        ],
         order: [['boardNo', 'DESC']]
       });
+
+      console.log('boardList', boardList);
 
       return res.json({ msg: '카테고리별 목록 ok', data: boardList, code: '200' });
     }
@@ -54,7 +62,15 @@ router.get('/list', async (req, res, next) => {
 
     // 전달된 카테고리가 없으면, 게시글 전체를 조회한다.
     // limit 숫자로 한페이지에 몇개를 보일지 정한다. 일단 테스트시에는 5로해둠
-    const boardAllList = await Board.findAll({ order: [['boardNo', 'DESC']] });
+    const boardAllList = await Board.findAll({
+      include: [
+        {
+          model: Member,
+          attributes: ['nickName']
+        }
+      ],
+      order: [['boardNo', 'DESC']]
+    });
 
     // console.log('boardAllList', boardAllList);
 
@@ -68,7 +84,6 @@ router.get('/list', async (req, res, next) => {
 
 // 민아) 7/26, 게시글 등록 post 라우터  -> 에디터는 ck에디터5 쓰고있음
 // localhost:3005/board/boardRegist.html
-// router.post('/regist', isLoggedIn, tokenTest, async (req, res) => {
 router.post('/regist', tokenTest, isLoggedIn, async (req, res) => {
   // isLoggedIn 미들웨어로 쿠키가 없는 사용자는 로그인 필요함을 나타낸다.
 
@@ -112,6 +127,7 @@ router.put('/:id', tokenTest, isLoggedIn, async (req, res) => {
 
   // 클라이언트가 opt를 보내는 경우
   // 신고하는 사람의 아이디와 게시글 작성자의 아이디가 같으면!
+  // opt가 없고, 아이디가 같으면
   if (!opt && memberId === req.body.reportMember) {
     return res.json({
       code: '400',
@@ -147,7 +163,15 @@ router.get('/view/:id', async (req, res) => {
 
   try {
     //
-    const board = await Board.findOne({ where: { boardNo: boardIdx } });
+    const board = await Board.findOne({
+      where: { boardNo: boardIdx },
+      include: [
+        {
+          model: Member,
+          attributes: ['nickName']
+        }
+      ]
+    });
 
     return res.json({ code: '200', data: board, msg: '게시글 상세보기 OK' });
     //

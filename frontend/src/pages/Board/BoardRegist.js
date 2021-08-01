@@ -199,14 +199,14 @@ const BoardRegist = () => {
         formats={formats}
         value={editorContents}
         style={{ height: '500px' }}
-        placeholder={'플레이스 홀더임'}
+        placeholder={'글 내용을 입력해주세요! 바른말 고운말 :)'}
         onChange={onChangeContents}
       />
       <br />
-      <p>여기에 input이 히든으로 존재</p>
+      {/* <p>여기에 input이 히든으로 존재</p> */}
       <input hidden type="file" ref={imageRef} onChange={onChangeImageInput} />
       <br />
-      <Button style={{ marginTop: '2rem', width: '20%' }} onClick={onSave}>
+      <Button style={{ marginTop: '2rem', marginBottom: '2rem', width: '100%' }} onClick={onSave}>
         등록
       </Button>
     </Container>
