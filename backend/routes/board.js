@@ -112,7 +112,7 @@ router.put('/:id', tokenTest, isLoggedIn, async (req, res) => {
 
   // 클라이언트가 opt를 보내는 경우
   // 신고하는 사람의 아이디와 게시글 작성자의 아이디가 같으면!
-  if (opt && memberId === req.body.reportMember) {
+  if (!opt && memberId === req.body.reportMember) {
     return res.json({
       code: '400',
       msg: '자신의 글에 신고 금지'
