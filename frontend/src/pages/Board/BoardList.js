@@ -1,8 +1,11 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Button, Container, Tab, Tabs } from 'react-bootstrap';
+
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+
+// 부트스트랩
+import { Button, Container, Tab, Tabs } from 'react-bootstrap';
 
 // 컴포넌트 참조
 import BoardPagination from '../../components/Pagination/BoardPagination';
@@ -85,6 +88,7 @@ const BoardList = () => {
     return currentPosts;
   }
 
+  // 로그인 여부 파악
   const isLogin = useSelector((state) => state.auth.isLogin);
 
   return (

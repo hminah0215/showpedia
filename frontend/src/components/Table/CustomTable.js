@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Table } from 'react-bootstrap';
 import { useSelector } from 'react-redux'; // 리덕스 훅스
 

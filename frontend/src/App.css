@@ -121,6 +121,7 @@
 /* 게시글 목록 - 제목 a 태그 색상 */
 .custom-a {
   color: var(--violet-color-20);
+  text-decoration: none;
 }
 .custom-a:hover {
   color: var(--violet-color-10);
