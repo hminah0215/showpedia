@@ -3,6 +3,8 @@ const express = require('express');
 const router = express.Router();
 // DB
 const Review = require('../models').Review;
+const Member = require('../models').Member;
+
 // 로그인 확인 미들웨어
 const { isLoggedIn, tokenTest } = require('./middleware');
 
@@ -82,7 +84,13 @@ router.put('/', tokenTest, isLoggedIn, async (req, res) => {
     const result = await Review.update(review, {
       where: {
         reviewNo
-      }
+      },
+      include: [
+        {
+          model: Member,
+          attributes: ['nickName']
+        }
+      ]
     });
     return res.json({
       code: '200',
@@ -111,7 +119,13 @@ router.get('/', tokenTest, isLoggedIn, async (req, res) => {
       where: {
         memberId,
         showId
-      }
+      },
+      include: [
+        {
+          model: Member,
+          attributes: ['nickName']
+        }
+      ]
     });
 
     // 리뷰가 존재하지 않는 경우
@@ -147,7 +161,13 @@ router.delete('/:id', tokenTest, isLoggedIn, async (req, res) => {
     const result = await Review.destroy({
       where: {
         reviewNo
-      }
+      },
+      include: [
+        {
+          model: Member,
+          attributes: ['nickName']
+        }
+      ]
     });
     return res.json({
       code: '200',
@@ -181,8 +201,19 @@ router.get('/reviewlist/:id', async (req, res) => {
         showId
       },
       order: [['reviewLikes', 'DESC']],
-      limit: 5 * page
+      limit: 5 * page,
+      include: [
+        {
+          model: Member,
+          attributes: ['nickName']
+        }
+      ]
     });
+
+    // console.log('아니 왜...==?', result);
+
+    // console.log('=================닉네임이 왜 없습니까?=====================', result[0]);
+
     return res.json({
       code: '200',
       data: result,

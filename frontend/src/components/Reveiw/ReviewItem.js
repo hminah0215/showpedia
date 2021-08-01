@@ -116,61 +116,78 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
   };
 
   return (
-    <div style={style} className={`review m-3 d-flex align-items-center ${hover ? 'hover' : ''}`}>
-      {/* 리뷰 유저정보 */}
-      <div className="review-user d-flex flex-column align-items-center">
-        <div className="review-user-img img-box">
-          <img src="https://www.w3schools.com/w3images/avatar2.png" alt="user"></img>
-        </div>
-        <p className="review-user-title">{review?.memberId}</p>
-      </div>
-      {/* 리뷰 콘텐츠 */}
-      <div className="review-contents-container flex-grow-1 d-flex flex-column justify-content-between">
-        <div className="review-contents-header">
-          <span className="review-date">
-            {review?.createdAt ? review?.createdAt.slice(0, 10) : ''}
-          </span>
-          <span className="review-star">
-            {/* 별점
-              rating은 db에서 가져온 리뷰의 별점 점수이다.
-            */}
-            {[1, 2, 3, 4, 5].map((i) => (
-              <Stars key={i} idx={i} rating={review?.reviewStars} />
-            ))}
-          </span>
-        </div>
-        {/* 리뷰 컨텐츠가 클릭 시, 상세 리뷰 모달 오픈 */}
-        <div className="review-content flex-grow-1" onClick={handleClickReview}>
-          {review?.reviewContents}
-        </div>
-        {
-          // 내 리뷰일 경우 버튼 숨김
-          isReviewed ? (
-            <>
-              <Button
-                size="sm"
-                style={{ width: '100px', alignSelf: 'flex-end' }}
-                onClick={handleClickModify}
-              >
-                수정하기
-              </Button>
-            </>
-          ) : (
-            <div className="review-btns d-flex align-items-center justify-content-end">
-              {/* 좋아요 버튼 */}
-              <button className="review-btn" onClick={handleClickLike}>
-                <HandThumbsUp size={20} />
-              </button>
-              <span className="review-like">{review?.reviewLikes}</span>
-              {/* 신고 버튼 */}
-              <button className="review-btn review-btn--alert" onClick={handleClickReport}>
-                <ExclamationCircle size={20} />
-              </button>
+    <>
+      {/* 게시글 삭제, 수정으로 인해 리뷰가 하나도 없을 경우에는
+      리뷰가 생성될 수 없다.
+    */}
+      {Object.keys(review).length !== 0 ? (
+        <>
+          <div
+            style={style}
+            className={`review m-3 d-flex align-items-center ${hover ? 'hover' : ''}`}
+          >
+            {/* 리뷰 유저정보 */}
+            <div className="review-user d-flex flex-column align-items-center">
+              <div className="review-user-img img-box">
+                <img src="https://www.w3schools.com/w3images/avatar2.png" alt="user"></img>
+              </div>
+              <p className="review-user-title">
+                {/* {review.nickName ? review?.nickName : review?.member.nickName} */}
+                {review?.member.nickName}
+              </p>
             </div>
-          )
-        }
-      </div>
-    </div>
+            {/* 리뷰 콘텐츠 */}
+            <div className="review-contents-container flex-grow-1 d-flex flex-column justify-content-between">
+              <div className="review-contents-header">
+                <span className="review-date">
+                  {review?.createdAt ? review?.createdAt.slice(0, 10) : ''}
+                </span>
+                <span className="review-star">
+                  {/* 별점
+            rating은 db에서 가져온 리뷰의 별점 점수이다.
+          */}
+                  {[1, 2, 3, 4, 5].map((i) => (
+                    <Stars key={i} idx={i} rating={review?.reviewStars} />
+                  ))}
+                </span>
+              </div>
+              {/* 리뷰 컨텐츠가 클릭 시, 상세 리뷰 모달 오픈 */}
+              <div className="review-content flex-grow-1" onClick={handleClickReview}>
+                {review?.reviewContents}
+              </div>
+              {
+                // 내 리뷰일 경우 버튼 숨김
+                isReviewed ? (
+                  <>
+                    <Button
+                      size="sm"
+                      style={{ width: '100px', alignSelf: 'flex-end' }}
+                      onClick={handleClickModify}
+                    >
+                      수정하기
+                    </Button>
+                  </>
+                ) : (
+                  <div className="review-btns d-flex align-items-center justify-content-end">
+                    {/* 좋아요 버튼 */}
+                    <button className="review-btn" onClick={handleClickLike}>
+                      <HandThumbsUp size={20} />
+                    </button>
+                    <span className="review-like">{review?.reviewLikes}</span>
+                    {/* 신고 버튼 */}
+                    <button className="review-btn review-btn--alert" onClick={handleClickReport}>
+                      <ExclamationCircle size={20} />
+                    </button>
+                  </div>
+                )
+              }
+            </div>
+          </div>
+        </>
+      ) : (
+        <></>
+      )}
+    </>
   );
 };
 

@@ -35,7 +35,6 @@ const ReviewContainer = ({ showId, handleShow }) => {
     const fetchReviewList = async () => {
       try {
         const result = await axios.get(URL);
-        // console.log('가져온 리뷰 리스트 정보', result);
         if (result.status === 500) {
           setHasReview({
             has: false,

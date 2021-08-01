@@ -60,6 +60,8 @@ const MyReview = ({ showId, handleShow, setModal, write, setWrite }) => {
         // 3. 개인 리뷰가 존재하는 경우
         setMyReview(result.data.data);
         setIsReviewed(true);
+
+        console.log('개인적으로 가져온 마이리뷰 데이터', result.data.data);
         return;
 
         // 에러 처리

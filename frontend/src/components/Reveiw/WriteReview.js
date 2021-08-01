@@ -16,6 +16,8 @@ import axios from 'axios';
   modify - 수정 모드로 사용하는 경우, 여기에 현재 리덕스에 있는 리뷰 데이터를 담아서 전달한다
 */
 const WriteReview = ({ handleClose, setIsReviewed, modify, setWrite }) => {
+  // modify에는 모달리뷰 데이터가 들어있다.
+
   // URL에서 showId 가져오기
   const location = useLocation();
   const showId = location.pathname.split('/')[2];
@@ -26,10 +28,10 @@ const WriteReview = ({ handleClose, setIsReviewed, modify, setWrite }) => {
   const [review, setReview] = useState({
     reviewStars: modify ? modify.reviewStars : 0,
     reviewContents: modify ? modify.reviewContents : '',
-    // memberId: 'Ayo', // 서버에서 임의로 지정중
     showId: showId,
     reviewNo: modify ? modify.reviewNo : '',
     memberId: modify ? modify.memberId : ''
+    // nickName: modify ? modify.nickName : ''
   });
 
   // input change 핸들러
@@ -125,8 +127,6 @@ const WriteReview = ({ handleClose, setIsReviewed, modify, setWrite }) => {
       }
     } else return;
   };
-
-  console.log();
 
   return (
     <div className="review m-3 d-flex align-items-center">

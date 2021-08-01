@@ -18,7 +18,10 @@ const initialState = {
     reviewStars: 0,
     reviewContents: '',
     reviewLikes: 0,
-    reviewNo: 0
+    reviewNo: 0,
+    member: {
+      nickName: ''
+    }
   },
   rerender: false,
   reviewList: []
@@ -40,7 +43,10 @@ const review = (state = initialState, action) => {
           reviewStars: action.payload.reviewStars,
           reviewContents: action.payload.reviewContents,
           reviewLikes: action.payload.reviewLikes,
-          reviewNo: action.payload.reviewNo
+          reviewNo: action.payload.reviewNo,
+          member: {
+            nickName: action.payload.member.nickName
+          }
         }
       };
     case RE_RENDER:
