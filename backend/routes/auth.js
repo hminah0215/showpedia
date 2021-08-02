@@ -28,11 +28,34 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 } // 파일 크기 제한
 });
 
+// [아영] - 프로필 이미지를 저장하는 multer 설정
+const upload_profile = multer({
+  // 저장할 장소
+  storage: multer.diskStorage({
+    destination(req, file, cb) {
+      cb(null, 'public/profile_images');
+    },
+    // 저장할 파일의 이름 설정
+    filename(req, file, cb) {
+      const ext = path.extname(file.originalname);
+      cb(null, path.basename(file.originalname, ext) + Date.now() + ext); // 유니크한 파일명
+    }
+  }),
+  limits: { fileSize: 5 * 1024 * 1024 } // 파일 크기 제한
+});
+
+const test = (req, res, next) => {
+  // 테스트 미들웨어
+  console.log('테스트 미들웨어');
+  next();
+};
+
 // 민아) 7/29,프로필이미지
-router.post('/uploadProfile', upload.single('profilePhoto'), (req, res) => {
+// [아영] - 이미지저장 폴더 변경
+router.post('/uploadProfile', upload_profile.single('profilePhoto'), (req, res) => {
   console.log(req.file);
   console.log('프로필이미지에 업로드된 파일정보: ', req.file);
-  res.json({ url: `http://localhost:3005/uploads/${req.file.filename}` });
+  res.json({ url: `http://localhost:3005/profile_images/${req.file.filename}` });
 });
 
 // 민아) 7/29, 아이디 중복체크용 라우터
