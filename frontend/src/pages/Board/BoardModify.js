@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Button, Container, Form } from 'react-bootstrap';
 import { useHistory, useLocation } from 'react-router-dom';
 
-import ReactQuill, { Quill } from 'react-quill'; // quill에디터
+import ReactQuill from 'react-quill'; // quill에디터
 import 'react-quill/dist/quill.snow.css'; // quill에디터 테마
 
 const BoardModify = () => {

@@ -11,7 +11,7 @@ const CarouselItem = ({ show }) => {
       {/* 공연 이미지 */}
       <a href={`http://localhost:3000/contents/${show.mt20id}`}>
         <div className="img-box boxoffice-img">
-          <img src={`http://www.kopis.or.kr/${show.poster}`}></img>
+          <img alt={show.prfnm} src={`http://www.kopis.or.kr/${show.poster}`}></img>
         </div>
       </a>
       {/* 공연 정보 */}

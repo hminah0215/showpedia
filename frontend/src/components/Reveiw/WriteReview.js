@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { reRenderReview } from '../../redux/review';
 import { useLocation } from 'react-router-dom';
@@ -14,6 +14,8 @@ import axios from 'axios';
 /*
   setIsReviewed - [MyReview.js] / 내 리뷰가 존재하는지 판단하는 상태 설정 함수
   modify - 수정 모드로 사용하는 경우, 여기에 현재 리덕스에 있는 리뷰 데이터를 담아서 전달한다
+  handleClose - 모달창 온오프 핸들러
+  setWrite - 리뷰가 수정 모드인지 아닌지 확인하는 핸들러
 */
 const WriteReview = ({ handleClose, setIsReviewed, modify, setWrite }) => {
   // modify에는 모달리뷰 데이터가 들어있다.
@@ -35,32 +37,36 @@ const WriteReview = ({ handleClose, setIsReviewed, modify, setWrite }) => {
   });
 
   // input change 핸들러
-  const handleChangeInput = (e) => {
-    setReview({
-      ...review,
-      [e.target.name]: e.target.value
-    });
-  };
+  const handleChangeInput = useCallback(
+    (e) => {
+      setReview({
+        ...review,
+        [e.target.name]: e.target.value
+      });
+    },
+    [review]
+  );
 
   // 클릭 시, 클릭된 idx 값으로 별점을 세팅한다.
-  const handleClickStar = (idx) => {
-    setReview({
-      ...review,
-      reviewStars: idx
-    });
-  };
+  const handleClickStar = useCallback(
+    (idx) => {
+      setReview({
+        ...review,
+        reviewStars: idx
+      });
+    },
+    [review]
+  );
 
   // 리뷰를 저장하는 이벤트 핸들러
-  const handleClickSaveButton = async () => {
+  const handleClickSaveButton = useCallback(async () => {
     const URL = `http://localhost:3005/review`;
     // 리뷰  수정
     // 만약 modify가 존재한다면, 새로 리뷰를 작성하는 것이 아닌 리뷰를 수정한다
     if (modify) {
       // 수정모드
-      console.log('수정을 위한 리뷰값 ', review);
       try {
         const result = await axios.put(URL, review);
-        console.log('테스트 로그', result);
         // 리뷰 수정에 성공한 경우
         if (result.data.code === '200') {
           // window.location.replace(`/contents/${showId}`);
@@ -99,10 +105,10 @@ const WriteReview = ({ handleClose, setIsReviewed, modify, setWrite }) => {
         return false;
       }
     }
-  };
+  }, [modify, reviewDispatch, setIsReviewed, handleClose, review]);
 
   // 리뷰를 삭제하는 이벤트 핸들러
-  const handleClickDeleteButton = async () => {
+  const handleClickDeleteButton = useCallback(async () => {
     console.log('삭제 버튼 클릭 시', review);
     if (window.confirm('정말 삭제하시겠습니까?')) {
       const URL = `http://localhost:3005/review`;
@@ -126,7 +132,7 @@ const WriteReview = ({ handleClose, setIsReviewed, modify, setWrite }) => {
         return false;
       }
     } else return;
-  };
+  }, [handleClose, reviewDispatch, setWrite, review]);
 
   return (
     <div className="review m-3 d-flex align-items-center">
@@ -163,9 +169,6 @@ const WriteReview = ({ handleClose, setIsReviewed, modify, setWrite }) => {
           ) : (
             <></>
           )}
-          {/* <Button className=" flex-grow-1 btn" onClick={handleClickDeleteButton}>
-            삭제
-          </Button> */}
         </div>
       </div>
     </div>

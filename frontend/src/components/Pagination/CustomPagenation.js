@@ -1,5 +1,5 @@
 // 리액트
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 // 리덕스
 import { useDispatch, useSelector } from 'react-redux';
 import { getShowList, resetShowList, isLoading } from '../../redux/show';
@@ -26,29 +26,32 @@ const CustomPagenation = () => {
   let location = useLocation();
 
   // 페이지네이션 클릭 시, 작동하는 이벤트 핸들러
-  const handleClickPageNumber = async (e) => {
-    // showList를 다음 페이지로 변경한다.
-    // 현재 들어있는 검색 결과값들 초기화하기
-    showDispatch(resetShowList());
-    // 다시 로딩 상태로 설정하기
-    showDispatch(isLoading());
+  const handleClickPageNumber = useCallback(
+    async (e) => {
+      // showList를 다음 페이지로 변경한다.
+      // 현재 들어있는 검색 결과값들 초기화하기
+      showDispatch(resetShowList());
+      // 다시 로딩 상태로 설정하기
+      showDispatch(isLoading());
 
-    // 이동할 page는 페이지네이션 버튼 안에 있는 숫자
-    const page = e.target.innerText;
-    history.push(`/search?page=${e.target.innerText}`);
+      // 이동할 page는 페이지네이션 버튼 안에 있는 숫자
+      const page = e.target.innerText;
+      history.push(`/search?page=${e.target.innerText}`);
 
-    // 백엔드에서 리스트 가져오기
-    const URL = `http://localhost:3005/show/result?page=${page}`;
-    try {
-      const result = await axios.post(URL, condition);
-      // 상태에 검색 결과 저장하기
-      const showList = result.data.data ? result.data.data : { msg: '검색 결과가 없습니다' }; // undefined로 넘어올 경우 처리해주기
-      showDispatch(getShowList(showList));
-    } catch (error) {
-      console.log('공연 리스트를 가져오는데 실패했습니다');
-      return false;
-    }
-  };
+      // 백엔드에서 리스트 가져오기
+      const URL = `http://localhost:3005/show/result?page=${page}`;
+      try {
+        const result = await axios.post(URL, condition);
+        // 상태에 검색 결과 저장하기
+        const showList = result.data.data ? result.data.data : { msg: '검색 결과가 없습니다' }; // undefined로 넘어올 경우 처리해주기
+        showDispatch(getShowList(showList));
+      } catch (error) {
+        console.log('공연 리스트를 가져오는데 실패했습니다');
+        return false;
+      }
+    },
+    [showDispatch, history, condition]
+  );
 
   let paginationItems = [];
   // 쿼리스트링에서 현재 선택된 페이지 정보 가져오기

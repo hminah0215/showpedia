@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
+import { Button, Col, Container, Form, Image } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { registUser } from '../redux/auth';

@@ -81,7 +81,7 @@ const Main = () => {
       }
     };
     getBoxofficeList();
-  }, []);
+  }, [showDispatch]);
 
   return (
     <>

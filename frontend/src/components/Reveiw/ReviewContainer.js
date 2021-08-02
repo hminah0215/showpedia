@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { getReviewList } from '../../redux/review';
 import { useSelector, useDispatch } from 'react-redux';
 // 부트스트랩
@@ -44,10 +44,11 @@ const ReviewContainer = ({ showId, handleShow }) => {
         }
         // 리뷰가 없는 상태
         if (result.data.data.length === 0) {
-          setHasReview({
-            ...hasReview,
-            has: false
-          });
+          // setHasReview({
+          //   ...hasReview,
+          //   has: false
+          // });
+          setHasReview((prev) => ({ ...prev, has: false }));
         }
         // setReviewList(result.data.data);
         reviewDispatch(getReviewList(result.data.data));
@@ -63,11 +64,10 @@ const ReviewContainer = ({ showId, handleShow }) => {
       }
     };
     fetchReviewList();
-    // console.log('리뷰있어?', hasReview);
-  }, [reRender]);
+  }, [reRender, reviewDispatch, setHasReview, showId]);
 
   // 클릭 시, 리뷰를 더 가져오는 이벤트 핸들러
-  const handleClickAdd = () => {
+  const handleClickAdd = useCallback(() => {
     const URL = 'http://localhost:3005/review/reviewlist/' + showId + `?page=${addReview}`;
     const fetchReviewList = async () => {
       try {
@@ -81,10 +81,7 @@ const ReviewContainer = ({ showId, handleShow }) => {
         }
         // 리뷰가 없는 상태
         if (result.data.data.length === 0) {
-          setHasReview({
-            ...hasReview,
-            has: false
-          });
+          setHasReview((prev) => ({ ...prev, has: false }));
         }
         // setReviewList(result.data.data);
         reviewDispatch(getReviewList(result.data.data));
@@ -103,8 +100,9 @@ const ReviewContainer = ({ showId, handleShow }) => {
       }
     };
     fetchReviewList();
+
     setAddReview((prev) => prev + 1);
-  };
+  }, [setHasReview, showId, addReview, reviewDispatch]);
 
   return (
     <Container className="mb-4 d-flex flex-column align-items-center">

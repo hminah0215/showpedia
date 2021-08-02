@@ -13,7 +13,7 @@ import CustomSpinner from '../components/Spinner/CustomSpinner';
 const Search = () => {
   // state
   // 로딩 여부
-  const loading = useSelector((state) => state.show.loading); // true
+  const loading = useSelector((state) => state.show.loading);
   // 공연 리스트
   const showList = useSelector((state) => state.show.showList);
 
@@ -30,7 +30,7 @@ const Search = () => {
     if (showList.length !== 0) {
       showDispatch(isLoaded());
     }
-  }, [showList]);
+  }, [showList, showDispatch]);
 
   return (
     <Container>

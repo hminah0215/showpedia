@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { setShow } from '../../redux/show';
 // 부트스트랩
 import { Container, Button } from 'react-bootstrap';
@@ -35,17 +35,18 @@ const ShowContainer = ({ setIsFetch, showId }) => {
         return;
       } catch (error) {
         // 상세정보를 가져오는데 실패했다면 isFetch에 false 입력
-        setIsFetch(false);
+        setIsFetch();
         return;
       }
     };
     fetchData();
-  }, [showId]);
+  }, [showId, setIsFetch, showDispatch]);
+  // useEffect 종속성 고장
 
   // 즐겨찾기 토글 이벤트 핸들러 - 미완
-  const handleClickStar = (e) => {
+  const handleClickStar = useCallback((e) => {
     e.target.classList.toggle('active');
-  };
+  }, []);
 
   return (
     <div className="show-container d-flex justify-content-center">
@@ -54,7 +55,7 @@ const ShowContainer = ({ setIsFetch, showId }) => {
         <div className="show-poster-box">
           <div className="show-poster me-4">
             <StarFill className="show-star" onClick={handleClickStar} />
-            <img src={show.poster}></img>
+            <img alt={show.prfnm} src={show.poster}></img>
           </div>
         </div>
 

@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useRef } from 'react';
 import { Button, Container, Form } from 'react-bootstrap';
-import ReactQuill, { Quill } from 'react-quill';
+import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
@@ -12,7 +12,7 @@ const BoardRegist = () => {
   // 에디터에 입력한 내용
   const [editorContents, setEditorContents] = useState('');
 
-  const [value, setValue] = useState(''); // 기본적으로 에디터에 들어가는 contents
+  // const [value, setValue] = useState(''); // 기본적으로 에디터에 들어가는 contents
 
   // 단일 게시글 정보 구조 정의 및 초기화
   const [board, setBoard] = useState({

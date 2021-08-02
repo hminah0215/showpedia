@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 // bootstrap
@@ -20,6 +20,11 @@ const Contents = () => {
 
   // 공연 상세정보 fetch 실패 여부를 판단하는 state
   const [isFetch, setIsFetch] = useState(true);
+  // 부모 컴포넌트에서 setIsFetch가 너무 자주 바뀐다면 useCallback을 사용해달라는 에러창이 등장
+  const handleFetchState = useCallback(() => {
+    setIsFetch(false);
+  }, []);
+
   // 모달창 온오프를 위한 state
   const [modal, setModal] = useState({
     state: false,
@@ -29,16 +34,23 @@ const Contents = () => {
   const [write, setWrite] = useState(false);
 
   // 모달 온오프 이벤트 핸들러
-  const handleClose = () =>
-    setModal({
-      option: 'review',
-      state: false
-    });
-  const handleShow = () =>
-    setModal({
-      ...modal,
-      state: true
-    });
+  const handleClose = useCallback(
+    () =>
+      setModal({
+        option: 'review',
+        state: false
+      }),
+    []
+  );
+
+  const handleShow = useCallback(
+    () =>
+      setModal({
+        ...modal,
+        state: true
+      }),
+    [modal]
+  );
 
   // 리덕스에서 모달창에서 사용할 review 정보 가져오기
   const modalReviewData = useSelector((state) => state.review.review);
@@ -74,7 +86,7 @@ const Contents = () => {
           </CustomModal>
 
           {/* 공연 상세 정보 항목 */}
-          <ShowContainer setIsFetch={setIsFetch} showId={showId} />
+          <ShowContainer setIsFetch={handleFetchState} showId={showId} />
 
           {/* 리뷰 항목 */}
           <Container className="d-flex align-items-center flex-column">
