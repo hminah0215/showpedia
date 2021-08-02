@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 // 리덕스
 import { useSelector, useDispatch } from 'react-redux'; // 리덕스 훅스
 import { getShowList, resetShowList, isLoading, setCondition } from '../../redux/show'; // 액션생성함수
@@ -22,30 +22,27 @@ const Header = (props) => {
 
   // 로그인 상태 확인, 로그인 상태면 true 반환, 로그아웃하면 undefined
   const isLogin = useSelector((state) => state.auth.isLogin);
-  console.log('is로그인??', isLogin);
+  // console.log('is로그인??', isLogin);
 
   // 로그아웃 이벤트
-  const onClickHandler = (e) => {
-    e.preventDefault();
-    axios.defaults.withCredentials = true; // 쿠키 데이터를 전송받기 위해
-    axios
-      .get('http://localhost:3005/logout')
-      .then((result) => {
-        console.log('로그아웃res', result);
-
-        if (result.data.code === 200) {
-          dispatch(logoutUser(true));
-          history.push('/');
-          // alert('로그아웃 성공');
-        } else {
-          alert('백엔드 에러 발생 - 로그아웃 문제');
-        }
-      })
-      .catch((err) => console.log(err));
-
-    // props.history.push('/');
-    // [아영-에러코드 수정]
-  };
+  const onClickHandler = useCallback(
+    (e) => {
+      e.preventDefault();
+      axios.defaults.withCredentials = true; // 쿠키 데이터를 전송받기 위해
+      axios
+        .get('http://localhost:3005/logout')
+        .then((result) => {
+          if (result.data.code === 200) {
+            dispatch(logoutUser(true));
+            history.push('/');
+          } else {
+            alert('백엔드 에러 발생 - 로그아웃 문제');
+          }
+        })
+        .catch((err) => console.log(err));
+    },
+    [dispatch, history]
+  );
 
   // 검색 조건 모달의 열림/닫힘을 위한 state
   const [search, setSearch] = useState(false);
@@ -58,18 +55,21 @@ const Header = (props) => {
   const showDispatch = useDispatch();
 
   // input을 변경하는 핸들러
-  const handleChangeInput = (e) => {
-    // 체크박스 예외처리
-    if (e.target.name === 'kidstate') {
-      showDispatch(setCondition(e.target.name, e.target.checked));
-    } else {
-      showDispatch(setCondition(e.target.name, e.target.value));
-    }
-  };
+  const handleChangeInput = useCallback(
+    (e) => {
+      // 체크박스 예외처리
+      if (e.target.name === 'kidstate') {
+        showDispatch(setCondition(e.target.name, e.target.checked));
+      } else {
+        showDispatch(setCondition(e.target.name, e.target.value));
+      }
+    },
+    [showDispatch]
+  );
 
   // 서버에서 검색 조건 찾아오는 이벤트 핸들러
   // 리덕스 비동기처리 미들웨어를 사용하지 않기 때문에 여기서 비동기 처리를 한 후, 가져온 데이터를 리덕스 상태에 저장한다.
-  const handleClickSearchButton = async () => {
+  const handleClickSearchButton = useCallback(async () => {
     // 현재 들어있는 검색 결과값들 초기화하기
     showDispatch(resetShowList());
     // 현재 상태를 로딩 상태로 설정하기
@@ -91,7 +91,7 @@ const Header = (props) => {
       showDispatch(getShowList({ msg: '검색에 실패했습니다..' }));
       return false;
     }
-  };
+  }, [showDispatch, condition, history]);
 
   return (
     <>
