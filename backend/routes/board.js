@@ -173,6 +173,16 @@ router.get('/view/:id', async (req, res) => {
       ]
     });
 
+    // 조회수 증가
+    const updateHits = await Board.update(
+      { boardHits: board.boardHits + 1 },
+      {
+        where: { boardNo: boardIdx }
+      }
+    );
+
+    console.log('조회수증가?', updateHits);
+
     return res.json({ code: '200', data: board, msg: '게시글 상세보기 OK' });
     //
   } catch (error) {

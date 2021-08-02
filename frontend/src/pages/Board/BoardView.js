@@ -57,7 +57,7 @@ const BoardView = ({ history }) => {
             boardCategory: res.data.data.boardCategory,
             boardContents: res.data.data.boardContents,
             boardReports: res.data.data.boardReports,
-            boardHits: res.data.data.boardHits,
+            boardHits: res.data.data.boardHits + 1,
             createdAt: regDate,
             nickName: res.data.data.member.nickName
           };

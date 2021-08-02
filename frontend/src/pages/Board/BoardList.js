@@ -22,7 +22,7 @@ const BoardList = () => {
 
   // 페이지네이션 관련
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
-  const [boardPerPage, setBoardPerPage] = useState(10); // 총데이터를 postsPerPage 만큼 분할해서 보여줄것
+  const [boardPerPage, setBoardPerPage] = useState(15); // 총데이터를 postsPerPage 만큼 분할해서 보여줄것, 15면 한페이지에 15개
 
   const history = useHistory();
 
@@ -86,7 +86,7 @@ const BoardList = () => {
   // 배열 데이터를 slice 함수로 분할 해서 새로운 배열을 리턴한다.
   function currentPosts(data) {
     let currentPosts = 0;
-    currentPosts = data.slice(indexOfFirst, indexOfLast);
+    currentPosts = data.slice(indexOfFirst, indexOfLast); // 현재페이지
     return currentPosts;
   }
 
@@ -143,6 +143,7 @@ const BoardList = () => {
           <ListTable boardList={currentPosts(boardList)} />
         </Tab>
       </Tabs>
+      {/* 페이지네이션 */}
       <BoardPagination
         boardPerPage={boardPerPage}
         totalBoardList={boardList.length}
