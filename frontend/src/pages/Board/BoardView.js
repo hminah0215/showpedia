@@ -6,7 +6,10 @@ import { Clock, ExclamationTriangle, Eye } from 'react-bootstrap-icons';
 import ReactHtmlParser from 'react-html-parser';
 import axios from 'axios';
 
-const BoardView = ({ history, match }) => {
+// 댓글
+import Comment from '../../components/Board/Comment';
+
+const BoardView = ({ history }) => {
   // 백엔드에서 가져올 게시글 데이터 구조정의
   const [boardView, setBoardView] = useState({});
 
@@ -20,7 +23,7 @@ const BoardView = ({ history, match }) => {
   let location = useLocation();
   const boardNo = location.pathname.split('/')[3];
 
-  console.log('조회할게시글번호', boardNo);
+  // console.log('조회할게시글번호', boardNo);
 
   useEffect(() => {
     // 게시글 상세보기
@@ -29,7 +32,7 @@ const BoardView = ({ history, match }) => {
       .then((res) => {
         console.log('게시글 상세보기 데이터', res);
 
-        console.log('nickname', res.data.data.member.nickName);
+        // console.log('nickname', res.data.data.member.nickName);
 
         // 현재 로그인된 사용자 아이디와, 게시글을 작성했던 사람의 아이디가 동일하면!?
         if (loginMemberId === res.data.data.memberId) {
@@ -42,10 +45,10 @@ const BoardView = ({ history, match }) => {
           loginMemberId
         );
 
-        console.log('게시글수정가능?', isModify);
+        // console.log('게시글수정가능?', isModify);
 
         if (res.data.code === '200') {
-          // 게시글 목록 세터함수를 통해 백엔드에서 전달된 json 배열을 데이터로 목록을 갱신한다.
+          let regDate = res.data.data.createdAt.slice(0, 10);
 
           // 저장할 내용을 정의해서
           let view = {
@@ -55,7 +58,7 @@ const BoardView = ({ history, match }) => {
             boardContents: res.data.data.boardContents,
             boardReports: res.data.data.boardReports,
             boardHits: res.data.data.boardHits,
-            createdAt: res.data.data.createdAt,
+            createdAt: regDate,
             nickName: res.data.data.member.nickName
           };
 
@@ -67,6 +70,7 @@ const BoardView = ({ history, match }) => {
       .catch((err) => {
         console.error(err);
       });
+
     //
   }, [loginMemberId]);
 
@@ -209,6 +213,9 @@ const BoardView = ({ history, match }) => {
           </button>
         )}
       </div>
+
+      {/* 댓글 등록 */}
+      <Comment boardNo={boardNo}></Comment>
     </Container>
   );
 };

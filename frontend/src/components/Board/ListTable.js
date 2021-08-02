@@ -3,7 +3,7 @@ import { Table } from 'react-bootstrap';
 import { useSelector } from 'react-redux'; // 리덕스 훅스
 
 // 민아) 7/27, 게시글 목록 + 상세보기 페이지 이동
-const CustomTable = ({ boardList }) => {
+const ListTable = ({ boardList }) => {
   // console.log('boardList?', boardList);
   const isLogin = useSelector((state) => state.auth.isLogin);
   // console.log('is게시글 로그인??', isLogin);
@@ -71,4 +71,4 @@ const CustomTable = ({ boardList }) => {
   );
 };
 
-export default CustomTable;
+export default ListTable;

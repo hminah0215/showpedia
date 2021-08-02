@@ -9,7 +9,7 @@ import { Button, Container, Tab, Tabs } from 'react-bootstrap';
 
 // 컴포넌트 참조
 import BoardPagination from '../../components/Pagination/BoardPagination';
-import CustomTable from '../../components/Table/CustomTable';
+import ListTable from '../../components/Board/ListTable';
 
 // 민아) 7/27, 게시글 목록 & 페이지네이션
 const BoardList = () => {
@@ -128,19 +128,19 @@ const BoardList = () => {
         className="mb-3"
       >
         <Tab eventKey="all" title="전체">
-          <CustomTable boardList={currentPosts(boardList)} />
+          <ListTable boardList={currentPosts(boardList)} />
         </Tab>
         <Tab eventKey="notice" title="공지">
-          <CustomTable boardList={currentPosts(boardList)} />
+          <ListTable boardList={currentPosts(boardList)} />
         </Tab>
         <Tab eventKey="free" title="자유">
-          <CustomTable boardList={currentPosts(boardList)} />
+          <ListTable boardList={currentPosts(boardList)} />
         </Tab>
         <Tab eventKey="actor" title="덕질">
-          <CustomTable boardList={currentPosts(boardList)} />
+          <ListTable boardList={currentPosts(boardList)} />
         </Tab>
         <Tab eventKey="together" title="같이가요">
-          <CustomTable boardList={currentPosts(boardList)} />
+          <ListTable boardList={currentPosts(boardList)} />
         </Tab>
       </Tabs>
       <BoardPagination

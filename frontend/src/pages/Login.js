@@ -4,7 +4,6 @@ import { Button, Container, Form } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { loginUser } from '../redux/auth';
-import KaKaoLogin from 'react-kakao-login';
 
 const Login = () => {
   const [member, setMember] = useState({

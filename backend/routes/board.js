@@ -53,7 +53,7 @@ router.get('/list', async (req, res, next) => {
         order: [['boardNo', 'DESC']]
       });
 
-      console.log('boardList', boardList);
+      // console.log('boardList', boardList);
 
       return res.json({ msg: '카테고리별 목록 ok', data: boardList, code: '200' });
     }
@@ -82,7 +82,7 @@ router.get('/list', async (req, res, next) => {
   }
 });
 
-// 민아) 7/26, 게시글 등록 post 라우터  -> 에디터는 ck에디터5 쓰고있음
+// 민아) 7/26, 게시글 등록 post 라우터  -> 에디터는 quill
 // localhost:3005/board/boardRegist.html
 router.post('/regist', tokenTest, isLoggedIn, async (req, res) => {
   // isLoggedIn 미들웨어로 쿠키가 없는 사용자는 로그인 필요함을 나타낸다.
