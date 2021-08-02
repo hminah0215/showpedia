@@ -88,7 +88,7 @@ router.put('/', tokenTest, isLoggedIn, async (req, res) => {
       include: [
         {
           model: Member,
-          attributes: ['nickName']
+          attributes: ['nickName', 'profilePhoto']
         }
       ]
     });
@@ -123,7 +123,7 @@ router.get('/', tokenTest, isLoggedIn, async (req, res) => {
       include: [
         {
           model: Member,
-          attributes: ['nickName']
+          attributes: ['nickName', 'profilePhoto']
         }
       ]
     });
@@ -165,7 +165,7 @@ router.delete('/:id', tokenTest, isLoggedIn, async (req, res) => {
       include: [
         {
           model: Member,
-          attributes: ['nickName']
+          attributes: ['nickName', 'profilePhoto']
         }
       ]
     });
@@ -205,14 +205,10 @@ router.get('/reviewlist/:id', async (req, res) => {
       include: [
         {
           model: Member,
-          attributes: ['nickName']
+          attributes: ['nickName', 'profilePhoto']
         }
       ]
     });
-
-    // console.log('아니 왜...==?', result);
-
-    // console.log('=================닉네임이 왜 없습니까?=====================', result[0]);
 
     return res.json({
       code: '200',

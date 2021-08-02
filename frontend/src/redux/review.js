@@ -20,7 +20,8 @@ const initialState = {
     reviewLikes: 0,
     reviewNo: 0,
     member: {
-      nickName: ''
+      nickName: '',
+      profilePhoto: ''
     }
   },
   rerender: false,
@@ -45,7 +46,8 @@ const review = (state = initialState, action) => {
           reviewLikes: action.payload.reviewLikes,
           reviewNo: action.payload.reviewNo,
           member: {
-            nickName: action.payload.member.nickName
+            nickName: action.payload.member.nickName,
+            profilePhoto: action.payload.member.profilePhoto
           }
         }
       };

@@ -129,7 +129,14 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
             {/* 리뷰 유저정보 */}
             <div className="review-user d-flex flex-column align-items-center">
               <div className="review-user-img img-box">
-                <img src="https://www.w3schools.com/w3images/avatar2.png" alt="user"></img>
+                <img
+                  src={
+                    review.member.profilePhoto
+                      ? review.member.profilePhoto
+                      : 'https://www.w3schools.com/w3images/avatar2.png'
+                  }
+                  alt="user"
+                ></img>
               </div>
               <p className="review-user-title">
                 {/* {review.nickName ? review?.nickName : review?.member.nickName} */}

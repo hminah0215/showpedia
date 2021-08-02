@@ -42,6 +42,7 @@ const Regist = () => {
     setConfirmPasword(e.target.value);
     console.log('setConfirmPasword');
   };
+
   const onPhotoHandler = (e) => {
     e.preventDefault();
 
