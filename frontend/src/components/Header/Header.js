@@ -14,7 +14,7 @@ import SearchModal from '../Modal/SearchModal';
 // etc
 import axios from 'axios';
 
-const Header = (props) => {
+const Header = () => {
   const history = useHistory();
 
   // useDispatch를 사용해서 로그아웃 액션을 실행한다
@@ -167,4 +167,5 @@ const Header = (props) => {
   );
 };
 
-export default Header;
+export default React.memo(Header);
+// export default Header;

@@ -199,4 +199,5 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
   );
 };
 
-export default ReviewItem;
+export default React.memo(ReviewItem);
+// export default ReviewItem;

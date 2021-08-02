@@ -124,4 +124,5 @@ const ReviewContainer = ({ showId, handleShow }) => {
   );
 };
 
-export default ReviewContainer;
+export default React.memo(ReviewContainer);
+// export default ReviewContainer;
