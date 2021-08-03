@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import { Alert, Button, Form } from 'react-bootstrap';
 import { PencilSquare, Trash } from 'react-bootstrap-icons';
+import './Comment.css';
 
 import BcommentsPagenation from '../../components/Pagination/BcommentsPagenation';
 
@@ -105,7 +106,6 @@ const Comment = ({ boardNo }) => {
   const upComment = (e) => {
     e.preventDefault();
     setUpdateComment(e.target.value);
-    console.log('수정할댓글내용', updateComment);
   };
 
   // 댓글 수정 폼 이벤트
@@ -220,28 +220,42 @@ const Comment = ({ boardNo }) => {
           }
 
           return (
-            <Alert ismodify={ismodify ? 1 : 0} variant="success" key={item.boardCommentNo}>
-              <p>{item.member.nickName}</p>
-              <p className="mb-0">{regDate}</p>
-              <hr />
+            <div
+              className="comment-container"
+              ismodify={ismodify ? 1 : 0}
+              key={item.boardCommentNo}
+            >
+              <header className="comment-header">
+                <p>{item.member.nickName}</p>
+                <p className="mb-0">{regDate}</p>
+              </header>
+              <hr style={{ margin: '0.5rem 0' }} />
               <p>{item.boardCommentContents}</p>
               {/* 본인이 쓴 댓글만 수정,삭제가능 */}
               {ismodify && (
-                <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    width: '100%',
+                    flexWrap: 'wrap'
+                  }}
+                >
                   {/* 수정 가능 상태이면 댓글을 쓸 폼을 보여준다. */}
                   {modify && (
                     <>
                       <Form
-                        style={{ display: 'flex', alignItems: 'center' }}
+                        className="d-flex align-items-center flex-wrap"
                         onSubmit={onEditComment}
                       >
                         <Form.Group className="mb-3">
-                          <Form.Label style={{ color: 'gray' }}>
+                          <Form.Label className="checktext" style={{ color: 'gray' }}>
                             욕설,비방,도배 등의 댓글은 삭제될 수 있습니다.
                             <p style={{ display: 'none' }} id="commentNo">
                               {item.boardCommentNo}
                             </p>
                           </Form.Label>
+                          {/* 수정 텍스트 에어리어 */}
                           <Form.Control
                             as="textarea"
                             rows={3}
@@ -256,13 +270,13 @@ const Comment = ({ boardNo }) => {
                           {nullError === false ? (
                             ''
                           ) : (
-                            <Form.Label style={{ color: 'red' }}>
+                            <Form.Label className="checktext" style={{ color: 'red' }}>
                               댓글내용을 입력해주세요.
                             </Form.Label>
                           )}
                         </Form.Group>
-                        &nbsp;
-                        <Button onClick={onEditComment} style={{ height: '50%' }}>
+
+                        <Button onClick={onEditComment} style={{ width: '100%' }}>
                           댓글수정
                         </Button>
                       </Form>
@@ -270,18 +284,21 @@ const Comment = ({ boardNo }) => {
                   )}
 
                   {/* 수정, 삭제 아이콘  */}
-                  <PencilSquare
-                    onClick={() => setModify(true)} // 누르면 수정textarea가 뜸
-                    style={{ marginRight: '1rem' }}
-                  ></PencilSquare>
-                  <Trash onClick={deleteComment}></Trash>
+                  <div>
+                    <PencilSquare
+                      onClick={() => setModify(true)} // 누르면 수정textarea가 뜸
+                      className="comment-btn"
+                    ></PencilSquare>
+                    <Trash onClick={deleteComment} className="comment-btn"></Trash>
+                  </div>
+
                   <p style={{ display: 'none' }} id="delCommentNo">
                     {item.boardCommentNo}
                   </p>
                 </div>
               )}
               {/* ismodify 끝, 본인이 쓴 댓글에만 나타나는 부분   */}
-            </Alert>
+            </div>
           );
         }) // map 끝
       ) : (

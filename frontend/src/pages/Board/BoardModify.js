@@ -36,7 +36,6 @@ const BoardModify = () => {
 
   // 이미지를 따로 처리해 저장하기 때문에 imageHandler를 만든다
   const imageHandler = () => {
-    console.log('이미지 핸들러');
     // 히든으로 숨겨진 input을 선택하도록 한다.
     imageRef.current.click(); // 선택을 input으로 하게함
   };
