@@ -9,15 +9,15 @@ const ListTable = ({ boardList }) => {
   // console.log('is게시글 로그인??', isLogin);
 
   return (
-    <Table bordered hover>
+    <Table bordered hover responsive="xl" style={{ minWidth: '500px', textAlign: 'center' }}>
       <thead>
         <tr>
-          <th>글번호</th>
-          <th style={{ width: '25%' }}>제목</th>
-          <th>카테고리</th>
-          <th>작성자</th>
-          <th>조회수</th>
-          <th>작성일</th>
+          <th style={{ width: '10%' }}>글번호</th>
+          <th style={{ width: '40%' }}>제목</th>
+          <th style={{ width: '10%' }}>카테고리</th>
+          <th style={{ width: '15%' }}>작성자</th>
+          <th style={{ width: '15%' }}>조회수</th>
+          <th style={{ width: '15%' }}>작성일</th>
         </tr>
       </thead>
       <tbody>
@@ -43,7 +43,6 @@ const ListTable = ({ boardList }) => {
 
           // 작성일 2021-07-31 이렇게 까지만 잘라서 보여주기
           let regDate = item.createdAt.slice(0, 10);
-          // console.log(regDate.slice(0, 10));
 
           return (
             <tr key={item.boardNo}>
