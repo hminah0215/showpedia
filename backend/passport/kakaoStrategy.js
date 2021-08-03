@@ -15,9 +15,11 @@ module.exports = () => {
 
       // 기존에 카카오를 통해 회원가입한 사용자가 있는지 조회한다.
       async (accessToken, refreshToken, profile, done) => {
-        // console.log('kakao profile 정보', profile);
+        console.log('kakao profile 정보', profile);
         // console.log('카카오accessToken', accessToken);
         // console.log('refreshToken카카오~~', refreshToken);
+
+        console.log('프로파일이미지', profile._json.properties.profile_image);
 
         try {
           const exMember = await Member.findOne({
@@ -43,11 +45,14 @@ module.exports = () => {
               memberId: profile._json.kakao_account.email,
               nickName: profile.displayName,
               snsId: profile.id,
+              profilePhoto: profile._json.properties.profile_image,
               provider: 'kakao'
             });
 
+            console.log('new', newMember.profilePhoto);
+
             const kakaoMember = {
-              user: exMember,
+              user: newMember,
               accessToken: accessToken || ''
             };
 

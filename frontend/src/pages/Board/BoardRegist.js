@@ -133,6 +133,11 @@ const BoardRegist = () => {
       alert('게시글 제목과 내용을 입력해주세요!');
       return false;
     }
+
+    if (newBoard.boardCategory.length === 0) {
+      alert('카테고리를 선택해주세요.');
+      return false;
+    }
     // const config = {
     //   header: { 'content-type': 'multipart/form-data' }
     // };
