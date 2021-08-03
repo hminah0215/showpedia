@@ -9,6 +9,8 @@ import axios from 'axios';
 // 댓글
 import Comment from '../../components/Board/Comment';
 
+import NotFound from '../../components/NotFound/NotFound';
+
 const BoardView = ({ history }) => {
   // 백엔드에서 가져올 게시글 데이터 구조정의
   const [boardView, setBoardView] = useState({});
@@ -168,7 +170,7 @@ const BoardView = ({ history }) => {
           </Alert>
         </>
       ) : (
-        '해당 게시글을 찾을 수 없습니다.'
+        <NotFound msg="해당 게시글이 존재하지않습니다." />
       )}
 
       {/* 목록으로 돌아가기, 수정,삭제, 신고 버튼 */}

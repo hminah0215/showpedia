@@ -12,8 +12,8 @@ const BcommentsPagenation = ({ perPage, commentList, paginate }) => {
   // 페이지 네이션 처리를 위한 상태
   const [pagination, setPagination] = useState(1);
 
-  console.log('perPage', perPage); // 1
-  console.log('commentList', commentList); // 12
+  // console.log('perPage', perPage); // 1
+  // console.log('commentList', commentList); // 12
 
   // 페이지 이동을 위한 history
   const history = useHistory();
@@ -25,7 +25,7 @@ const BcommentsPagenation = ({ perPage, commentList, paginate }) => {
     const page = e.target.innerText;
     history.push(`/comment?page=${e.target.innerText}`);
 
-    console.log('이동할 댓글페이지', page);
+    // console.log('이동할 댓글페이지', page);
 
     // 백엔드에서 리스트 가져오기
     const URL = `http://localhost:3005/comments?page=${page}`;

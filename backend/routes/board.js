@@ -159,7 +159,7 @@ router.put('/:id', tokenTest, isLoggedIn, async (req, res) => {
 // 민아) 7/28, 게시글 상세보기 get 라우터
 router.get('/view/:id', async (req, res) => {
   const boardIdx = req.params.id;
-  console.log('상세보기 게시물 번호', boardIdx);
+  // console.log('상세보기 게시물 번호', boardIdx);
 
   try {
     //
@@ -181,7 +181,7 @@ router.get('/view/:id', async (req, res) => {
       }
     );
 
-    console.log('조회수증가?', updateHits);
+    // console.log('조회수증가?', updateHits);
 
     return res.json({ code: '200', data: board, msg: '게시글 상세보기 OK' });
     //
