@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Button, Container, Form } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -19,36 +19,40 @@ const Login = () => {
   const dispatch = useDispatch();
 
   // onChange 이벤트
-  const onChLogin = (e) => {
-    setMember({ ...member, [e.target.name]: e.target.value });
-  };
+  const onChLogin = useCallback((e) => {
+    // setMember({ ...member, [e.target.name]: e.target.value });
+    setMember((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  }, []);
 
   // 로그인 폼 이벤트
-  const onSubmitHandler = (e) => {
-    e.preventDefault();
+  const onSubmitHandler = useCallback(
+    (e) => {
+      e.preventDefault();
 
-    // 로컬 로그인 axios post
-    axios.defaults.withCredentials = true; // 쿠키 데이터를 전송받기 위해
-    axios
-      .post('http://localhost:3005/login', member)
-      .then((result) => {
-        if (result.data.code === 200) {
-          // alert('로그인 성공');
+      // 로컬 로그인 axios post
+      axios.defaults.withCredentials = true; // 쿠키 데이터를 전송받기 위해
+      axios
+        .post('http://localhost:3005/login', member)
+        .then((result) => {
+          if (result.data.code === 200) {
+            // alert('로그인 성공');
 
-          // 로그인이 성공하면 쿠키에 jwt 토큰값을 넣는다.
-          document.cookie = 'member=' + result.data.data;
+            // 로그인이 성공하면 쿠키에 jwt 토큰값을 넣는다.
+            document.cookie = 'member=' + result.data.data;
 
-          // 로그인 dispatch를 실행하고,  메인으로 이동한다.
-          dispatch(loginUser('true'));
-          history.push('/');
-        } else {
-          alert('백엔드 에러 발생 - 로그인 문제');
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
+            // 로그인 dispatch를 실행하고,  메인으로 이동한다.
+            dispatch(loginUser('true'));
+            history.push('/');
+          } else {
+            alert('백엔드 에러 발생 - 로그인 문제');
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
+    [member, dispatch]
+  );
 
   return (
     <Container className="my-5 d-flex justify-content-center align-items-center ">
