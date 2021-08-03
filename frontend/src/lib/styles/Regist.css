@@ -1,0 +1,57 @@
+@import './color.css';
+
+.regist-container {
+  width: 100%;
+  max-width: 700px;
+  min-width: 500px;
+  background-image: linear-gradient(to top, #f3e7e9 0%, #e3eeff 99%, #e3eeff 100%);
+  padding: 2rem;
+}
+
+.regist-title {
+  text-align: center;
+  cursor: default;
+  margin-bottom: 1rem;
+}
+
+.regist-email-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.regist-email-container .email-input {
+  flex: 1;
+}
+.regist-email-container .email-btn {
+  width: 80px;
+  font-size: 1rem;
+  margin-left: 0.5rem;
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.email-checktext {
+  font-size: 0.8rem;
+  margin-top: 0.3rem;
+}
+
+.regist-profile {
+  display: flex;
+  justify-content: center;
+}
+
+.regist-btn {
+  width: 100%;
+}
+
+/* 미디어 쿼리 */
+@media screen and (max-width: 576px) {
+  .regist-container {
+    width: 100%;
+    min-width: auto;
+  }
+  .regist-email-container .email-btn {
+    margin-left: 0;
+    margin-top: 0.5rem;
+    width: 100%;
+  }
+}

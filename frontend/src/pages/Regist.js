@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-import { Button, Col, Container, Form, Image } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { registUser } from '../redux/auth';
+// 부트스트랩
+import { Button, Col, Container, Form, Image } from 'react-bootstrap';
+// CSS
+import '../lib/styles/Regist.css';
+// etc
 import axios from 'axios';
 
 // 민아) 7/28, 회원가입
@@ -43,6 +47,7 @@ const Regist = () => {
     console.log('setConfirmPasword');
   };
 
+  // 프로필 이미지를 저장하는 이벤트 핸들러
   const onPhotoHandler = (e) => {
     e.preventDefault();
 
@@ -55,18 +60,11 @@ const Regist = () => {
         header: { 'content-type': 'multipart/form-data' }
       })
       .then((result) => {
-        console.log('통신하나요?');
-        console.log('멀터이미지', result.data);
-        console.log('저장할 url', result.data.url);
-
         const IMG_URL = result.data.url;
-
         setProfilePhoto(`${IMG_URL}`);
       })
       .catch((err) => {});
   };
-
-  // console.log('checkIdError', checkIdError);
 
   // 아이디 중복확인 버튼 이벤트
   const IdDBcheck = (e) => {
@@ -102,8 +100,6 @@ const Regist = () => {
   // 회원가입 form 이벤트
   const onSubmitHandler = (e) => {
     e.preventDefault();
-
-    console.log('profilePhoto??', profilePhoto);
 
     let registerUser = {
       memberId: memberId,
@@ -142,50 +138,46 @@ const Regist = () => {
         console.error(err);
       });
   };
-  return (
-    <Container
-      className="my-3 container"
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}
-    >
-      <div
-        style={{
-          width: '60%',
-          backgroundImage: 'linear-gradient(to top, #f3e7e9 0%, #e3eeff 99%, #e3eeff 100%)',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center'
-        }}
-      >
-        {/* onChange={onRegisterUser} */}
-        <Form onSubmit={onSubmitHandler}>
-          <h3 style={{ textAlign: 'center', marginTop: '2rem' }}>회원가입</h3>
-          <Form.Group className="mb-3" controlId="formBasicEmail" style={{ marginTop: '2rem' }}>
-            <Form.Label>이메일(아이디)</Form.Label>
-            <Form.Control
-              type="email"
-              value={memberId}
-              onChange={onIdHandler}
-              placeholder="name@example.com"
-            />
 
-            <button onClick={IdDBcheck}>아이디 중복확인</button>
+  return (
+    <Container className="my-5 container d-flex flex-column justify-content-center align-items-center">
+      <div className="regist-container">
+        <Form onSubmit={onSubmitHandler}>
+          {/* title */}
+          <h3 className="regist-title">회원가입</h3>
+          <hr style={{ marginTop: '0' }} />
+          {/* input */}
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Label>이메일(아이디)</Form.Label>
+            <div className="regist-email-container">
+              <Form.Control
+                className="email-input"
+                type="email"
+                value={memberId}
+                onChange={onIdHandler}
+                placeholder="name@example.com"
+              />
+              <button className="email-btn btn-custom--outline" onClick={IdDBcheck}>
+                중복확인
+              </button>
+            </div>
+
             {/* 삼항연산자 중첩사용! */}
             {checkIdError === undefined ? (
               <>
-                <div style={{ color: 'black' }}>아이디중복확인 버튼을 눌러주세요</div>
+                <div className="email-checktext">아이디 중복확인 버튼을 눌러주세요</div>
               </>
             ) : checkIdError ? (
               <>
-                <div style={{ color: 'red' }}>중복된 아이디 입니다.다른아이디를 입력해주세요.</div>
+                <div className="email-checktext" style={{ color: 'red' }}>
+                  중복된 아이디 입니다.다른아이디를 입력해주세요.
+                </div>
               </>
             ) : (
               <>
-                <div style={{ color: 'blue' }}>사용가능한 아이디 입니다.</div>
+                <div className="email-checktext" style={{ color: 'blue' }}>
+                  사용가능한 아이디 입니다.
+                </div>
               </>
             )}
           </Form.Group>
@@ -200,7 +192,7 @@ const Regist = () => {
             />
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Group className="mb-3" controlId="formBasicPassword2">
             <Form.Label>비밀번호 확인</Form.Label>
             <Form.Control
               type="password"
@@ -218,7 +210,7 @@ const Regist = () => {
             )}
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Group className="mb-3" controlId="formBasicNick">
             <Form.Label>닉네임</Form.Label>
             <Form.Control
               type="text"
@@ -240,15 +232,16 @@ const Regist = () => {
           </Form.Group>
           {/* 프로필 이미지 미리보기 */}
           <div
-            style={{
-              width: '60%',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center'
-            }}
+            className="regist-profile mb-3"
+            // style={{
+            //   width: '60%',
+            //   display: 'flex',
+            //   flexDirection: 'column',
+            //   alignItems: 'center'
+            // }}
           >
             {profilePhoto ? (
-              <Col xs={20} md={4}>
+              <div>
                 <Image
                   src={profilePhoto}
                   height="171"
@@ -256,23 +249,19 @@ const Regist = () => {
                   style={{ objectFit: 'cover' }}
                   roundedCircle
                 />
-              </Col>
+              </div>
             ) : (
-              <Col xs={20} md={4}>
+              <div>
                 <Image
                   src="https://via.placeholder.com/150"
                   height="171"
                   width="180"
                   roundedCircle
                 />
-              </Col>
+              </div>
             )}
           </div>
-          <Button
-            variant="primary"
-            type="submit"
-            style={{ width: '100%', marginBottom: '2rem', marginTop: '1rem' }}
-          >
+          <Button className="regist-btn" type="submit">
             회원가입
           </Button>
         </Form>
