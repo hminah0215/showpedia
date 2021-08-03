@@ -258,4 +258,5 @@ const Regist = () => {
   );
 };
 
-export default Regist;
+export default React.memo(Regist);
+// export default Regist;
