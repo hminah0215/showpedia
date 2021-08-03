@@ -1,0 +1,9 @@
+.board-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.board-info p {
+  margin: 0;
+}

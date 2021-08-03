@@ -56,8 +56,6 @@ const Comment = ({ boardNo }) => {
     axios
       .post('http://localhost:3005/comments', newComment)
       .then((result) => {
-        console.log('댓글등록 result', result);
-
         if (result.data.code === '200') {
           // 댓글등록후 바로 추가된 댓글이 보이도록, reRender useState를 만들고 그 값을 true로 바꾼다.
           setReRender(!reRender);
@@ -82,13 +80,9 @@ const Comment = ({ boardNo }) => {
     axios
       .get(`http://localhost:3005/comments/${boardNo}`)
       .then((res) => {
-        console.log('댓글목록 데이터', res);
-
         if (res.data.code === '200') {
           setShowcomment(res.data.data);
         }
-
-        console.log('뿌려줄 댓글 데이터', showComment);
       })
       .catch((err) => {
         console.error(err);
@@ -99,13 +93,11 @@ const Comment = ({ boardNo }) => {
   // 해당페이지의 첫번째와 마지막 인덱스 번호값을 구한다.
   const indexOfLast = currentPage * perPage;
   const indexOfFirst = indexOfLast - perPage;
-  // console.log('마지막 첫번째 인덱스 번호값', indexOfLast, indexOfFirst);
 
   // 배열 데이터를 slice 함수로 분할 해서 새로운 배열을 리턴한다.
   function currentPosts(data) {
     let currentPosts = 0;
     currentPosts = data.slice(indexOfFirst, indexOfLast); // 현재페이지
-    // console.log('현재페이지', currentPosts);
     return currentPosts;
   }
 
@@ -186,11 +178,11 @@ const Comment = ({ boardNo }) => {
 
   return (
     <div>
-      <h4>댓글</h4>
+      <h5>댓글</h5>
       {/* 댓글작성 form  */}
-      <Form style={{ display: 'flex', alignItems: 'center' }} onSubmit={onSaveComment}>
+      <Form onSubmit={onSaveComment}>
         <Form.Group className="mb-3">
-          <Form.Label style={{ color: 'gray' }}>
+          <Form.Label className="checktext" style={{ color: 'gray' }}>
             욕설,비방,도배 등의 댓글은 삭제될 수 있습니다.
           </Form.Label>
           <Form.Control
@@ -206,13 +198,13 @@ const Comment = ({ boardNo }) => {
           {nullError === false ? (
             ''
           ) : (
-            <Form.Label style={{ color: 'red' }}>댓글내용을 입력해주세요.</Form.Label>
+            <Form.Label className="checktext" style={{ color: 'red' }}>
+              댓글내용을 입력해주세요.
+            </Form.Label>
           )}
         </Form.Group>
         &nbsp;
-        <Button onClick={onSaveComment} style={{ height: '50%' }}>
-          댓글등록
-        </Button>
+        <Button onClick={onSaveComment}>댓글등록</Button>
       </Form>
       <hr />
 

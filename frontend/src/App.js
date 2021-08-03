@@ -9,7 +9,6 @@ import Login from './pages/Login';
 import Regist from './pages/Regist';
 import Search from './pages/Search';
 import Contents from './pages/Contents';
-import Profile from './pages/Profile';
 import BoardList from './pages/Board/BoardList';
 import BoardRegist from './pages/Board/BoardRegist';
 import BoardView from './pages/Board/BoardView';
@@ -62,8 +61,6 @@ function App() {
 
       <Route path="/search" component={Search} />
       <Route path="/contents/:id" component={Contents} />
-
-      <Route path="/profile" component={Profile} />
 
       <Route path="/board" component={BoardList} exact />
       <Route path="/board/regist" component={BoardRegist} />

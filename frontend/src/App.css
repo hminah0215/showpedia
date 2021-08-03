@@ -83,11 +83,12 @@
 }
 
 /* 카카오 로그인 버튼 색상 */
-.btn-warning {
+.btn-yellow {
   background-color: #fdc212 !important;
+  color: black;
 }
-.btn-warning:active,
-.btn-warning:hover {
+.btn-yellow:active,
+.btn-yellow:hover {
   background-color: #ffb700 !important;
 }
 
@@ -125,4 +126,10 @@
 }
 .custom-a:hover {
   color: var(--violet-color-10);
+}
+
+/* 체크 텍스트 */
+.checktext {
+  font-size: 0.8rem;
+  margin-top: 0.3rem;
 }

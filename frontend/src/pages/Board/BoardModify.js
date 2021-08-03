@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Button, Container, Form } from 'react-bootstrap';
 import { useHistory, useLocation } from 'react-router-dom';
 
-import ReactQuill, { Quill } from 'react-quill'; // quill에디터
+import ReactQuill from 'react-quill'; // quill에디터
 import 'react-quill/dist/quill.snow.css'; // quill에디터 테마
 
 const BoardModify = () => {
@@ -32,7 +32,6 @@ const BoardModify = () => {
   // 에디터 글 onChange
   const onChangeContents = (boardContents) => {
     setEditorContents(boardContents);
-    console.log(boardContents);
   };
 
   // 이미지를 따로 처리해 저장하기 때문에 imageHandler를 만든다
@@ -46,7 +45,6 @@ const BoardModify = () => {
   const onChangeRegist = (e) => {
     // const { name, value } = e.target;
     setExBoard({ ...exBoard, [e.target.name]: e.target.value });
-    console.log('등록할내용', exBoard);
   };
 
   // 히든 인풋에 현재 선택된 이미지 값 넣어주기
@@ -55,8 +53,6 @@ const BoardModify = () => {
 
     // server에서 multer 사용을 위한 formData를 만든다.
     const imageFormData = new FormData();
-    console.log('히든인풋창 온체인지 핸들러 e', e.target.files);
-
     // e.target.files에 있는 파일들을 멀터에 저장해야댐.
     imageFormData.append('img', e.target.files[0]);
 
@@ -65,9 +61,6 @@ const BoardModify = () => {
       .post('http://localhost:3005/board/uploads', imageFormData)
       .then((res) => {
         // 성공하면 보내주는 데이터 res
-        console.log('멀터 이미지 res', res.data);
-        console.log('이 url을 에디터객체에 넣어야한다.', res.data.url);
-        console.log('지금 에디터 ref', quillRef.current);
 
         const IMG_URL = res.data.url;
 
@@ -83,7 +76,6 @@ const BoardModify = () => {
   // 주소에서 현재 게시글 번호를 가져옴
   let location = useLocation();
   const boardNo = location.pathname.split('/')[3];
-  console.log('수정할 boardno', boardNo);
 
   // 원래 게시글 정보를 뿌려준다.
   useEffect(() => {

@@ -1,15 +1,18 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 // 부트스트랩
 import { Button, Container, Tab, Tabs } from 'react-bootstrap';
+// CSS
+import './BoardList.css';
 
 // 컴포넌트 참조
 import BoardPagination from '../../components/Pagination/BoardPagination';
 import ListTable from '../../components/Board/ListTable';
+
+// etc
+import axios from 'axios';
 
 // 민아) 7/27, 게시글 목록 & 페이지네이션
 const BoardList = () => {
@@ -31,27 +34,21 @@ const BoardList = () => {
 
   switch (key) {
     case 'all':
-      console.log('전체 선택');
       urls = '';
       break;
     case 'notice':
       urls = 'boardCategory=notice';
-      console.log('notice 선택');
       break;
     case 'free':
       urls = 'boardCategory=free';
-      console.log('free 선택');
       break;
     case 'actor':
       urls = 'boardCategory=actor';
-      console.log('actor 선택');
       break;
     case 'together':
       urls = 'boardCategory=together';
-      console.log('together 선택');
       break;
     default:
-      console.log('디폴트 - 전체게시글목록');
       break;
   }
 
@@ -61,8 +58,6 @@ const BoardList = () => {
       .get(url + urls)
       .then((res) => {
         // console.log('백엔드에서 제공된 전체 게시글목록 데이터 구조 파악', res);
-
-        console.log('목록res', res);
 
         if (res.data.code === '200') {
           // 게시글 목록 세터함수를 통해 백엔드에서 전달된 json 배열을 데이터로 목록을 갱신한다.
@@ -93,21 +88,21 @@ const BoardList = () => {
   // 로그인 여부 파악
   const isLogin = useSelector((state) => state.auth.isLogin);
 
+  const boardCategory = [
+    { all: '전체' },
+    { notice: '공지' },
+    { free: '자유' },
+    { actor: '덕질' },
+    { together: '같이가요' }
+  ];
+
   return (
     // Container로 감싸기, className으로 공통된 마진값 주기
     <Container className="my-3 container">
-      <h3 className="main-title" style={{ marginTop: '1.5rem', marginBottom: '1.5rem' }}>
-        게시판
-      </h3>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          marginBottom: '1.5rem'
-        }}
-      >
-        <p style={{ margin: '0' }}>로그인 하지않으면, 게시글을 볼 수 없습니다.</p>
+      <h3 className="main-title">게시판</h3>
+
+      <div className="board-info">
+        <p>로그인 하지않으면, 게시글을 볼 수 없습니다.</p>
         {isLogin && (
           <Button
             onClick={() => {
@@ -121,27 +116,24 @@ const BoardList = () => {
           </Button>
         )}
       </div>
+
       <Tabs
         id="controlled-tab-example"
         activeKey={key}
         onSelect={(k) => setKey(k)}
         className="mb-3"
       >
-        <Tab eventKey="all" title="전체">
-          <ListTable boardList={currentPosts(boardList)} />
-        </Tab>
-        <Tab eventKey="notice" title="공지">
-          <ListTable boardList={currentPosts(boardList)} />
-        </Tab>
-        <Tab eventKey="free" title="자유">
-          <ListTable boardList={currentPosts(boardList)} />
-        </Tab>
-        <Tab eventKey="actor" title="덕질">
-          <ListTable boardList={currentPosts(boardList)} />
-        </Tab>
-        <Tab eventKey="together" title="같이가요">
-          <ListTable boardList={currentPosts(boardList)} />
-        </Tab>
+        {/* 탭 별 게시글 리스트 */}
+        {boardCategory.map((item, idx) => {
+          const key = String(Object.keys(item));
+          const title = String(Object.values(item));
+
+          return (
+            <Tab key={idx} eventKey={key} title={title}>
+              <ListTable boardList={currentPosts(boardList)} />
+            </Tab>
+          );
+        })}
       </Tabs>
       {/* 페이지네이션 */}
       <BoardPagination

@@ -219,3 +219,4 @@ const SearchModal = ({ search, setSearch, handleChangeInput }) => {
 };
 
 export default SearchModal;
+// export default React.memo(SearchModal);

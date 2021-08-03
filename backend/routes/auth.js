@@ -141,7 +141,11 @@ router.post('/login', isNotLoggedIn, async (req, res, next) => {
 
     // 유저가 없거나 인증이 실패하면 에러 발생
     if (!member || authError) {
-      return res.redirect(`/?loginError=${info.message}`);
+      // return res.redirect(`/?loginError=${info.message}`);
+      return res.json({
+        code: '400',
+        msg: '로그인 실패'
+      });
     }
 
     // 전략이 성공하거나 실패하면!

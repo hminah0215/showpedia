@@ -1,8 +1,5 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-// 부트스트랩
-import { Container } from 'react-bootstrap';
-import { QuestionCircle } from 'react-bootstrap-icons';
 // 컴포넌트 참조
 import CustomCard from './CustomCard';
 import NotFound from '../NotFound/NotFound';
@@ -26,6 +23,7 @@ const CardList = () => {
       />
     ))
   );
+
   return <>{cardList}</>;
 };
 

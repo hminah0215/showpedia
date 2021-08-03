@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { setReview, reRenderReview } from '../../redux/review'; // 액션 생성함수
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -24,20 +24,21 @@ import axios from 'axios';
 const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, click }) => {
   // 리뷰 디스패치
   const reviewDispatch = useDispatch();
+  // 로그인 상태를 나타내는 state
   const isLogin = useSelector((state) => state.auth.isLogin);
 
   // 리뷰 컨텐츠를 클릭 시, 해당 리뷰 정보를 리덕스 상태에 저장한다
-  const handleClickReview = () => {
+  const handleClickReview = useCallback(() => {
     // 모달에 존재하는 리뷰의 경우 모달을 열지않는다.
     if (click) return;
     // 리덕스에 해당 리뷰 정보 저장하기
     reviewDispatch(setReview(review));
     // console.log('리뷰를 클릭하면 해당 리뷰 정보를 리덕스에 저장한다.', review);
     handleShow(); // 모달창 열기
-  };
+  }, [click, review, handleShow, reviewDispatch]);
 
   // 리뷰 수정하기 버튼 클릭 이벤트 핸들러
-  const handleClickModify = () => {
+  const handleClickModify = useCallback(() => {
     // 해당 리뷰 정보를 리덕스에 저장
     reviewDispatch(setReview(review));
 
@@ -46,10 +47,10 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
       state: true,
       option: 'myReview'
     });
-  };
+  }, [review, setModal, reviewDispatch]);
 
   // 좋아요 버튼 클릭 이벤트 핸들러
-  const handleClickLike = async () => {
+  const handleClickLike = useCallback(async () => {
     // console.log('좋아요 클릭');
     // console.log(review.reviewLikes);
     // db 수정하기
@@ -80,10 +81,10 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
       console.log(error);
       return false;
     }
-  };
+  }, [isLogin, review, reviewDispatch]);
 
   // 신고 버튼 클릭 이벤트 핸들러
-  const handleClickReport = async () => {
+  const handleClickReport = useCallback(async () => {
     console.log('신고 클릭');
     // db 수정하기
     const URL = `http://localhost:3005/review`;
@@ -113,7 +114,7 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
         return false;
       }
     }
-  };
+  }, [isLogin, reviewDispatch, review]);
 
   return (
     <>
@@ -198,4 +199,5 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
   );
 };
 
-export default ReviewItem;
+export default React.memo(ReviewItem);
+// export default ReviewItem;

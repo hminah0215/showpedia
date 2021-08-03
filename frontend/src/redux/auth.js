@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 // 1. 액션 타입 만들기   모듈이름/액션이름
 const REGISTER_USER = 'auth/REGISTER_USER'; // 회원가입
 const LOGIN_USER = 'auth/LOGIN_USER'; // 로그인

@@ -17,4 +17,5 @@ const Stars = ({ handleClickStar, idx, star, rating }) => {
   );
 };
 
-export default Stars;
+// export default Stars;
+export default React.memo(Stars);

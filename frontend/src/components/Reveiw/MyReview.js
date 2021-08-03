@@ -126,4 +126,5 @@ const MyReview = ({ showId, handleShow, setModal, write, setWrite }) => {
   );
 };
 
-export default MyReview;
+export default React.memo(MyReview);
+// export default MyReview;
