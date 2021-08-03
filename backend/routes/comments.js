@@ -1,6 +1,7 @@
 const express = require('express');
 
 const { BoardComment, Board, Member } = require('../models/');
+const boardComments = require('../models/boardComments');
 const { isLoggedIn, tokenTest } = require('./middleware');
 const router = express.Router();
 
@@ -27,6 +28,47 @@ router.post('/', tokenTest, isLoggedIn, async (req, res) => {
   } catch (error) {
     console.log('서버에러내용: ', error);
     return res.json({ code: '500', data: {}, msg: '댓글 등록 서버에러발생!!' });
+  }
+});
+
+// 민아) 8/3, 댓글 수정 라우터
+router.put('/', tokenTest, isLoggedIn, async (req, res) => {
+  // const memberId = req.user.memberId;
+  const commentNo = req.body.boardCommentNo;
+
+  // console.log('수정할 댓글내용', req.body.boardCommentContents);
+  // console.log('수정할 댓글번호', commentNo);
+
+  const upComment = {
+    boardCommentContents: req.body.boardCommentContents,
+    boardCommentNo: commentNo
+  };
+
+  try {
+    const updateCnt = await BoardComment.update(upComment, {
+      where: { boardCommentNo: commentNo }
+    });
+    return res.json({ code: '200', data: updateCnt, msg: '댓글 수정 Ok ' });
+  } catch (error) {
+    return res.json({ code: '500', data: {}, msg: '댓글수정 에러 관리자에게 문의하세요.' });
+  }
+});
+
+// 민아) 8/3, 댓글 삭제
+router.delete('/', async (req, res) => {
+  const commentNo = req.body.boardCommentNo;
+  // console.log('req댓글삭제', req.body);
+  // console.log('댓글삭제번호', commentNo);
+
+  try {
+    const deleteCnt = await BoardComment.destroy({ where: { boardCommentNo: commentNo } });
+    // console.log('댓글 삭제 건수', deleteCnt);
+
+    if (deleteCnt == 1) {
+      return res.json({ code: '200', data: deleteCnt, msg: '댓글삭제OK' });
+    }
+  } catch (error) {
+    return res.json({ code: '500', data: {}, msg: '댓글 삭제 서버 에러' });
   }
 });
 
