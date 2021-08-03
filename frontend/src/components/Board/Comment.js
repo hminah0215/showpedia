@@ -246,9 +246,10 @@ const Comment = ({ boardNo }) => {
                     <>
                       <Form
                         className="d-flex align-items-center flex-wrap"
+                        style={{ width: '100%' }}
                         onSubmit={onEditComment}
                       >
-                        <Form.Group className="mb-3">
+                        <Form.Group className="mb-3" style={{ width: '100%' }}>
                           <Form.Label className="checktext" style={{ color: 'gray' }}>
                             욕설,비방,도배 등의 댓글은 삭제될 수 있습니다.
                             <p style={{ display: 'none' }} id="commentNo">
@@ -257,6 +258,7 @@ const Comment = ({ boardNo }) => {
                           </Form.Label>
                           {/* 수정 텍스트 에어리어 */}
                           <Form.Control
+                            style={{ width: '100%' }}
                             as="textarea"
                             rows={3}
                             cols={100}
