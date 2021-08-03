@@ -53,6 +53,7 @@ const BoardView = ({ history }) => {
 
           // 저장할 내용을 정의해서
           let view = {
+            boardNo: res.data.data.boardNo,
             memberId: res.data.data.memberId,
             boardTitle: res.data.data.boardTitle,
             boardCategory: res.data.data.boardCategory,
