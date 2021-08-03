@@ -127,3 +127,9 @@
 .custom-a:hover {
   color: var(--violet-color-10);
 }
+
+/* 체크 텍스트 */
+.checktext {
+  font-size: 0.8rem;
+  margin-top: 0.3rem;
+}

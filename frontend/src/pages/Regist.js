@@ -161,17 +161,17 @@ const Regist = () => {
             {/* 삼항연산자 중첩사용! */}
             {checkIdError === undefined ? (
               <>
-                <div className="email-checktext">아이디 중복확인 버튼을 눌러주세요</div>
+                <div className="checktext">아이디 중복확인 버튼을 눌러주세요</div>
               </>
             ) : checkIdError ? (
               <>
-                <div className="email-checktext" style={{ color: 'red' }}>
+                <div className="checktext" style={{ color: 'red' }}>
                   중복된 아이디 입니다.다른아이디를 입력해주세요.
                 </div>
               </>
             ) : (
               <>
-                <div className="email-checktext" style={{ color: 'blue' }}>
+                <div className="checktext" style={{ color: 'blue' }}>
                   사용가능한 아이디 입니다.
                 </div>
               </>

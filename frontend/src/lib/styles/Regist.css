@@ -30,11 +30,6 @@
   transition: background 0.3s ease;
 }
 
-.email-checktext {
-  font-size: 0.8rem;
-  margin-top: 0.3rem;
-}
-
 /* 프로필 이미지 */
 .regist-profile {
   display: flex;
