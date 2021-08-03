@@ -31,15 +31,11 @@ function App() {
   const logoutSuccess = useSelector((state) => state.auth.logoutSuccess);
 
   useEffect(() => {
-    console.log('app.js 리렌더링');
-
     axios.defaults.withCredentials = true; // 쿠키 데이터를 전송받기 위해
     axios.get('http://localhost:3005/tokenTest').then((result) => {
-      console.log('app.js result', result);
       if (result.data.code === '200') {
         dispatch(isLogin(true));
         dispatch(loginMemberId(result.data.data));
-        console.log('로그인한 사용자 아이디', result.data.data);
       } else {
         dispatch(isLogin(false));
       }

@@ -151,9 +151,7 @@ const Header = () => {
               )}
               {/* 로그인 상태면 회원가입 대신 마이페이지 버튼을 보여주고, 로그인상태가 아니면 회원가입 버튼 보이기 */}
               {isLogin ? (
-                <Button href="#" className=".btn-custom" style={{ minWidth: '90px' }}>
-                  마이페이지
-                </Button>
+                <></>
               ) : (
                 <Button href="/regist" className=".btn-custom" style={{ minWidth: '90px' }}>
                   회원가입
