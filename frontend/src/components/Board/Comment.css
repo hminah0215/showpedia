@@ -1,0 +1,25 @@
+@import '../../lib/styles/color.css';
+
+.comment-container {
+  border: 2px solid var(--violet-color-main);
+  border-radius: 4px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.comment-header p {
+  margin: 0;
+}
+.comment-btn {
+  cursor: pointer;
+  margin-left: 1rem;
+  transition: all 0.3s ease;
+}
+.comment-btn:hover {
+  color: var(--violet-color-main);
+}
