@@ -134,7 +134,10 @@ const BoardRegist = () => {
       return false;
     }
 
-    if (newBoard.boardCategory.length === 0) {
+    if (
+      newBoard.boardCategory.length === 0 ||
+      newBoard.boardCategory === '카테고리를 선택해주세요.'
+    ) {
       alert('카테고리를 선택해주세요.');
       return false;
     }
