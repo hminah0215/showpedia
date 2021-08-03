@@ -5,6 +5,9 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { loginUser } from '../redux/auth';
 
+// CSS
+import '../lib/styles/Login.css';
+
 const Login = () => {
   const [member, setMember] = useState({
     memberId: '',
@@ -29,14 +32,11 @@ const Login = () => {
     axios
       .post('http://localhost:3005/login', member)
       .then((result) => {
-        console.log('회원로그인===>', result);
-
         if (result.data.code === 200) {
           // alert('로그인 성공');
 
           // 로그인이 성공하면 쿠키에 jwt 토큰값을 넣는다.
           document.cookie = 'member=' + result.data.data;
-          console.log('로그인 성공, 쿠키' + document.cookie);
 
           // 로그인 dispatch를 실행하고,  메인으로 이동한다.
           dispatch(loginUser('true'));
@@ -51,27 +51,12 @@ const Login = () => {
   };
 
   return (
-    <Container
-      className="my-3 container"
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}
-    >
-      <div
-        style={{
-          width: '60%',
-          backgroundImage: 'linear-gradient(to top, #f3e7e9 0%, #e3eeff 99%, #e3eeff 100%)',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center'
-        }}
-      >
-        <h3 style={{ textAlign: 'center', marginTop: '1.5rem' }}>Log in</h3>
+    <Container className="my-5 d-flex justify-content-center align-items-center ">
+      <div className="login-container">
+        <h3 className="login-title">Log in</h3>
+        <hr style={{ marginTop: '0' }} />
         <Form onSubmit={onSubmitHandler}>
-          <Form.Group className="mb-3" controlId="formBasicEmail" style={{ marginTop: '2rem' }}>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>이메일</Form.Label>
             <Form.Control
               type="text"
@@ -96,16 +81,11 @@ const Login = () => {
             />
           </Form.Group>
 
-          <Button variant="primary" type="submit" style={{ width: '100%', marginBottom: '1rem' }}>
+          <Button type="submit" className="login-btn">
             로그인
           </Button>
-          <Button variant="warning" type="submit" style={{ width: '100%', marginBottom: '1.5rem' }}>
-            <a
-              href="http://localhost:3005/kakao"
-              style={{ textDecoration: 'none', color: 'black' }}
-            >
-              카카오 로그인
-            </a>
+          <Button href="http://localhost:3005/kakao" type="submit" className="btn-yellow login-btn">
+            카카오 로그인
             {/* cors설정도 하고, 디벨로퍼페이지에서 3000번 포트도 등록했는데 에러발생해서 찾아보니 
           클라이언트에서 rest api 서버로 요청할때는 axios,fetch 등이 아닌 a태그의 href를 사용해야한다고 한다. 
           https://www.inflearn.com/questions/30479 */}
