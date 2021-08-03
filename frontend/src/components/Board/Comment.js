@@ -3,16 +3,25 @@ import axios from 'axios';
 
 import { Alert, Button, Form } from 'react-bootstrap';
 
+import BcommentsPagenation from '../../components/Pagination/BcommentsPagenation';
+
 const Comment = ({ boardNo }) => {
   // alert('댓글을 달 게시글 번호는??' + boardNo);
 
   // 댓글 정보를 담을 useState
-  const [bcomment, setBcomment] = useState('');
-  const [showComment, setShowcomment] = useState([]); // 댓글 목록데이터를 담을
+  const [bcomment, setBcomment] = useState(''); // 댓글입력
+  const [showComment, setShowcomment] = useState([]); // 댓글 목록데이터를 담을 곳
+
+  // 페이지 네이션 처리를 위한 상태
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
+
+  // 총데이터를 perPage 만큼 분할해서 보여줄것, 한페이지에 댓글 6개
+  const [perPage, setPerPage] = useState(6);
 
   // 리렌더 상태를 담는 state
   const [reRender, setReRender] = useState(false);
 
+  // 댓글내용빈칸이면 에러메시지를 보여줄 상태
   const [nullError, setNullError] = useState(false);
 
   // 댓글 textarea onchange 이벤트
@@ -79,28 +88,22 @@ const Comment = ({ boardNo }) => {
     //
   }, [reRender]); // 댓글등록하면 reRender상태를 true로 바꾼다. 새로 등록한 댓글이 바로 보이도록 두번째인자 추가
 
+  // 해당페이지의 첫번째와 마지막 인덱스 번호값을 구한다.
+  const indexOfLast = currentPage * perPage;
+  const indexOfFirst = indexOfLast - perPage;
+  console.log('마지막 첫번째 인덱스 번호값', indexOfLast, indexOfFirst);
+
+  // 배열 데이터를 slice 함수로 분할 해서 새로운 배열을 리턴한다.
+  function currentPosts(data) {
+    let currentPosts = 0;
+    currentPosts = data.slice(indexOfFirst, indexOfLast); // 현재페이지
+    // console.log('현재페이지', currentPosts);
+    return currentPosts;
+  }
+
   return (
     <div>
       <h4>댓글</h4>
-      <hr />
-      {/* 여기는 댓글 목록을 보여줄 공간으로 생각함 */}
-      {/* 댓글이 없으면 아예 랜더링 안되게!  */}
-
-      {showComment.length !== 0 ? (
-        showComment.map((item) => {
-          let regDate = item.createdAt.slice(0, 10);
-          return (
-            <Alert variant="success" key={item.boardCommentNo}>
-              <Alert.Heading>{item.member.nickName}</Alert.Heading>
-              <p>{item.boardCommentContents}</p> <hr />
-              <p className="mb-0">{regDate}</p>
-            </Alert>
-          );
-        })
-      ) : (
-        <></>
-      )}
-
       {/* 댓글작성 form  */}
       <Form style={{ display: 'flex', alignItems: 'center' }} onSubmit={onSaveComment}>
         <Form.Group className="mb-3">
@@ -128,6 +131,38 @@ const Comment = ({ boardNo }) => {
           댓글등록
         </Button>
       </Form>
+      <hr />
+
+      {/* 댓글 페이지네이션 */}
+      <BcommentsPagenation
+        perPage={perPage}
+        commentList={showComment.length}
+        paginate={setCurrentPage}
+      ></BcommentsPagenation>
+
+      {/* 여기는 댓글 목록을 보여줄 공간으로 생각함 */}
+      {/* 댓글이 없으면 아예 랜더링 안되게!  */}
+      {showComment.length !== 0 ? (
+        // currentPosts 현재 페이지에 보여줄 댓글데이터(댓글리스트 )
+        currentPosts(showComment).map((item) => {
+          let regDate = item.createdAt.slice(0, 10);
+          return (
+            <Alert variant="success" key={item.boardCommentNo}>
+              <Alert.Heading>{item.member.nickName}</Alert.Heading>
+              <p>{item.boardCommentContents}</p> <hr />
+              <p className="mb-0">{regDate}</p>
+            </Alert>
+          );
+        }) // map 끝
+      ) : (
+        <></>
+      )}
+      {/* 댓글 페이지네이션 */}
+      <BcommentsPagenation
+        perPage={perPage}
+        commentList={showComment.length}
+        paginate={setCurrentPage}
+      ></BcommentsPagenation>
     </div>
   );
 };
