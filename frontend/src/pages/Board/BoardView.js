@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+// 부트스트랩
 import { Alert, Badge, Button, Container } from 'react-bootstrap';
 import { Clock, ExclamationTriangle, Eye } from 'react-bootstrap-icons';
+
+// ext
 import ReactHtmlParser from 'react-html-parser';
 import axios from 'axios';
 
@@ -22,8 +25,6 @@ const BoardView = ({ history }) => {
   // 게시글 번호를 url에서 가져온다.
   let location = useLocation();
   const boardNo = location.pathname.split('/')[3];
-
-  // console.log('조회할게시글번호', boardNo);
 
   useEffect(() => {
     // 게시글 상세보기
@@ -80,7 +81,6 @@ const BoardView = ({ history }) => {
       axios
         .delete(`http://localhost:3005/board/${boardNo}`)
         .then((result) => {
-          console.log('게시글삭제 res', result);
           alert('게시글이 삭제되었습니다. 목록으로 돌아갑니다.');
           history.push('/board');
         })
@@ -92,8 +92,6 @@ const BoardView = ({ history }) => {
 
   // 신고버튼 이벤트
   const handleClickReport = () => {
-    console.log('신고버튼클릭!');
-
     // db수정하기
     const URL = `http://localhost:3005/board/${boardNo}`;
 
@@ -107,7 +105,6 @@ const BoardView = ({ history }) => {
             boardReports: boardView.boardReports // 기존의 신고수를 전달해서 백엔드에서 +1
           })
           .then((result) => {
-            console.log('신고 결과', result);
             if (result.data.code !== '200' && result.data.code === '400') {
               return alert('본인글에는 신고를 할 수 없습니다.');
             }
@@ -116,7 +113,6 @@ const BoardView = ({ history }) => {
             if (result.data.code === '200') {
               setBoardView({ ...boardView, boardReports: boardView.boardReports + 1 });
             }
-            console.log('신고완료', boardView);
           })
           .catch((err) => {
             alert('신고실패');
@@ -128,39 +124,40 @@ const BoardView = ({ history }) => {
   };
 
   return (
-    <Container
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: '2rem'
-      }}
-    >
+    <Container className="my-5 d-flex flex-column justify-content-center ">
       {boardView ? (
         <>
-          {/* 제목, 작성자, 조회수, 신고수, 작성일 Alert */}
-          <Alert variant="secondary" style={{ width: '100%' }}>
-            <div>
-              <h5>
-                {/* 제목 */}
-                {boardView.boardTitle}&emsp;&emsp;&emsp;&emsp;
-                {/* 작성자 {boardView.member.nickName} {boardView.memberId} */}
-                <Badge bg="primary">{boardView.nickName}</Badge>&emsp;&emsp;
-                {/* 조회수 */}
-                <Eye />
-                &nbsp;{boardView.boardHits}
-                &emsp;
-                {/* 신고수 */}
-                <ExclamationTriangle style={{ color: 'red' }} />
-                &nbsp;{boardView.boardReports}
-                &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+          {/* 제목, 작성자, 조회수, 신고수, 작성일  */}
+          <div>
+            <div className="d-flex gap-2 flex-wrap justify-content-between">
+              {/* 제목 / 작성자 */}
+              <div className="d-flex align-items-center">
+                <h5 className="m-0">{boardView.boardTitle}</h5>
+                <Badge className="ms-3" bg="secondary">
+                  {boardView.nickName}
+                </Badge>
+              </div>
+              {/* 조회수 / 신고수 / 작성일 */}
+              <div>
+                <span className="me-4">
+                  <Eye className="me-1" />
+                  {boardView.boardHits}
+                </span>
+                <span className="me-4">
+                  <ExclamationTriangle className="me-1" style={{ color: 'red' }} />
+                  {boardView.boardReports}
+                </span>
                 {/* 작성일 */}
-                <Clock />
-                &nbsp;{boardView.createdAt}
-              </h5>
+                <span>
+                  <Clock className="me-1" />
+                  {boardView.createdAt}
+                </span>
+              </div>
             </div>
-          </Alert>
+          </div>
+          <hr />
+
+          {/* 게시글 내용 */}
           <Alert variant="light">
             {/* 내용 : 에디터를 통해 게시글을 쓰면 <p>안녕</p>처럼 html태그가 다 저장되서 보일때도 태그들이 보인다.
             그래서 깔끔하게 ReactHtmlParser를 통해 컨텐츠의 value를 감싸준다! */}
@@ -172,24 +169,15 @@ const BoardView = ({ history }) => {
       )}
 
       {/* 목록으로 돌아가기, 수정,삭제, 신고 버튼 */}
-      <div
-        style={{
-          marginBottom: '2rem',
-          marginTop: '1.5rem',
-          alignItems: 'center',
-          display: 'flex'
-        }}
-      >
+      <div className="d-flex justify-content-center align-items-center my-4">
         {/* 목록으로 돌아가기 버튼 */}
         <Button variant="outline-secondary" onClick={() => history.goBack()}>
           목록으로 돌아가기
         </Button>
-        &emsp;&emsp;
         {/* 글쓴 사람에게만 보이는 수정버튼 */}
         {isModify && (
           <Button
-            variant="warning"
-            style={{ marginRight: '1rem' }}
+            className="mx-3"
             onClick={() => history.push({ pathname: `/board/modify/${boardView.boardNo}` })}
           >
             수정
@@ -201,11 +189,10 @@ const BoardView = ({ history }) => {
             삭제
           </Button>
         )}
-        &emsp;&emsp;
         {/* 글쓴이는 본인글에 신고버튼을 볼 수 없다. */}
         {isModify || (
           <button
-            className="review-btn review-btn--alert"
+            className="review-btn review-btn--alert ms-4"
             onClick={handleClickReport}
             style={{ width: '30px', height: '30px' }}
           >
@@ -215,7 +202,7 @@ const BoardView = ({ history }) => {
       </div>
 
       {/* 댓글 등록 */}
-      <Comment boardNo={boardNo}></Comment>
+      <Comment className="" boardNo={boardNo}></Comment>
     </Container>
   );
 };
