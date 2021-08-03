@@ -14,6 +14,7 @@
   margin-bottom: 1rem;
 }
 
+/* 이메일 */
 .regist-email-container {
   display: flex;
   flex-wrap: wrap;
@@ -34,11 +35,13 @@
   margin-top: 0.3rem;
 }
 
+/* 프로필 이미지 */
 .regist-profile {
   display: flex;
   justify-content: center;
 }
 
+/* 회원가입 버튼 */
 .regist-btn {
   width: 100%;
 }

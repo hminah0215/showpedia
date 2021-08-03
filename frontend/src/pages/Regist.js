@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { registUser } from '../redux/auth';
 // 부트스트랩
-import { Button, Col, Container, Form, Image } from 'react-bootstrap';
+import { Button, Container, Form, Image } from 'react-bootstrap';
 // CSS
 import '../lib/styles/Regist.css';
 // etc
@@ -30,29 +30,24 @@ const Regist = () => {
   const history = useHistory();
 
   // id / nickName / 비밀번호 / 비밀번호 확인/ 프로필이미지 onChange이벤트
-  const onIdHandler = (e) => {
+  const onIdHandler = useCallback((e) => {
     setMemberId(e.target.value);
-    console.log('setMemberId');
-  };
-  const onNickHandler = (e) => {
+  }, []);
+  const onNickHandler = useCallback((e) => {
     setNickname(e.target.value);
-    console.log('setNickname');
-  };
-  const onPasswordHanlder = (e) => {
+  }, []);
+  const onPasswordHanlder = useCallback((e) => {
     setPwd(e.target.value);
-    console.log('setPwd');
-  };
-  const onConfirmPasswordHandler = (e) => {
+  }, []);
+  const onConfirmPasswordHandler = useCallback((e) => {
     setConfirmPasword(e.target.value);
-    console.log('setConfirmPasword');
-  };
+  }, []);
 
   // 프로필 이미지를 저장하는 이벤트 핸들러
-  const onPhotoHandler = (e) => {
+  const onPhotoHandler = useCallback((e) => {
     e.preventDefault();
 
     const formData = new FormData();
-
     formData.append('profilePhoto', e.target.files[0]);
 
     axios
@@ -64,38 +59,41 @@ const Regist = () => {
         setProfilePhoto(`${IMG_URL}`);
       })
       .catch((err) => {});
-  };
+  }, []);
 
   // 아이디 중복확인 버튼 이벤트
-  const IdDBcheck = (e) => {
-    e.preventDefault();
+  // [아영] useCallback의 의존성을 꼭 넣어주어야한다.
+  // 그렇지 않으면 memberId 값이 바뀌어 새로운 처리(중복아이디 검색)을 해야하지만
+  // 해당 값을 변경하지 않고 처리를 하기 때문에 제대로 반영이 되지않는다.
+  const IdDBcheck = useCallback(
+    (e) => {
+      e.preventDefault();
 
-    const checkData = {
-      memberId: memberId
-    };
+      const checkData = {
+        memberId: memberId
+      };
 
-    axios
-      .post('http://localhost:3005/checkId', checkData)
-      .then((result) => {
-        console.log('아이디중복체크result', result);
+      axios
+        .post('http://localhost:3005/checkId', checkData)
+        .then((result) => {
+          const emailInput = document.getElementById('formBasicEmail').value;
 
-        const emailInput = document.getElementById('formBasicEmail').value;
-        console.log('emailInput', emailInput);
-
-        if (emailInput.length > 0 && result.data.data === false) {
-          // 중복된 아이디가 있으면 false 값이 넘어옴.
-          return setCheckIdError(true); // 중복체크 여부를 표시함
-        } else if (emailInput.length > 0 && result.data.data === true) {
-          // 중복된 아이디가 없으면 setCheckIdError(false)...
-          // useState 정의할때 디폴트 값을 false로 줬는데 그냥 else로 하면
-          // 아이디체크 에러메시지가 제대로 안떠서 else if로 조건 씀
-          return setCheckIdError(false);
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
+          if (emailInput.length > 0 && result.data.data === false) {
+            // 중복된 아이디가 있으면 false 값이 넘어옴.
+            return setCheckIdError(true); // 중복체크 여부를 표시함
+          } else if (emailInput.length > 0 && result.data.data === true) {
+            // 중복된 아이디가 없으면 setCheckIdError(false)...
+            // useState 정의할때 디폴트 값을 false로 줬는데 그냥 else로 하면
+            // 아이디체크 에러메시지가 제대로 안떠서 else if로 조건 씀
+            return setCheckIdError(false);
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
+    [memberId]
+  );
 
   // 회원가입 form 이벤트
   const onSubmitHandler = (e) => {
@@ -121,8 +119,6 @@ const Regist = () => {
     axios
       .post('http://localhost:3005/regist', registerUser, config)
       .then((result) => {
-        console.log('회원가입===>', result);
-
         // pwd가 비밀번호 확인과 같고, result data code가 200이면 dispatch실행
         // 회원가입 리덕스로 만드는게 필요했을까?? 하는 의문...
         if (result.data.code === 200 && pwd === ConfirmPasword) {
@@ -226,20 +222,12 @@ const Regist = () => {
               type="file"
               // value={profilePhoto}
               name={profilePhoto}
-              accept="image/jpg,impge/png,image/jpeg,image/gif"
+              accept="image/*"
               onChange={onPhotoHandler}
             />
           </Form.Group>
           {/* 프로필 이미지 미리보기 */}
-          <div
-            className="regist-profile mb-3"
-            // style={{
-            //   width: '60%',
-            //   display: 'flex',
-            //   flexDirection: 'column',
-            //   alignItems: 'center'
-            // }}
-          >
+          <div className="regist-profile mb-3">
             {profilePhoto ? (
               <div>
                 <Image
