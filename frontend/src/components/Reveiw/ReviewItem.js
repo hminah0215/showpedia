@@ -9,9 +9,10 @@ import { Button } from 'react-bootstrap';
 import './ReviewItem.css';
 // 참조
 import Stars from '../Stars/Stars';
-// etx
-import axios from 'axios';
 import User from './User';
+// etc
+import axios from 'axios';
+import ReviewBtn from './ReviewBtn';
 
 /*
   [props]
@@ -122,10 +123,12 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
         <>
           <div
             style={style}
+            // hover값이 있다면 className에 hover를 넣는다.
             className={`review m-3 d-flex align-items-center ${hover ? 'hover' : ''}`}
           >
             {/* 리뷰 유저정보 */}
             <User url={review.member.profilePhoto} text={review?.member.nickName} />
+
             {/* 리뷰 콘텐츠 */}
             <div className="review-contents-container flex-grow-1 d-flex flex-column justify-content-between">
               <div className="review-contents-header">
@@ -141,14 +144,15 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
                   ))}
                 </span>
               </div>
-              {/* 리뷰 컨텐츠가 클릭 시, 상세 리뷰 모달 오픈 */}
+              {/* 리뷰 내용 - 클릭 시, 상세 리뷰 모달 오픈 */}
               <div className="review-content flex-grow-1" onClick={handleClickReview}>
                 {review?.reviewContents}
               </div>
               {
-                // 내 리뷰일 경우 버튼 숨김
+                // isReviewed ? 내 리뷰가 존재하는지 판단
                 isReviewed ? (
                   <>
+                    {/* 내 리뷰면 수정 버튼 */}
                     <Button
                       size="sm"
                       style={{ width: '100px', alignSelf: 'flex-end' }}
@@ -158,17 +162,12 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
                     </Button>
                   </>
                 ) : (
-                  <div className="review-btns d-flex align-items-center justify-content-end">
-                    {/* 좋아요 버튼 */}
-                    <button className="review-btn" onClick={handleClickLike}>
-                      <HandThumbsUp size={20} />
-                    </button>
-                    <span className="review-like">{review?.reviewLikes}</span>
-                    {/* 신고 버튼 */}
-                    <button className="review-btn review-btn--alert" onClick={handleClickReport}>
-                      <ExclamationCircle size={20} />
-                    </button>
-                  </div>
+                  // 좋아요, 신고 버튼이 있는 리뷰 버튼 컴포넌트
+                  <ReviewBtn
+                    handleClickLike={handleClickLike}
+                    handleClickReport={handleClickReport}
+                    likes={review?.reviewLikes}
+                  />
                 )
               }
             </div>

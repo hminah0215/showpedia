@@ -47,34 +47,6 @@
   color: var(--gray-color-40);
 }
 
-/* 리뷰 버튼 항목 */
-.review .review-btns {
-  /* text-align: end; */
-  margin-right: 0.5rem;
-  margin-top: 0.3rem;
-}
-.review-btn {
-  background: none;
-  border: none;
-  width: 20px;
-  height: 20px;
-  color: var(--gray-color-20);
-  margin-right: 2px;
-  transition: all 0.3s ease;
-  position: relative;
-}
-.review-btn svg {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-.review-btn:hover {
-  color: var(--violet-color-20);
-}
-.review-btn--alert:hover {
-  color: red;
-}
 .review-btn--modify {
   position: absolute;
   right: 0;
