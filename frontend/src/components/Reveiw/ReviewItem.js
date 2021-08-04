@@ -11,6 +11,7 @@ import './ReviewItem.css';
 import Stars from '../Stars/Stars';
 // etx
 import axios from 'axios';
+import User from './User';
 
 /*
   [props]
@@ -124,22 +125,7 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
             className={`review m-3 d-flex align-items-center ${hover ? 'hover' : ''}`}
           >
             {/* 리뷰 유저정보 */}
-            <div className="review-user d-flex flex-column align-items-center">
-              <div className="review-user-img img-box">
-                <img
-                  src={
-                    review.member.profilePhoto
-                      ? review.member.profilePhoto
-                      : 'https://www.w3schools.com/w3images/avatar2.png'
-                  }
-                  alt="user"
-                ></img>
-              </div>
-              <p className="review-user-title">
-                {/* {review.nickName ? review?.nickName : review?.member.nickName} */}
-                {review?.member.nickName}
-              </p>
-            </div>
+            <User url={review.member.profilePhoto} text={review?.member.nickName} />
             {/* 리뷰 콘텐츠 */}
             <div className="review-contents-container flex-grow-1 d-flex flex-column justify-content-between">
               <div className="review-contents-header">
