@@ -44,13 +44,8 @@ const ReviewContainer = ({ showId, handleShow }) => {
         }
         // 리뷰가 없는 상태
         if (result.data.data.length === 0) {
-          // setHasReview({
-          //   ...hasReview,
-          //   has: false
-          // });
           setHasReview((prev) => ({ ...prev, has: false }));
         }
-        // setReviewList(result.data.data);
         reviewDispatch(getReviewList(result.data.data));
         return;
 

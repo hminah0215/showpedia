@@ -21,7 +21,6 @@ import axios from 'axios';
 
 const MyReview = ({ showId, handleShow, setModal, write, setWrite }) => {
   const history = useHistory();
-
   // 내 리뷰가 존재하는지 판단하는 state
   const [isReviewed, setIsReviewed] = useState(false);
   // 가져온 내 리뷰 데이터를 저장하는 state
@@ -86,7 +85,7 @@ const MyReview = ({ showId, handleShow, setModal, write, setWrite }) => {
           <>
             {/* 리뷰가 존재하지 않는다면 리뷰 작성 버튼을 보여준다. */}
             {
-              // write - 디폴트 false
+              // write - 디폴트 false / 리뷰 쓰기 여부, true 라면 WriteReview 컴포넌트를 보여준다
               write ? (
                 <>
                   {/* 리뷰 작성 컴포넌트 */}
@@ -98,20 +97,15 @@ const MyReview = ({ showId, handleShow, setModal, write, setWrite }) => {
                   {/* 리뷰 작성 버튼 컴포넌트 */}
                   <h3 className="main-title align-self-baseline">내 리뷰</h3>
                   {/* 버튼을 클릭하면 write를 true로 설정한다. */}
-
                   <button
                     className="review-btn--write m-4"
                     onClick={() => {
-                      // msg가 있는 경우 - 로그인이되지않은 상태기 때문에 login 페이지로 이동
+                      // 로그인되지않은 상태에서는 로그인페이지로 이동시킨다.
                       if (!isLogin) history.push('/login');
                       // 리뷰 작성 Write 상태로 만든다
                       setWrite(true);
                     }}
                   >
-                    {/*
-                      버튼 안에 쓰일 메세지 
-                      myReview에 msg가 존재한다면, myReview가 없거나 에러가 난 상태이다. 
-                    */}
                     {!isLogin
                       ? '로그인을 해주세요!'
                       : '아직 리뷰를 작성하지 않았어요! 리뷰를 작성해 볼까요? (click)'}

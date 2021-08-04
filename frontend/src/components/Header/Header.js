@@ -109,7 +109,11 @@ const Header = () => {
           <Navbar.Collapse id="navbarScroll" className="justify-content-between">
             {/* 네비게이션 항목들 */}
             <Nav>
-              <Nav.Link href="/board" style={{ minWidth: '70px' }} className="text-center">
+              <Nav.Link
+                href="/board"
+                style={{ minWidth: '70px' }}
+                className="text-center header-text"
+              >
                 게시판
               </Nav.Link>
             </Nav>
@@ -136,13 +140,17 @@ const Header = () => {
                 <Nav.Link
                   href="/logout"
                   style={{ minWidth: '70px' }}
-                  className="textCenter"
+                  className="textCenter header-text"
                   onClick={onClickHandler}
                 >
                   로그아웃
                 </Nav.Link>
               ) : (
-                <Nav.Link href="/login" style={{ minWidth: '70px' }} className="textCenter">
+                <Nav.Link
+                  href="/login"
+                  style={{ minWidth: '70px' }}
+                  className="textCenter header-text"
+                >
                   로그인
                 </Nav.Link>
               )}

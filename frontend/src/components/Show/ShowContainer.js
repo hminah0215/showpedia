@@ -43,7 +43,7 @@ const ShowContainer = ({ setIsFetch, showId }) => {
   }, [showId, setIsFetch, showDispatch]);
   // useEffect 종속성 고장
 
-  // 즐겨찾기 토글 이벤트 핸들러 - 미완
+  // 즐겨찾기 토글 이벤트 핸들러 - 별 표시
   const handleClickStar = useCallback((e) => {
     e.target.classList.toggle('active');
   }, []);
