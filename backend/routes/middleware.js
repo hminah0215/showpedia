@@ -46,25 +46,26 @@ exports.isNotLoggedIn = (req, res, next) => {
 // 토큰인증 테스트 미들웨어
 exports.tokenTest = async (req, res, next) => {
   passport.authenticate('jwtCheck', { session: false }, async (authError, member, info) => {
-    console.log('토큰 미들웨어 ');
+    console.log('-------------------------토큰 미들웨어------------------------------------');
 
     if (authError) {
       console.error(authError);
       return next(authError);
     }
 
+    // 테스트 코드
     // 유저가 없거나 인증이 실패하면 에러 발생
     if (!member || authError) {
+      console.log('왜 여기가 찍히나요?', member);
       return res.json({
         code: '400',
-        msg: '유저가없거나 인증이 실패하면 에러발생'
+        msg: '유저가없거나 인증이 실패하면 에러발생-tokenMiddleWare'
       });
     }
 
     // 토큰인증확인이 끝나면, req.user에 현재 로그인한 멤버 정보를 넘긴다.
     // 다음 라우터에게 전달하는 용도!
     req.user = member.dataValues;
-    // console.log('토큰 미들웨어에서 유저 정보를 가져옵니다.', req.user);
 
     next();
   })(req, res, next);
