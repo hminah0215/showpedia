@@ -51,15 +51,12 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
 
   // 좋아요 버튼 클릭 이벤트 핸들러
   const handleClickLike = useCallback(async () => {
-    // console.log('좋아요 클릭');
-    // console.log(review.reviewLikes);
     // db 수정하기
     const URL = `http://localhost:3005/review`;
     if (!isLogin) return alert('로그인을 해주세요!');
 
     try {
       const result = await axios.put(URL, { ...review, opt: 'like' });
-      // console.log('좋아요 버튼 클릭', result);
       // 로그인 상태가 아닐 경우 & 리뷰 수정에 실패할 경우
       if (result.data.code !== '200') {
         if (result.data.code === '400') {
@@ -85,7 +82,6 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
 
   // 신고 버튼 클릭 이벤트 핸들러
   const handleClickReport = useCallback(async () => {
-    console.log('신고 클릭');
     // db 수정하기
     const URL = `http://localhost:3005/review`;
     if (!isLogin) return alert('로그인을 해주세요!');

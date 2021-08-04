@@ -149,8 +149,6 @@ const BoardRegist = () => {
     await axios
       .post('http://localhost:3005/board/regist', newBoard)
       .then((result) => {
-        console.log('게시글등록===>', result);
-
         if (result.data.code === '200') {
           alert('게시글 등록 성공');
 

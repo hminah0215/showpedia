@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 
-import { Alert, Button, Form } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { PencilSquare, Trash } from 'react-bootstrap-icons';
 import './Comment.css';
 
@@ -37,7 +37,6 @@ const Comment = ({ boardNo }) => {
   const changeComment = (e) => {
     e.preventDefault();
     setBcomment(e.target.value);
-    // console.log('등록할댓글', bcomment);
   };
 
   // 등록버튼 이벤트
@@ -89,7 +88,7 @@ const Comment = ({ boardNo }) => {
         console.error(err);
       });
     //
-  }, [reRender]); // 댓글등록하면 reRender상태를 true로 바꾼다. 새로 등록한 댓글이 바로 보이도록 두번째인자 추가
+  }, [reRender, boardNo]); // 댓글등록하면 reRender상태를 true로 바꾼다. 새로 등록한 댓글이 바로 보이도록 두번째인자 추가
 
   // 해당페이지의 첫번째와 마지막 인덱스 번호값을 구한다.
   const indexOfLast = currentPage * perPage;
@@ -114,8 +113,6 @@ const Comment = ({ boardNo }) => {
 
     const commentNo = document.getElementById('commentNo').textContent;
 
-    console.log('수정할댓글번호 commentNo', commentNo);
-
     let editComment = {
       boardCommentContents: updateComment,
       boardCommentNo: commentNo
@@ -129,8 +126,6 @@ const Comment = ({ boardNo }) => {
     axios
       .put('http://localhost:3005/comments', editComment)
       .then((result) => {
-        console.log('댓글수정 result', result);
-
         if (result.data.code === '200') {
           // 댓글등록후 바로 추가된 댓글이 보이도록, reRender useState를 만들고 그 값을 true로 바꾼다.
           setReRender(!reRender);
@@ -155,14 +150,11 @@ const Comment = ({ boardNo }) => {
   const deleteComment = (e) => {
     e.preventDefault();
     const commentNo = document.getElementById('delCommentNo').textContent;
-    console.log('삭제번호', commentNo);
 
     if (window.confirm('댓글을 삭제하시겠습니까?')) {
       axios
         .delete('http://localhost:3005/comments', { data: { boardCommentNo: commentNo } })
         .then((result) => {
-          console.log('댓글삭제result', result);
-
           if (result.data.code === '200') {
             // 댓글 삭제후 목록 리렌더링
             setReRender(!reRender);

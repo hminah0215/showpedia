@@ -46,6 +46,7 @@ const CustomPagenation = () => {
         const showList = result.data.data ? result.data.data : { msg: '검색 결과가 없습니다' }; // undefined로 넘어올 경우 처리해주기
         showDispatch(getShowList(showList));
       } catch (error) {
+        console.error(error);
         console.log('공연 리스트를 가져오는데 실패했습니다');
         return false;
       }

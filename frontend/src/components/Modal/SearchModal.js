@@ -29,13 +29,11 @@ const SearchModal = ({ search, setSearch, handleChangeInput }) => {
   const handleClickOutter = () => {
     showDispatch(resetCondition());
     setSearch(false);
-    // console.log('닫힙니다.');
   };
 
   // 리셋 버튼 이벤트 핸들러
   const handleClickResetButton = () => {
     showDispatch(resetCondition());
-    // console.log(condition);
   };
 
   // 검색 조건 저장

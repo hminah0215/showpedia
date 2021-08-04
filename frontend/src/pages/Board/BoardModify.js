@@ -107,7 +107,7 @@ const BoardModify = () => {
       .catch((err) => {
         console.error(err);
       });
-  }, [reRender]); // 에디터에 기존내용이 바로 뿌려지도록 reRender state가 바뀔때마다 동작
+  }, [reRender, boardNo, exBoard]); // 에디터에 기존내용이 바로 뿌려지도록 reRender state가 바뀔때마다 동작
 
   const modules = useMemo(
     () => ({

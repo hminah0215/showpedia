@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setBoxofficeList, isLoaded } from '../redux/show';
-
 // react-bootstrap
 import { Container } from 'react-bootstrap';
 // 참조 컴포넌트
@@ -56,8 +55,6 @@ const Main = () => {
         const classicBoxoffice = await axios.get(URL + 'CCCA');
         // 연극 TOP 10
         const showBoxoffice = await axios.get(URL + 'AAAA');
-
-        // console.log('데이터가 가져와 지나요?', result);
 
         // state에 저장하기
         showDispatch(setBoxofficeList(result.data.data));

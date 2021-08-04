@@ -20,7 +20,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { isLogin, loginMemberId } from './redux/auth';
-import { reRenderReview } from './redux/review';
+// import { reRenderReview } from './redux/review';
 
 function App() {
   // useDispatch를 사용해서 로그아웃 액션을 실행한다
@@ -30,6 +30,7 @@ function App() {
   const loginSuccess = useSelector((state) => state.auth.loginSucess);
   const logoutSuccess = useSelector((state) => state.auth.logoutSuccess);
 
+  // 로그인 확인을 위한 useEffect
   useEffect(() => {
     axios.defaults.withCredentials = true; // 쿠키 데이터를 전송받기 위해
     axios.get('http://localhost:3005/tokenTest').then((result) => {
@@ -42,8 +43,8 @@ function App() {
     });
 
     // // 리뷰를 리렌더링 하기?
-    dispatch(reRenderReview());
-  }, [loginSuccess, logoutSuccess]);
+    // dispatch(reRenderReview());
+  }, [loginSuccess, logoutSuccess, dispatch]);
 
   return (
     <>

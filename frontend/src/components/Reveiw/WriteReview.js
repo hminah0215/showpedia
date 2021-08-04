@@ -109,7 +109,6 @@ const WriteReview = ({ handleClose, setIsReviewed, modify, setWrite }) => {
 
   // 리뷰를 삭제하는 이벤트 핸들러
   const handleClickDeleteButton = useCallback(async () => {
-    console.log('삭제 버튼 클릭 시', review);
     if (window.confirm('정말 삭제하시겠습니까?')) {
       const URL = `http://localhost:3005/review`;
       try {

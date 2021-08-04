@@ -46,7 +46,8 @@ export const isLogin = (islogin) => {
 // 3. show리덕스의 초기 상태 만들기
 const initialState = {
   islogin: false, // 로그인여부
-  enterMemberId: '' // 로그인한 사용자 아이디
+  enterMemberId: '', // 로그인한 사용자 아이디
+  loginMemberId: ''
 };
 
 // 4. 리듀서 함수를 만들기

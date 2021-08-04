@@ -76,7 +76,7 @@ const BoardView = ({ history }) => {
       });
 
     //
-  }, [loginMemberId]);
+  }, [loginMemberId, boardNo]);
 
   // 게시글 삭제버튼 이벤트
   const deleteBoard = () => {

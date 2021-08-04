@@ -51,7 +51,7 @@ const Login = () => {
           console.error(err);
         });
     },
-    [member, dispatch]
+    [member, dispatch, history]
   );
 
   return (

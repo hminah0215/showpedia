@@ -108,10 +108,12 @@ router.put('/', tokenTest, isLoggedIn, async (req, res) => {
 
 // 유저가 작성한 리뷰를 가져오는 API
 // 해당하는 공연id에 유저가 작성한 리뷰를 가져온다.
-router.get('/', tokenTest, isLoggedIn, async (req, res) => {
+// router.get('/', tokenTest, isLoggedIn, async (req, res) => {
+router.get('/', async (req, res) => {
   // 공연 id를 query문으로 넘겨준다.
   const showId = req.query.showId;
-  const memberId = req.user.memberId; // tokenTest 미들웨어에서 전달해준다.
+  // const memberId = req.user.memberId; // tokenTest 미들웨어에서 전달해준다.
+  const memberId = req.query.memberId;
 
   // DB와 통신
   try {

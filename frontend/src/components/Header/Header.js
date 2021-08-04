@@ -22,7 +22,6 @@ const Header = () => {
 
   // 로그인 상태 확인, 로그인 상태면 true 반환, 로그아웃하면 undefined
   const isLogin = useSelector((state) => state.auth.isLogin);
-  // console.log('is로그인??', isLogin);
 
   // 로그아웃 이벤트
   const onClickHandler = useCallback(
@@ -81,13 +80,11 @@ const Header = () => {
     const URL = `http://localhost:3005/show/result`;
     try {
       const result = await axios.post(URL, condition);
-      // console.log('데이터가 없는 경우 서버에서는 어떻게 던져줍니까?', result.data.data); // undefined
       const showList = result.data.data ? result.data.data : { msg: '검색 결과가 없습니다' }; // undefined로 넘어올 경우 처리해주기
 
       // 리덕스 상태에 검색 결과 저장하기
       showDispatch(getShowList(showList));
     } catch (error) {
-      // console.log('공연 리스트를 가져오는데 실패했습니다');
       showDispatch(getShowList({ msg: '검색에 실패했습니다..' }));
       return false;
     }
