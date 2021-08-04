@@ -3,8 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 // 부트스트랩
 import { Container } from 'react-bootstrap';
-// css
-import './MyReview.css';
+
 // 참조 컴포넌트
 import WriteReview from './WriteReview';
 import ReviewItem from './ReviewItem';

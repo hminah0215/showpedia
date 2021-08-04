@@ -14,10 +14,24 @@
   box-shadow: 0 0 5px var(--gray-color-10);
 }
 
+/* review-user */
 .review .review-user-title {
   margin: 0;
   margin-top: 1rem;
   font-size: 0.8rem;
+}
+
+.review .review-user {
+  color: var(--gray-color-40);
+  width: 100px;
+  margin-right: 2rem;
+}
+
+.review .review-user-img {
+  width: 80px;
+  height: 80px;
+  overflow: hidden;
+  border-radius: 50%;
 }
 
 /* review contents */
@@ -47,6 +61,34 @@
   color: var(--gray-color-40);
 }
 
+/* review-btn */
+.review .review-btns {
+  /* text-align: end; */
+  margin-right: 0.5rem;
+  margin-top: 0.3rem;
+}
+.review-btn {
+  background: none;
+  border: none;
+  width: 20px;
+  height: 20px;
+  color: var(--gray-color-20);
+  margin-right: 2px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+.review-btn svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.review-btn:hover {
+  color: var(--violet-color-20);
+}
+.review-btn--alert:hover {
+  color: red;
+}
+
 .review-btn--modify {
   position: absolute;
   right: 0;
@@ -63,11 +105,26 @@
   color: white;
   background-color: var(--violet-color-20);
 }
+
 .review-like {
   cursor: default;
   margin-left: 1px;
   margin-right: 1rem;
   color: var(--violet-color-20);
+}
+
+.review-btn--write {
+  width: 90%;
+  border: 1px solid var(--violet-color-20);
+  border-radius: 4px;
+  padding: 0.5rem;
+  background-color: #fff;
+  color: var(--violet-color-20);
+  transition: all 0.3s ease;
+}
+.review-btn--write:hover {
+  background-color: var(--violet-color-20);
+  color: white;
 }
 
 /* 미디어 쿼리 */

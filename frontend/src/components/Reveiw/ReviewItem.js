@@ -3,16 +3,13 @@ import { setReview, reRenderReview } from '../../redux/review'; // 액션 생성
 import { useDispatch, useSelector } from 'react-redux';
 
 // 부트스트랩 icons
-import { HandThumbsUp, ExclamationCircle } from 'react-bootstrap-icons';
 import { Button } from 'react-bootstrap';
-// css
-import './ReviewItem.css';
 // 참조
-import Stars from '../Stars/Stars';
 import User from './User';
 // etc
 import axios from 'axios';
 import ReviewBtn from './ReviewBtn';
+import ReviewHeader from './ReviewHeader';
 
 /*
   [props]
@@ -131,19 +128,8 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
 
             {/* 리뷰 콘텐츠 */}
             <div className="review-contents-container flex-grow-1 d-flex flex-column justify-content-between">
-              <div className="review-contents-header">
-                <span className="review-date">
-                  {review?.createdAt ? review?.createdAt.slice(0, 10) : ''}
-                </span>
-                <span className="review-star">
-                  {/* 별점
-            rating은 db에서 가져온 리뷰의 별점 점수이다.
-          */}
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <Stars key={i} idx={i} rating={review?.reviewStars} />
-                  ))}
-                </span>
-              </div>
+              {/* 리뷰 콘텐츠 헤더 */}
+              <ReviewHeader review={review} />
               {/* 리뷰 내용 - 클릭 시, 상세 리뷰 모달 오픈 */}
               <div className="review-content flex-grow-1" onClick={handleClickReview}>
                 {review?.reviewContents}

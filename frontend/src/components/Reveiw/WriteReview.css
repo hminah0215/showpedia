@@ -1,8 +1,0 @@
-@import url('../../lib/styles/color.css');
-
-.review {
-  min-width: 0;
-}
-.review-star .active {
-  color: var(--violet-color-20);
-}

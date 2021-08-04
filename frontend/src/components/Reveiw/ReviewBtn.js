@@ -1,8 +1,6 @@
 import React from 'react';
 // 부트스트랩 icons
 import { HandThumbsUp, ExclamationCircle } from 'react-bootstrap-icons';
-// css
-import './ReviewBtn.css';
 
 // handleClickLike - 좋아요 버튼 클릭 시, 처리할 핸들러
 // handleClickReport - 신고 버튼 클릭 시, 처리할 핸들러

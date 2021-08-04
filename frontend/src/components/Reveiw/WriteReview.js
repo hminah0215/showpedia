@@ -4,8 +4,7 @@ import { reRenderReview } from '../../redux/review';
 import { useLocation } from 'react-router-dom';
 // 부트스트랩
 import { Form, Button } from 'react-bootstrap';
-// CSS
-import './WriteReview.css';
+
 // 참조
 import Stars from '../Stars/Stars';
 // etc
