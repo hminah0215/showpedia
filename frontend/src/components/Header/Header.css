@@ -9,28 +9,6 @@
   width: 60%;
 }
 
-/* .bgColor {
-  background-color: var(--violet-color-main);
-  border: 1px solid var(--violet-color-main);
-}
-.bgColor:hover,
-.bgColor:focus {
-  background-color: var(--violet-color-20);
-  border: 1px solid var(--violet-color-20);
-}
-
-.btn.bgColor--outline {
-  background-color: white;
-  border: 1px solid var(--violet-color-main);
-  color: var(--gray-color-30);
-}
-.btn.bgColor--outline:hover,
-.btn.bgColor--outline:focus {
-  background-color: var(--violet-color-20);
-  border: 1px solid var(--violet-color-20);
-  color: white;
-} */
-
 /* 브레이크 포인트 md*/
 @media (max-width: 768px) {
   .searchbar {

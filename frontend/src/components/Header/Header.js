@@ -73,7 +73,7 @@ const Header = () => {
     showDispatch(resetShowList());
     // 현재 상태를 로딩 상태로 설정하기
     showDispatch(isLoading());
-    // 검색 결과 페이지로 이동하기
+    // 검색 결과 첫 페이지로 이동하기
     history.push('/search?page=1');
 
     // 백엔드에서 리스트 가져오기

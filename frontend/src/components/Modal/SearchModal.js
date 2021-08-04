@@ -1,11 +1,9 @@
 // 리액트, 리덕스
-import React, { createRef } from 'react';
+import React, { createRef, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetCondition } from '../../redux/show';
 // react-bootstrap
 import { Row, Col, Modal, Form, Container, Button } from 'react-bootstrap';
-// css
-import './SearchModal.css';
 
 /*
 [prop]
@@ -20,19 +18,31 @@ const SearchModal = ({ search, setSearch, handleChangeInput }) => {
   // 디스패치
   const showDispatch = useDispatch();
 
+  // 아동용 체크박스를 위한 ref
+  const checkRef = createRef();
+
   // 유효성 검사를 위한 ref
   const stdateRef = createRef();
   const eddateRef = createRef();
+
+  // 체크박스 버튼 확인을 위한 토글 액션
+  const handleClickActive = useCallback((e) => {
+    e.target.classList.toggle('active');
+  }, []);
 
   // 저장 버튼을 누르지 않고 모달창이 닫혔을 때,
   // 검색 조건 초기화
   const handleClickOutter = () => {
     showDispatch(resetCondition());
+    // 체크박스 버튼 active 삭제
+    checkRef.current.classList.remove('active');
     setSearch(false);
   };
 
   // 리셋 버튼 이벤트 핸들러
   const handleClickResetButton = () => {
+    // 체크박스 버튼 active 삭제
+    checkRef.current.classList.remove('active');
     showDispatch(resetCondition());
   };
 
@@ -53,10 +63,41 @@ const SearchModal = ({ search, setSearch, handleChangeInput }) => {
     setSearch(false);
   };
 
-  // 체크박스 버튼 확인을 위한 토글 액션
-  const handleClickActive = (e) => {
-    e.target.classList.toggle('active');
-  };
+  // const handleClickActive = (e) => {
+  //   e.target.classList.toggle('active');
+  // };
+
+  // 장르 코드
+  const genre = [
+    { title: '연극', code: 'AAAA' },
+    { title: '뮤지컬', code: 'AAAB' },
+    { title: '무용', code: 'BBBA' },
+    { title: '클래식', code: 'CCCA' },
+    { title: '오페라', code: 'CCCB' },
+    { title: '국악', code: 'CCCC' },
+    { title: '복합', code: 'EEEA' }
+  ];
+
+  // 지역 코드
+  const area = [
+    { title: '서울특별시', code: '11' },
+    { title: '부산광역시', code: '26' },
+    { title: '대구광역시', code: '27' },
+    { title: '인천광역시', code: '28' },
+    { title: '광주광역시', code: '29' },
+    { title: '대전광역시', code: '30' },
+    { title: '울산광역시', code: '31' },
+    { title: '세종특별자치시', code: '36' },
+    { title: '경기도', code: '41' },
+    { title: '강원도', code: '42' },
+    { title: '충청북도', code: '43' },
+    { title: '충청남도', code: '44' },
+    { title: '전라북도', code: '45' },
+    { title: '전라남도', code: '46' },
+    { title: '경상북도', code: '47' },
+    { title: '경상남도', code: '48' },
+    { title: '제주특별자치도', code: '50' }
+  ];
 
   return (
     <>
@@ -104,13 +145,11 @@ const SearchModal = ({ search, setSearch, handleChangeInput }) => {
                   onChange={handleChangeInput}
                 >
                   <option value="">장르를 선택하세요</option>
-                  <option value="AAAA">연극</option>
-                  <option value="AAAB">뮤지컬</option>
-                  <option value="BBBA">무용</option>
-                  <option value="CCCA">클래식</option>
-                  <option value="CCCB">오페라</option>
-                  <option value="CCCC">국악</option>
-                  <option value="EEEA">복합</option>
+                  {genre.map((item) => (
+                    <option key={item.code} value={item.code}>
+                      {item.title}
+                    </option>
+                  ))}
                 </Form.Select>
               </Form.Group>
 
@@ -124,23 +163,11 @@ const SearchModal = ({ search, setSearch, handleChangeInput }) => {
                   onChange={handleChangeInput}
                 >
                   <option value="">--시 도--</option>
-                  <option value="11">서울특별시</option>
-                  <option value="26">부산광역시</option>
-                  <option value="27">대구광역시</option>
-                  <option value="28">인천광역시</option>
-                  <option value="29">광주광역시</option>
-                  <option value="30">대전광역시</option>
-                  <option value="31">울산광역시</option>
-                  <option value="36">세종특별자치시</option>
-                  <option value="41">경기도</option>
-                  <option value="42">강원도</option>
-                  <option value="43">충청북도</option>
-                  <option value="44">충청남도</option>
-                  <option value="45">전라북도</option>
-                  <option value="46">전라남도</option>
-                  <option value="47">경상북도</option>
-                  <option value="48">경상남도</option>
-                  <option value="50">제주특별자치도</option>
+                  {area.map((item) => (
+                    <option key={item.code} value={item.code}>
+                      {item.title}
+                    </option>
+                  ))}
                 </Form.Select>
               </Form.Group>
 
@@ -159,6 +186,7 @@ const SearchModal = ({ search, setSearch, handleChangeInput }) => {
                     checked={condition.kidstate}
                   />
                   <label
+                    ref={checkRef}
                     className="btn btn-custom--outline"
                     onClick={handleClickActive}
                     htmlFor="kidstate"
