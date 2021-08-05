@@ -8,6 +8,8 @@ import { Button, Container, Form, Image } from 'react-bootstrap';
 import '../lib/styles/Regist.css';
 // etc
 import axios from 'axios';
+// sweetAlert
+import Swal from 'sweetalert2';
 
 // 민아) 7/28, 회원가입
 const Regist = () => {
@@ -83,8 +85,6 @@ const Regist = () => {
             return setCheckIdError(true); // 중복체크 여부를 표시함
           } else if (emailInput.length > 0 && result.data.data === true) {
             // 중복된 아이디가 없으면 setCheckIdError(false)...
-            // useState 정의할때 디폴트 값을 false로 줬는데 그냥 else로 하면
-            // 아이디체크 에러메시지가 제대로 안떠서 else if로 조건 씀
             return setCheckIdError(false);
           }
         })
@@ -124,10 +124,16 @@ const Regist = () => {
         if (result.data.code === 200 && pwd === ConfirmPasword) {
           setPasswordError(false);
           dispatch(registUser(registerUser));
-          alert('가입이 정상적으로 완료되었습니다');
+          // alert('가입이 정상적으로 완료되었습니다');
+          Swal.fire({
+            icon: 'success',
+            title: '가입완료!',
+            text: 'showPedia와 함께 해주셔서 감사합니다 :)'
+          });
           history.push('/login');
         } else {
-          alert('회원가입 실패 - 관리자에게 문의하세요.');
+          // alert('회원가입 실패 - 관리자에게 문의하세요.');
+          Swal.fire('에러발생', '회원가입 에러발생, 관리자에게 문의해주세요.', 'question');
         }
       })
       .catch((err) => {

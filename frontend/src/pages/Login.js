@@ -8,6 +8,9 @@ import { loginUser } from '../redux/auth';
 // CSS
 import '../lib/styles/Login.css';
 
+// sweetAlert
+import Swal from 'sweetalert2';
+
 const Login = () => {
   const [member, setMember] = useState({
     memberId: '',
@@ -37,6 +40,14 @@ const Login = () => {
           if (result.data.code === 200) {
             // alert('로그인 성공');
 
+            Swal.fire({
+              position: 'top-middle',
+              icon: 'success',
+              title: '로그인 완료! 반갑습니다 :)',
+              showConfirmButton: false,
+              timer: 1500
+            });
+
             // 로그인이 성공하면 쿠키에 jwt 토큰값을 넣는다.
             document.cookie = 'member=' + result.data.data;
 
@@ -44,7 +55,8 @@ const Login = () => {
             dispatch(loginUser('true'));
             history.push('/');
           } else {
-            alert('백엔드 에러 발생 - 로그인 문제');
+            // alert('백엔드 에러 발생 - 로그인 문제');
+            Swal.fire('에러발생', '로그인 에러발생, 관리자에게 문의해주세요.', 'question');
           }
         })
         .catch((err) => {
