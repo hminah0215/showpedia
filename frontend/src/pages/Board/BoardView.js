@@ -14,6 +14,9 @@ import Comment from '../../components/Board/Comment';
 
 import NotFound from '../../components/NotFound/NotFound';
 
+// sweetAlert
+import Swal from 'sweetalert2';
+
 const BoardView = ({ history }) => {
   // 백엔드에서 가져올 게시글 데이터 구조정의
   const [boardView, setBoardView] = useState({});
@@ -33,22 +36,12 @@ const BoardView = ({ history }) => {
     axios
       .get(`http://localhost:3005/board/view/${boardNo}`)
       .then((res) => {
-        console.log('게시글 상세보기 데이터', res);
-
-        // console.log('nickname', res.data.data.member.nickName);
+        // console.log('게시글 상세보기 데이터', res);
 
         // 현재 로그인된 사용자 아이디와, 게시글을 작성했던 사람의 아이디가 동일하면!?
         if (loginMemberId === res.data.data.memberId) {
           setIsModify(true); // 수정가능한 상태 true 체크
         }
-
-        console.log(
-          '게시글작성한사람 아이디 & 현재로그인한 사람아이디',
-          res.data.data.memberId,
-          loginMemberId
-        );
-
-        // console.log('게시글수정가능?', isModify);
 
         if (res.data.code === '200') {
           let regDate = res.data.data.createdAt.slice(0, 10);
@@ -68,7 +61,7 @@ const BoardView = ({ history }) => {
 
           setBoardView(view); // 담는다.
         } else {
-          alert('백엔드 호출! 에러 발생 - 게시글상세보기');
+          Swal.fire('에러발생', '게시글 상세보기 에러발생, 관리자에게 문의해주세요.', 'question');
         }
       })
       .catch((err) => {
@@ -80,17 +73,41 @@ const BoardView = ({ history }) => {
 
   // 게시글 삭제버튼 이벤트
   const deleteBoard = () => {
-    if (window.confirm('게시글을 삭제하시겠습니까?')) {
-      axios
-        .delete(`http://localhost:3005/board/${boardNo}`)
-        .then((result) => {
-          alert('게시글이 삭제되었습니다. 목록으로 돌아갑니다.');
-          history.push('/board');
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    }
+    // sweetAlret 적용해서 삭제인지 물어보기
+    Swal.fire({
+      title: '게시글을 삭제하시겠습니까?',
+      text: '삭제하면 되돌릴 수 없어요!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '네',
+      cancelButtonText: '아니요'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .delete(`http://localhost:3005/board/${boardNo}`)
+          .then((result) => {
+            Swal.fire('게시글 삭제완료!', '게시글 목록으로 돌아갑니다.', 'success');
+            history.push('/board');
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      }
+    });
+
+    // if (window.confirm('게시글을 삭제하시겠습니까?')) {
+    //   axios
+    //     .delete(`http://localhost:3005/board/${boardNo}`)
+    //     .then((result) => {
+    //       alert('게시글이 삭제되었습니다. 목록으로 돌아갑니다.');
+    //       history.push('/board');
+    //     })
+    //     .catch((err) => {
+    //       console.error(err);
+    //     });
+    // }
   };
 
   // 신고버튼 이벤트
@@ -98,8 +115,17 @@ const BoardView = ({ history }) => {
     // db수정하기
     const URL = `http://localhost:3005/board/${boardNo}`;
 
-    if (window.confirm('게시글을 신고하시겠습니까?')) {
-      try {
+    Swal.fire({
+      title: '게시글을 신고하시겠습니까?',
+      text: '눈살을 찌푸리게 만드는 글을 신고해주세요.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '네, 신고합니다.',
+      cancelButtonText: '아니요'
+    }).then((result) => {
+      if (result.isConfirmed) {
         axios
           .put(URL, {
             ...BoardView,
@@ -109,7 +135,12 @@ const BoardView = ({ history }) => {
           })
           .then((result) => {
             if (result.data.code !== '200' && result.data.code === '400') {
-              return alert('본인글에는 신고를 할 수 없습니다.');
+              // return alert('본인글에는 신고를 할 수 없습니다.');
+              return Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: '본인글에는 신고할 수 없습니다.'
+              });
             }
 
             // 신고결과가 ok이면 신고수 +1
@@ -118,12 +149,39 @@ const BoardView = ({ history }) => {
             }
           })
           .catch((err) => {
-            alert('신고실패');
+            Swal.fire('신고실패', '관리자에게 문의해주세요.', 'error');
             console.error(err);
             return false;
           });
-      } catch (error) {}
-    }
+      }
+    });
+
+    // if (window.confirm('게시글을 신고하시겠습니까?')) {
+    //   try {
+    //     axios
+    //       .put(URL, {
+    //         ...BoardView,
+    //         opt: 'report', // 신고이면 report 전달
+    //         reportMember: loginMemberId, // 신고한 사람과 게시글 작성자 아이디비교를 위해 전달
+    //         boardReports: boardView.boardReports // 기존의 신고수를 전달해서 백엔드에서 +1
+    //       })
+    //       .then((result) => {
+    //         if (result.data.code !== '200' && result.data.code === '400') {
+    //           return alert('본인글에는 신고를 할 수 없습니다.');
+    //         }
+
+    //         // 신고결과가 ok이면 신고수 +1
+    //         if (result.data.code === '200') {
+    //           setBoardView({ ...boardView, boardReports: boardView.boardReports + 1 });
+    //         }
+    //       })
+    //       .catch((err) => {
+    //         alert('신고실패');
+    //         console.error(err);
+    //         return false;
+    //       });
+    //   } catch (error) {}
+    // }
   };
 
   return (

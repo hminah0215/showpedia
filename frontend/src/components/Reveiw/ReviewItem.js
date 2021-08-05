@@ -11,6 +11,9 @@ import axios from 'axios';
 import ReviewBtn from './ReviewBtn';
 import ReviewHeader from './ReviewHeader';
 
+// sweetAlert
+import Swal from 'sweetalert2';
+
 /*
   [props]
   style - css style 객체 prop
@@ -52,16 +55,33 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
   const handleClickLike = useCallback(async () => {
     // db 수정하기
     const URL = `http://localhost:3005/review`;
-    if (!isLogin) return alert('로그인을 해주세요!');
+    // if (!isLogin) return alert('로그인을 해주세요!');
+    if (!isLogin)
+      return Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: '로그인을 해주세요!',
+        footer: '<a href="/login">로그인 하러가기</a>'
+      });
 
     try {
       const result = await axios.put(URL, { ...review, opt: 'like' });
       // 로그인 상태가 아닐 경우 & 리뷰 수정에 실패할 경우
       if (result.data.code !== '200') {
         if (result.data.code === '400') {
-          return alert('자기 리뷰에는 좋아요를 할 수 없습니다.');
+          // return alert('자기 리뷰에는 좋아요를 할 수 없습니다.');
+          return Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: '자기 리뷰에는 좋아요를 할 수 없습니다.'
+          });
         }
-        alert('로그인을 해주세요!');
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: '로그인을 해주세요!',
+          footer: '<a href="/login">로그인 하러가기</a>'
+        });
         return;
       }
 
@@ -73,7 +93,7 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
       }
       // 리뷰 작성 후, 이동하기
     } catch (error) {
-      alert('좋아요 실패');
+      Swal.fire('좋아요 실패', '관리자에게 문의해주세요.', 'error');
       console.log(error);
       return false;
     }
@@ -83,32 +103,91 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
   const handleClickReport = useCallback(async () => {
     // db 수정하기
     const URL = `http://localhost:3005/review`;
-    if (!isLogin) return alert('로그인을 해주세요!');
-    if (window.confirm('신고하시겠습니까?')) {
-      try {
-        const result = await axios.put(URL, { ...review, opt: 'report' });
+    // if (!isLogin) return alert('로그인을 해주세요!');
+    if (!isLogin)
+      return Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: '로그인을 해주세요!',
+        footer: '<a href="/login">로그인 하러가기</a>'
+      });
 
-        // 로그인 여부
-        if (result.data.code !== '200') {
-          if (result.data.code === '400') {
-            return alert('자기 리뷰에는 신고를 할 수없습니다.');
+    // 컨펌
+    Swal.fire({
+      title: '신고하시겠습니까?',
+      text: '공연에 맞지않는 리뷰를 신고해주세요. ',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '네, 신고합니다.',
+      cancelButtonText: '아니요'
+    }).then(async (res) => {
+      if (res.isConfirmed) {
+        try {
+          const result = await axios.put(URL, { ...review, opt: 'report' });
+
+          // 로그인 여부
+          if (result.data.code !== '200') {
+            if (result.data.code === '400') {
+              // return alert('자기 리뷰에는 신고를 할 수없습니다.');
+              return Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: '자기 리뷰에는 신고를 할 수 없습니다.'
+              });
+            }
+            // alert('로그인을 해주세요!');
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: '로그인을 해주세요!',
+              footer: '<a href="/login">로그인 하러가기</a>'
+            });
+            return;
           }
-          alert('로그인을 해주세요!');
-          return;
+          // 백엔드 통신 성공
+          if (result.data.code === '200') {
+            // alert('신고 완료');
+            Swal.fire('신고완료!', '리뷰를 신고했어요.', 'success');
+            // 리렌더링을 위한 상태
+            reviewDispatch(reRenderReview()); // 리렌더 상태 변경
+          }
+          // 리뷰 작성 후, 이동하기
+        } catch (error) {
+          // alert('신고 실패');
+          Swal.fire('신고실패', '관리자에게 문의해주세요.', 'error');
+          console.log(error);
+          return false;
         }
-        // 백엔드 통신 성공
-        if (result.data.code === '200') {
-          alert('신고 완료');
-          // 리렌더링을 위한 상태
-          reviewDispatch(reRenderReview()); // 리렌더 상태 변경
-        }
-        // 리뷰 작성 후, 이동하기
-      } catch (error) {
-        alert('신고 실패');
-        console.log(error);
-        return false;
       }
-    }
+    });
+
+    // if (window.confirm('신고하시겠습니까?')) {
+    //   try {
+    //     const result = await axios.put(URL, { ...review, opt: 'report' });
+
+    //     // 로그인 여부
+    //     if (result.data.code !== '200') {
+    //       if (result.data.code === '400') {
+    //         return alert('자기 리뷰에는 신고를 할 수없습니다.');
+    //       }
+    //       alert('로그인을 해주세요!');
+    //       return;
+    //     }
+    //     // 백엔드 통신 성공
+    //     if (result.data.code === '200') {
+    //       alert('신고 완료');
+    //       // 리렌더링을 위한 상태
+    //       reviewDispatch(reRenderReview()); // 리렌더 상태 변경
+    //     }
+    //     // 리뷰 작성 후, 이동하기
+    //   } catch (error) {
+    //     alert('신고 실패');
+    //     console.log(error);
+    //     return false;
+    //   }
+    // }
   }, [isLogin, reviewDispatch, review]);
 
   return (

@@ -7,6 +7,9 @@ import { useHistory, useLocation } from 'react-router-dom';
 import ReactQuill from 'react-quill'; // quill에디터
 import 'react-quill/dist/quill.snow.css'; // quill에디터 테마
 
+// sweetAlert
+import Swal from 'sweetalert2';
+
 const BoardModify = () => {
   const history = useHistory();
 
@@ -101,7 +104,11 @@ const BoardModify = () => {
 
           console.log('exboard??', exBoard);
         } else {
-          alert('백엔드 호출! 에러 발생 - 게시글수정,원래내용');
+          Swal.fire(
+            '에러발생',
+            '게시글 기존 내용 불러오기 에러발생, 관리자에게 문의해주세요.',
+            'question'
+          );
         }
       })
       .catch((err) => {
@@ -149,7 +156,25 @@ const BoardModify = () => {
     };
 
     if (updateBoard.boardTitle.length === 0 || updateBoard.boardContents.length === 0) {
-      alert('게시글 제목과 내용을 입력해주세요!');
+      // alert('게시글 제목과 내용을 입력해주세요!');
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: '게시글 제목과 내용을 입력해주세요!'
+      });
+      return false;
+    }
+
+    if (
+      updateBoard.boardCategory.length === 0 ||
+      updateBoard.boardCategory === '카테고리를 선택해주세요.'
+    ) {
+      // alert('카테고리를 선택해주세요.');
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: '카테고리를 꼭 선택해주세요!'
+      });
       return false;
     }
 
@@ -160,12 +185,18 @@ const BoardModify = () => {
         console.log('게시글 수정===>', result);
 
         if (result.data.code === '200') {
-          alert('게시글 수정 성공');
+          // alert('게시글 수정 성공');
+          Swal.fire({
+            icon: 'success',
+            title: '등록완료!',
+            text: '게시글이 등록되었습니다.'
+          });
 
           // 게시글 목록으로 돌아가기
           history.push('/board');
         } else {
-          alert('백엔드 에러 발생 - 게시글수정');
+          // alert('백엔드 에러 발생 - 게시글수정');
+          Swal.fire('에러발생', '게시글수정 에러발생, 관리자에게 문의해주세요.', 'question');
         }
       })
       .catch((err) => {

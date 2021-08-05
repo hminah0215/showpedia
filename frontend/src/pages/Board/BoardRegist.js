@@ -1,9 +1,14 @@
 import React, { useState, useMemo, useRef } from 'react';
 import { Button, Container, Form } from 'react-bootstrap';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+
+// 글쓰기 에디터
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+
+// sweetalert
+import Swal from 'sweetalert2';
 
 // 민아) 7/27, 게시글 등록
 const BoardRegist = () => {
@@ -130,7 +135,12 @@ const BoardRegist = () => {
     // console.log('editorContents?', editorContents);
 
     if (newBoard.boardTitle.length === 0 || newBoard.boardContents.length === 0) {
-      alert('게시글 제목과 내용을 입력해주세요!');
+      // alert('게시글 제목과 내용을 입력해주세요!');
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: '게시글 제목과 내용을 입력해주세요!'
+      });
       return false;
     }
 
@@ -138,24 +148,31 @@ const BoardRegist = () => {
       newBoard.boardCategory.length === 0 ||
       newBoard.boardCategory === '카테고리를 선택해주세요.'
     ) {
-      alert('카테고리를 선택해주세요.');
+      // alert('카테고리를 선택해주세요.');
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: '카테고리를 꼭 선택해주세요!'
+      });
       return false;
     }
-    // const config = {
-    //   header: { 'content-type': 'multipart/form-data' }
-    // };
 
     // axios post
     await axios
       .post('http://localhost:3005/board/regist', newBoard)
       .then((result) => {
         if (result.data.code === '200') {
-          alert('게시글 등록 성공');
+          // alert('게시글 등록 성공');
+          Swal.fire({
+            icon: 'success',
+            title: '등록완료!',
+            text: '게시글이 등록되었습니다.'
+          });
 
           // 게시글 목록으로 돌아가기
           history.push('/board');
         } else {
-          alert('백엔드 에러 발생 - 게시글등록');
+          Swal.fire('에러발생', '게시글등록 에러발생, 관리자에게 문의해주세요.', 'question');
         }
       })
       .catch((err) => {
