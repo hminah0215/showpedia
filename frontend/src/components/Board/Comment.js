@@ -144,27 +144,27 @@ const Comment = ({ boardNo }) => {
   };
 
   // 댓글 삭제
-  const deleteComment = (e) => {
-    e.preventDefault();
-    const commentNo = document.getElementById('delCommentNo').textContent;
-    console.log('삭제될 게시글 번호를 찍어주세요', commentNo);
+  // const deleteComment = (e) => {
+  //   e.preventDefault();
+  //   const commentNo = document.getElementById('delCommentNo').textContent;
+  //   console.log('삭제될 게시글 번호를 찍어주세요', commentNo);
 
-    if (window.confirm('댓글을 삭제하시겠습니까?')) {
-      axios
-        .delete('http://localhost:3005/comments', { data: { boardCommentNo: commentNo } })
-        .then((result) => {
-          if (result.data.code === '200') {
-            // 댓글 삭제후 목록 리렌더링
-            setReRender(!reRender);
+  //   if (window.confirm('댓글을 삭제하시겠습니까?')) {
+  //     axios
+  //       .delete('http://localhost:3005/comments', { data: { boardCommentNo: commentNo } })
+  //       .then((result) => {
+  //         if (result.data.code === '200') {
+  //           // 댓글 삭제후 목록 리렌더링
+  //           setReRender(!reRender);
 
-            alert('댓글이 삭제되었습니다.');
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    }
-  };
+  //           alert('댓글이 삭제되었습니다.');
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         console.error(err);
+  //       });
+  //   }
+  // };
 
   return (
     <div>
@@ -206,7 +206,9 @@ const Comment = ({ boardNo }) => {
             item={item}
             key={item.boardCommentNo}
             loginMemberId={loginMemberId}
-            deleteComment={deleteComment}
+            // deleteComment={deleteComment}
+            setReRender={setReRender}
+            reRender={reRender}
             onEditComment={onEditComment}
             upComment={upComment}
             updateComment={updateComment}

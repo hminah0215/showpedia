@@ -40,7 +40,7 @@ const CommentItem = ({
         .then((result) => {
           if (result.data.code === '200') {
             // 댓글 삭제후 목록 리렌더링
-            // setReRender(!reRender);
+            setReRender(!reRender);
             alert('댓글이 삭제되었습니다.');
           }
         })
@@ -103,5 +103,5 @@ const CommentItem = ({
   );
 };
 
-export default React.memo(CommentItem);
-// export default CommentItem;
+// export default React.memo(CommentItem);
+export default CommentItem;
