@@ -92,7 +92,7 @@ const CommentItem = ({
             <PencilSquare
               onClick={() => {
                 // 수정 버튼 클릭 시, 쓰기 모드로 전환
-                setWrite(true);
+                setWrite((prev) => !prev);
               }}
               className="comment-btn"
             ></PencilSquare>
