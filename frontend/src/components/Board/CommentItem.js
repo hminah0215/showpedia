@@ -60,6 +60,21 @@ const CommentItem = ({
       <hr style={{ margin: '0.5rem 0' }} />
       <p>{item.boardCommentContents}</p>
 
+      {/* 수정 버튼 클릭 시, 댓글 수정창 띄우기 */}
+      {write && (
+        <div>
+          <CommentWrite
+            setWrite={setWrite}
+            onEditComment={onEditComment}
+            write={write}
+            item={item}
+            upComment={upComment}
+            updateComment={updateComment}
+            nullError={nullError}
+          />
+        </div>
+      )}
+
       {/* 본인이 쓴 댓글만 수정,삭제가능 */}
       <div
         style={{
@@ -70,19 +85,6 @@ const CommentItem = ({
         }}
       >
         {/* 수정 버튼 클릭 시, 수정 컴포넌트 렌더링 */}
-        {write && (
-          <div>
-            <CommentWrite
-              setWrite={setWrite}
-              onEditComment={onEditComment}
-              write={write}
-              item={item}
-              upComment={upComment}
-              updateComment={updateComment}
-              nullError={nullError}
-            />
-          </div>
-        )}
 
         {/* 내 댓글만 수정, 삭제 아이콘 보이기 */}
         {modify && (
