@@ -32,8 +32,6 @@ const getShowtoJSON = async (URL) => {
 // 공연 검색 시, 검색 결과를 제공하는 라우터
 // :3005/show/result
 router.post('/result', async (req, res) => {
-  console.log('현재 body에서 넘어오는 값', req.body);
-  console.log('쿼리로 넘어와요?', req.query.page);
   // OPEN API에서 필수적으로 요구하는 쿼리 스트링 - req.body에서 넘어온다.
   // 필수 요청 변수 [service, stdate, eddate, cpage, rows]
   // cpage는 페이지 넘버로 쿼리스트링으로 받아온다.
@@ -83,10 +81,6 @@ router.post('/result', async (req, res) => {
     res.json(showList);
   }
   // 성공 시,
-
-  console.log('쿼리도 찍어봅니다', query);
-  console.log('URL도 찍어봅니다', URL);
-
   res.json({
     msg: 'OPEN API&JSON변환 성공',
     status: 200,
