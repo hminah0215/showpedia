@@ -7,6 +7,8 @@ import { PencilSquare, Trash } from 'react-bootstrap-icons';
 import './Comment.css';
 
 import BcommentsPagenation from '../../components/Pagination/BcommentsPagenation';
+import CommentWrite from './CommentWrite';
+import CommentItem from './CommentItem';
 
 const Comment = ({ boardNo }) => {
   // 로그인한 멤버아이디 확인
@@ -29,9 +31,6 @@ const Comment = ({ boardNo }) => {
 
   // 댓글내용빈칸이면 에러메시지를 보여줄 상태
   const [nullError, setNullError] = useState(false);
-
-  // 댓글수정 상태
-  const [modify, setModify] = useState('');
 
   // 댓글 등록 textarea onchange 이벤트
   const changeComment = (e) => {
@@ -130,8 +129,6 @@ const Comment = ({ boardNo }) => {
           // 댓글등록후 바로 추가된 댓글이 보이도록, reRender useState를 만들고 그 값을 true로 바꾼다.
           setReRender(!reRender);
 
-          // 댓글등록이 끝나면 textarea 비워주기
-          setModify(false);
           setUpdateComment('');
 
           setNullError(false); // 댓글등록이 완료되면 에러메시지상태를 false
@@ -150,6 +147,7 @@ const Comment = ({ boardNo }) => {
   const deleteComment = (e) => {
     e.preventDefault();
     const commentNo = document.getElementById('delCommentNo').textContent;
+    console.log('삭제될 게시글 번호를 찍어주세요', commentNo);
 
     if (window.confirm('댓글을 삭제하시겠습니까?')) {
       axios
@@ -195,7 +193,6 @@ const Comment = ({ boardNo }) => {
             </Form.Label>
           )}
         </Form.Group>
-        &nbsp;
         <Button onClick={onSaveComment}>댓글등록</Button>
       </Form>
       <hr />
@@ -204,97 +201,18 @@ const Comment = ({ boardNo }) => {
       {/* 댓글이 없으면 아예 랜더링 안되게!  */}
       {showComment.length !== 0 ? (
         // currentPosts 현재 페이지에 보여줄 댓글데이터(댓글리스트 )
-        currentPosts(showComment).map((item) => {
-          let regDate = item.createdAt.slice(0, 10);
-          let ismodify = 0;
-          if (loginMemberId === item.memberId) {
-            ismodify = 1;
-          }
-
-          return (
-            <div
-              className="comment-container"
-              ismodify={ismodify ? 1 : 0}
-              key={item.boardCommentNo}
-            >
-              <header className="comment-header">
-                <p>{item.member.nickName}</p>
-                <p className="mb-0">{regDate}</p>
-              </header>
-              <hr style={{ margin: '0.5rem 0' }} />
-              <p>{item.boardCommentContents}</p>
-              {/* 본인이 쓴 댓글만 수정,삭제가능 */}
-              {ismodify && (
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    width: '100%',
-                    flexWrap: 'wrap'
-                  }}
-                >
-                  {/* 수정 가능 상태이면 댓글을 쓸 폼을 보여준다. */}
-                  {modify && (
-                    <>
-                      <Form
-                        className="d-flex align-items-center flex-wrap"
-                        style={{ width: '100%' }}
-                        onSubmit={onEditComment}
-                      >
-                        <Form.Group className="mb-3" style={{ width: '100%' }}>
-                          <Form.Label className="checktext" style={{ color: 'gray' }}>
-                            욕설,비방,도배 등의 댓글은 삭제될 수 있습니다.
-                            <p style={{ display: 'none' }} id="commentNo">
-                              {item.boardCommentNo}
-                            </p>
-                          </Form.Label>
-                          {/* 수정 텍스트 에어리어 */}
-                          <Form.Control
-                            style={{ width: '100%' }}
-                            as="textarea"
-                            rows={3}
-                            cols={100}
-                            id="commentTextArea"
-                            onChange={upComment}
-                            value={updateComment}
-                            placeholder="수정할내용을 작성해주세요"
-                          />
-
-                          {/* 댓글등록시 내용이 없으면 (nullError가 true이면) 경고메시지 보이기 */}
-                          {nullError === false ? (
-                            ''
-                          ) : (
-                            <Form.Label className="checktext" style={{ color: 'red' }}>
-                              댓글내용을 입력해주세요.
-                            </Form.Label>
-                          )}
-                        </Form.Group>
-
-                        <Button onClick={onEditComment} style={{ width: '100%' }}>
-                          댓글수정
-                        </Button>
-                      </Form>
-                    </>
-                  )}
-
-                  {/* 수정, 삭제 아이콘  */}
-                  <div>
-                    <PencilSquare
-                      onClick={() => setModify(true)} // 누르면 수정textarea가 뜸
-                      className="comment-btn"
-                    ></PencilSquare>
-                    <Trash onClick={deleteComment} className="comment-btn"></Trash>
-                  </div>
-
-                  <p style={{ display: 'none' }} id="delCommentNo">
-                    {item.boardCommentNo}
-                  </p>
-                </div>
-              )}
-              {/* ismodify 끝, 본인이 쓴 댓글에만 나타나는 부분   */}
-            </div>
-          );
-        }) // map 끝
+        currentPosts(showComment).map((item) => (
+          <CommentItem
+            item={item}
+            key={item.boardCommentNo}
+            loginMemberId={loginMemberId}
+            deleteComment={deleteComment}
+            onEditComment={onEditComment}
+            upComment={upComment}
+            updateComment={updateComment}
+            nullError={nullError}
+          />
+        ))
       ) : (
         <></>
       )}

@@ -37,6 +37,7 @@ function App() {
       if (result.data.code === '200') {
         dispatch(isLogin(true));
         dispatch(loginMemberId(result.data.data));
+        console.log('App.js에서 유저정보', result.data.data);
       } else {
         dispatch(isLogin(false));
       }
