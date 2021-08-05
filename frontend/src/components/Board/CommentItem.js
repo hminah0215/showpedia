@@ -3,6 +3,9 @@ import { PencilSquare, Trash } from 'react-bootstrap-icons';
 import CommentWrite from './CommentWrite';
 import axios from 'axios';
 
+// sweetAlert
+import Swal from 'sweetalert2';
+
 const CommentItem = ({
   loginMemberId,
   item,
@@ -32,23 +35,57 @@ const CommentItem = ({
 
   const deleteComment = (e) => {
     e.preventDefault();
-    console.log('삭제될 게시글 번호를 찍어주세요', item.boardCommentNo);
+    console.log('삭제될 댓글 번호를 찍어주세요', item.boardCommentNo);
 
-    if (window.confirm('댓글을 삭제하시겠습니까?')) {
-      axios
-        .delete('http://localhost:3005/comments', { data: { boardCommentNo: item.boardCommentNo } })
-        .then((result) => {
-          if (result.data.code === '200') {
-            // 댓글 삭제후 목록 리렌더링
-            setReRender(!reRender);
-            alert('댓글이 삭제되었습니다.');
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    }
+    Swal.fire({
+      title: '댓글을 삭제하시겠습니까?',
+      text: '삭제후에는 되돌릴 수 없습니다.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '네, 삭제합니다.',
+      cancelButtonText: '아니요'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .delete('http://localhost:3005/comments', {
+            data: { boardCommentNo: item.boardCommentNo }
+          })
+          .then((result) => {
+            if (result.data.code === '200') {
+              // 댓글 삭제후 목록 리렌더링
+              setReRender(!reRender);
+              // alert('댓글이 삭제되었습니다.');
+              Swal.fire({
+                icon: 'success',
+                title: '삭제성공',
+                text: '댓글이 삭제되었습니다.'
+              });
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      }
+    });
   };
+
+  // if (window.confirm('댓글을 삭제하시겠습니까?')) {
+  //   axios
+  //     .delete('http://localhost:3005/comments', { data: { boardCommentNo: item.boardCommentNo } })
+  //     .then((result) => {
+  //       if (result.data.code === '200') {
+  //         // 댓글 삭제후 목록 리렌더링
+  //         setReRender(!reRender);
+  //         alert('댓글이 삭제되었습니다.');
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //     });
+  // }
+  // };
 
   return (
     <div className="comment-container">
@@ -105,5 +142,4 @@ const CommentItem = ({
   );
 };
 
-// export default React.memo(CommentItem);
 export default CommentItem;

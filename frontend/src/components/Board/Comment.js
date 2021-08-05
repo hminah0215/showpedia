@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
-
+// 부트스트랩
 import { Button, Form } from 'react-bootstrap';
-import { PencilSquare, Trash } from 'react-bootstrap-icons';
+// css
 import './Comment.css';
-
+// 컴포넌트 참조
 import BcommentsPagenation from '../../components/Pagination/BcommentsPagenation';
-import CommentWrite from './CommentWrite';
 import CommentItem from './CommentItem';
+// sweetAlert
+import Swal from 'sweetalert2';
 
 const Comment = ({ boardNo }) => {
   // 로그인한 멤버아이디 확인
@@ -64,9 +65,15 @@ const Comment = ({ boardNo }) => {
 
           setNullError(false); // 댓글등록이 완료되면 에러메시지상태를 false
 
-          alert('댓글을 등록하였습니다!');
+          // alert('댓글을 등록하였습니다!');
+          Swal.fire({
+            icon: 'success',
+            title: '등록완료',
+            text: '댓글을 등록하였습니다.'
+          });
         } else {
-          alert('댓글등록 실패, 관리자에게 문의하세요.');
+          // alert('댓글등록 실패, 관리자에게 문의하세요.');
+          Swal.fire('댓글등록 실패', '관리자에게 문의해주세요.', 'error');
         }
       })
       .catch((err) => {
@@ -133,9 +140,15 @@ const Comment = ({ boardNo }) => {
 
           setNullError(false); // 댓글등록이 완료되면 에러메시지상태를 false
 
-          alert('댓글을 수정하였습니다!');
+          // alert('댓글을 수정하였습니다!');
+          Swal.fire({
+            icon: 'success',
+            title: '수정완료',
+            text: '댓글을 수정하였습니다.'
+          });
         } else {
-          alert('댓글수정 실패, 관리자에게 문의하세요.');
+          // alert('댓글수정 실패, 관리자에게 문의하세요.');
+          Swal.fire('댓글수정 실패', '관리자에게 문의해주세요.', 'error');
         }
       })
       .catch((err) => {
