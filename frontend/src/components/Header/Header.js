@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 // 리덕스
 import { useSelector, useDispatch } from 'react-redux'; // 리덕스 훅스
 import { getShowList, resetShowList, isLoading, setCondition } from '../../redux/show'; // 액션생성함수
@@ -22,6 +22,9 @@ const Header = () => {
 
   // 로그인 상태 확인, 로그인 상태면 true 반환, 로그아웃하면 undefined
   const isLogin = useSelector((state) => state.auth.isLogin);
+
+  // input 창 ref
+  const inputRef = useRef();
 
   // 로그아웃 이벤트
   const onClickHandler = useCallback(
@@ -97,6 +100,7 @@ const Header = () => {
         setSearch={setSearch}
         condition={condition}
         handleChangeInput={handleChangeInput}
+        inputRef={inputRef}
       />
       <Navbar expand="md" sticky="top" className="py-3 header">
         <Container>
@@ -121,6 +125,7 @@ const Header = () => {
             <div className="input-group searchbar">
               <FormControl
                 type="search"
+                ref={inputRef}
                 placeholder="공연명을 입력해주세요"
                 aria-label="Search"
                 name="shprfnm"

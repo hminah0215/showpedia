@@ -12,7 +12,7 @@ import { Row, Col, Modal, Form, Container, Button } from 'react-bootstrap';
   setSearch - [header.js] / search의 set함수
   handleChangeInput - [header.js] / 검색 조건 상태 변화 저장 함수
 */
-const SearchModal = ({ search, setSearch, handleChangeInput }) => {
+const SearchModal = ({ search, setSearch, handleChangeInput, inputRef }) => {
   // 검색 조건 state
   const condition = useSelector((state) => state.show.condition);
   // 디스패치
@@ -43,6 +43,7 @@ const SearchModal = ({ search, setSearch, handleChangeInput }) => {
   const handleClickResetButton = () => {
     // 체크박스 버튼 active 삭제
     checkRef.current.classList.remove('active');
+    inputRef.current.value = '';
     showDispatch(resetCondition());
   };
 
