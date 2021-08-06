@@ -66,7 +66,13 @@ const BoardView = ({ history }) => {
       .catch((err) => {
         console.error(err);
       });
-  }, [loginMemberId]);
+  }, []);
+
+  useEffect(() => {
+    if (loginMemberId === boardView.memberId) {
+      setIsModify(true);
+    }
+  }, []);
 
   // 게시글 삭제버튼 이벤트
   const deleteBoard = () => {
