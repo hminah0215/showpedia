@@ -18,6 +18,7 @@ const CustomCard = ({ id, title, start, end, poster }) => {
       className="align-items-center"
       // 공연 클릭 시, 해당 ID의 상세페이지로 이동
       onClick={() => {
+        // 공연 클릭 시, 스크롤을 최상단으로 이동
         window.scrollTo(0, 0);
         history.push(`/contents/${id}`);
       }}

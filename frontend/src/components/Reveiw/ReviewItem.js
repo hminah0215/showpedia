@@ -35,7 +35,6 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
     if (click) return;
     // 리덕스에 해당 리뷰 정보 저장하기
     reviewDispatch(setReview(review));
-    // console.log('리뷰를 클릭하면 해당 리뷰 정보를 리덕스에 저장한다.', review);
     handleShow(); // 모달창 열기
   }, [click, review, handleShow, reviewDispatch]);
 
@@ -55,7 +54,6 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
   const handleClickLike = useCallback(async () => {
     // db 수정하기
     const URL = `http://localhost:3005/review`;
-    // if (!isLogin) return alert('로그인을 해주세요!');
     if (!isLogin)
       return Swal.fire({
         icon: 'error',
@@ -69,7 +67,6 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
       // 로그인 상태가 아닐 경우 & 리뷰 수정에 실패할 경우
       if (result.data.code !== '200') {
         if (result.data.code === '400') {
-          // return alert('자기 리뷰에는 좋아요를 할 수 없습니다.');
           return Swal.fire({
             icon: 'error',
             title: 'Oops...',
@@ -94,7 +91,6 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
       // 리뷰 작성 후, 이동하기
     } catch (error) {
       Swal.fire('좋아요 실패', '관리자에게 문의해주세요.', 'error');
-      console.log(error);
       return false;
     }
   }, [isLogin, review, reviewDispatch]);
@@ -103,7 +99,6 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
   const handleClickReport = useCallback(async () => {
     // db 수정하기
     const URL = `http://localhost:3005/review`;
-    // if (!isLogin) return alert('로그인을 해주세요!');
     if (!isLogin)
       return Swal.fire({
         icon: 'error',
@@ -130,7 +125,6 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
           // 로그인 여부
           if (result.data.code !== '200') {
             if (result.data.code === '400') {
-              // return alert('자기 리뷰에는 신고를 할 수없습니다.');
               return Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
@@ -157,37 +151,10 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
         } catch (error) {
           // alert('신고 실패');
           Swal.fire('신고실패', '관리자에게 문의해주세요.', 'error');
-          console.log(error);
           return false;
         }
       }
     });
-
-    // if (window.confirm('신고하시겠습니까?')) {
-    //   try {
-    //     const result = await axios.put(URL, { ...review, opt: 'report' });
-
-    //     // 로그인 여부
-    //     if (result.data.code !== '200') {
-    //       if (result.data.code === '400') {
-    //         return alert('자기 리뷰에는 신고를 할 수없습니다.');
-    //       }
-    //       alert('로그인을 해주세요!');
-    //       return;
-    //     }
-    //     // 백엔드 통신 성공
-    //     if (result.data.code === '200') {
-    //       alert('신고 완료');
-    //       // 리렌더링을 위한 상태
-    //       reviewDispatch(reRenderReview()); // 리렌더 상태 변경
-    //     }
-    //     // 리뷰 작성 후, 이동하기
-    //   } catch (error) {
-    //     alert('신고 실패');
-    //     console.log(error);
-    //     return false;
-    //   }
-    // }
   }, [isLogin, reviewDispatch, review]);
 
   return (
@@ -246,4 +213,3 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
 };
 
 export default React.memo(ReviewItem);
-// export default ReviewItem;

@@ -45,7 +45,6 @@ const BoardModify = () => {
 
   // 제목,카테고리 등 내용변화 onChange
   const onChangeRegist = (e) => {
-    // const { name, value } = e.target;
     setExBoard({ ...exBoard, [e.target.name]: e.target.value });
   };
 
@@ -85,8 +84,6 @@ const BoardModify = () => {
     axios
       .get(`http://localhost:3005/board/view/${boardNo}`)
       .then((res) => {
-        console.log('게시글 수정,원래내용 데이터', res);
-
         if (res.data.code === '200') {
           let exContents = {
             boardTitle: res.data.data.boardTitle,
@@ -101,8 +98,6 @@ const BoardModify = () => {
           setEditorContents(exBoard.boardContents);
           // 에디터에 기존 글 내용이 바로 뿌려지지않아, reRender useState를 만들고 그 값을 true로 바꾼다.
           setReRender(true);
-
-          console.log('exboard??', exBoard);
         } else {
           Swal.fire(
             '에러발생',
@@ -182,8 +177,6 @@ const BoardModify = () => {
     axios
       .put(`http://localhost:3005/board/${boardNo}`, updateBoard)
       .then((result) => {
-        console.log('게시글 수정===>', result);
-
         if (result.data.code === '200') {
           // alert('게시글 수정 성공');
           Swal.fire({

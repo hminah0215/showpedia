@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import axios from 'axios';
 // 부트스트랩
 import { Button, Form } from 'react-bootstrap';
 // css
@@ -8,8 +7,9 @@ import './Comment.css';
 // 컴포넌트 참조
 import BcommentsPagenation from '../../components/Pagination/BcommentsPagenation';
 import CommentItem from './CommentItem';
-// sweetAlert
+// etc
 import Swal from 'sweetalert2';
+import axios from 'axios';
 
 const Comment = ({ boardNo }) => {
   // 로그인한 멤버아이디 확인
@@ -140,14 +140,12 @@ const Comment = ({ boardNo }) => {
 
           setNullError(false); // 댓글등록이 완료되면 에러메시지상태를 false
 
-          // alert('댓글을 수정하였습니다!');
           Swal.fire({
             icon: 'success',
             title: '수정완료',
             text: '댓글을 수정하였습니다.'
           });
         } else {
-          // alert('댓글수정 실패, 관리자에게 문의하세요.');
           Swal.fire('댓글수정 실패', '관리자에게 문의해주세요.', 'error');
         }
       })
@@ -155,29 +153,6 @@ const Comment = ({ boardNo }) => {
         console.error(err);
       });
   };
-
-  // 댓글 삭제
-  // const deleteComment = (e) => {
-  //   e.preventDefault();
-  //   const commentNo = document.getElementById('delCommentNo').textContent;
-  //   console.log('삭제될 게시글 번호를 찍어주세요', commentNo);
-
-  //   if (window.confirm('댓글을 삭제하시겠습니까?')) {
-  //     axios
-  //       .delete('http://localhost:3005/comments', { data: { boardCommentNo: commentNo } })
-  //       .then((result) => {
-  //         if (result.data.code === '200') {
-  //           // 댓글 삭제후 목록 리렌더링
-  //           setReRender(!reRender);
-
-  //           alert('댓글이 삭제되었습니다.');
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         console.error(err);
-  //       });
-  //   }
-  // };
 
   return (
     <div>
@@ -219,7 +194,6 @@ const Comment = ({ boardNo }) => {
             item={item}
             key={item.boardCommentNo}
             loginMemberId={loginMemberId}
-            // deleteComment={deleteComment}
             setReRender={setReRender}
             reRender={reRender}
             onEditComment={onEditComment}

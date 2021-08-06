@@ -56,7 +56,6 @@ const CustomPagenation = () => {
 
   let paginationItems = [];
   // 쿼리스트링에서 현재 선택된 페이지 정보 가져오기
-  // console.log(location.search.split('=')[1]); // ?page=1
   const active = Number(location.search.split('=')[1]) || 1; // 현재 선택된 페이지
 
   // 페이지네이션 컴포넌트 생성을 위한 변수
