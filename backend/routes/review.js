@@ -1,4 +1,4 @@
-// 리뷰 CRUD 라우터
+// [아영] 리뷰 CRUD 라우터
 const express = require('express');
 const router = express.Router();
 // DB
@@ -11,7 +11,6 @@ const { isLoggedIn, tokenTest } = require('./middleware');
 // 리뷰 생성 API
 router.post('/', tokenTest, isLoggedIn, async (req, res) => {
   // 1. 클라이언트에서 리뷰 정보를 가져온다.
-  console.log('바디로 넘어오는 모든 것들', req.body);
   // 2. tokenTest 미들웨어에서 memberId 정보를 가져온다.
   const memberId = req.user.memberId;
   // 3. 생성할 리뷰 정보를 review 변수에 담는다.
@@ -190,9 +189,6 @@ router.delete('/:id', tokenTest, isLoggedIn, async (req, res) => {
 router.get('/reviewlist/:id', async (req, res) => {
   const showId = req.params.id; // 공연 아이디를 params에서 가져온다.
   const page = req.query.page ? req.query.page : 1; // 페이지네이션을 위한 page 변수
-
-  console.log('공연 아이디 가져오기', showId);
-  console.log('페이지 가져오기', page);
 
   // DB에서 공연 ID 에 맞는 리뷰데이터 가져오기
   try {

@@ -4,49 +4,6 @@ const { Member } = require('../models/');
 const dotenv = require('dotenv');
 dotenv.config();
 
-// var cookieExrtactor = (req) => {
-//   var token = null;
-//   if (req.cookies) {
-//     token = req.cookies['member'];
-//     console.log('토큰전략', token);
-//     return token;
-//   }
-//   console.log('cookieExrtactor', cookieExrtactor);
-// };
-
-// var cookieExrtactor = function (req) {
-//   var token = null;
-
-//   console.log('토큰체크 req', req);
-//   if (req && req.cookies) token = req.cookies['member'];
-//   console.log('req.cookies[member]', req.cookies['member']);
-//   return token;
-// };
-
-const cookieExrtactor = (req) => {
-  var token = null;
-
-  console.log('토큰체크 req', req);
-  if (req && req.cookies) token = req.cookies['member'];
-  console.log('req.cookies[member]', req.cookies['member']);
-  return token;
-};
-
-// jwt 토큰을 읽기위한 설정
-// jwtFromRequest -> 리퀘스트에서 jwt의 위치를 설정, fromHeader명령어로 헤더에있는 jwt 값을 가져온다.
-// secretOrKey는 jwt 토큰 발급시 사용한 키와 동일한 키어야 함
-// jwtFromRequest: ExtractJwt.fromHeader('Cookie[member]'),
-
-// const JWTConfig = {
-//   // jwtFromRequest: ExtractJwt.fromExtractors([cookieExrtactor]),
-//   // jwtFromRequest: ExtractJwt.fromExtractors(cookieExrtactor),
-//   jwtFromRequest:
-//     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InRlc3QyIiwibmFtZSI6Iu2FjOyKpO2KuOqzhOyglTIiLCJpYXQiOjE2MjcyMTU1MzksImV4cCI6MTYyNzMwMTkzOSwiaXNzIjoic2hvd3BlZGlhIn0.lzmfEGco3wqYiOxMY4LlSUA0idrON5syeimMIv_A-28',
-//   // jwtFromRequest: (req) => cookieExrtactor(req, 'member'),
-//   // secretOrKey: process.env.JWT_SECRET
-//   secretOrKey: 'jwtSecret'
-// };
-
 let JWTConfig = {};
 JWTConfig.jwtFromRequest = ExtractJwt.fromExtractors([
   (req) => {

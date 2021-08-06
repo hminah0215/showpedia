@@ -1,4 +1,4 @@
-// OPEN API를 사용하는 라우터
+// [아영] OPEN API를 사용하는 라우터
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
@@ -103,8 +103,6 @@ router.get('/boxoffice', async (req, res) => {
     BASE_URL +
     `boxoffice?service=${KEY}` +
     `&ststype=week&date=${defaultStdate}&catecode=${catecode}`;
-
-  // console.log('박스오피스 URL', URL);
 
   // OPEN API에서 데이터를 가져온다
   const boxoffice = await getShowtoJSON(URL);

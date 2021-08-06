@@ -3,12 +3,12 @@ const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const axios = require('axios');
-// middlewares.js 참조
-const { isLoggedIn, isNotLoggedIn } = require('./middleware');
-const { Member } = require('../models/');
-
 const multer = require('multer'); // 파일이미지업로드를 위해 multer 패키지 참조
 const path = require('path');
+// middlewares.js 참조
+const { isLoggedIn, isNotLoggedIn } = require('./middleware');
+// 데이터베이스 참조
+const { Member } = require('../models/');
 
 const router = express.Router();
 
@@ -44,35 +44,24 @@ const upload_profile = multer({
   limits: { fileSize: 5 * 1024 * 1024 } // 파일 크기 제한
 });
 
-const test = (req, res, next) => {
-  // 테스트 미들웨어
-  console.log('테스트 미들웨어');
-  next();
-};
-
 // 민아) 7/29,프로필이미지
 // [아영] - 이미지저장 폴더 변경
 router.post('/uploadProfile', upload_profile.single('profilePhoto'), (req, res) => {
-  console.log(req.file);
-  console.log('프로필이미지에 업로드된 파일정보: ', req.file);
   res.json({ url: `http://localhost:3005/profile_images/${req.file.filename}` });
 });
 
 // 민아) 7/29, 아이디 중복체크용 라우터
 router.post('/checkId', async (req, res, next) => {
   let memberId = req.body.memberId;
-  console.log('아이디체크용', memberId);
 
   try {
     // 같은 회원아이디로 가입한 사용자가 있는지 조회
     const exMember = await Member.findOne({ where: { memberId } });
     if (exMember) {
       let checkId = false;
-      console.log('중복된 아이디가 있음! checkId=?', checkId);
       return res.json({ code: 400, message: '중복된 아이디입니다.', data: checkId });
     } else {
       let checkId = true;
-      console.log('중복된 아이디없당!!!  checkId=?', checkId);
       return res.json({ code: 200, message: '사용가능한 아이디입니다.', data: checkId });
     }
   } catch (error) {
@@ -86,12 +75,7 @@ router.post('/checkId', async (req, res, next) => {
 router.post('/regist', isNotLoggedIn, upload.single('profilePhoto'), async (req, res, next) => {
   const { memberId, pwd, nickName, profilePhoto } = req.body;
 
-  console.log('회원가입', req.body);
-
   const uploadedFile = req.body.profilePhoto;
-  console.log('프로필이미지 업로드된 파일정보: ', uploadedFile);
-
-  console.log('req.body 프로필이미지', req.body.profilePhoto);
 
   try {
     // 같은 회원아이디로 가입한 사용자가 있는지 조회
@@ -130,8 +114,6 @@ router.post('/regist', isNotLoggedIn, upload.single('profilePhoto'), async (req,
 // 민아) 7/23 ,로그인 post 라우터
 // localhost:3005/login
 router.post('/login', isNotLoggedIn, async (req, res, next) => {
-  console.log('reqbody 로그인', req.body);
-
   // 로그인 요청이 들어오면 passport.authenticate('local') 미들웨어가 로컬 로그인 전략을 수행함
   passport.authenticate('local', async (authError, member, info) => {
     if (authError) {
@@ -141,7 +123,6 @@ router.post('/login', isNotLoggedIn, async (req, res, next) => {
 
     // 유저가 없거나 인증이 실패하면 에러 발생
     if (!member || authError) {
-      // return res.redirect(`/?loginError=${info.message}`);
       return res.json({
         code: '400',
         msg: '로그인 실패'
@@ -150,8 +131,6 @@ router.post('/login', isNotLoggedIn, async (req, res, next) => {
 
     // 전략이 성공하거나 실패하면!
     return req.login(member, { session: false }, async (loginError) => {
-      // console.log("로그인정보 있다", member);
-
       try {
         if (loginError) {
           console.error(loginError);
@@ -173,12 +152,7 @@ router.post('/login', isNotLoggedIn, async (req, res, next) => {
         const accessToken = token;
 
         // signed:true 줘서 암호화된 쿠키를 사용하는 게 좋다고 함.
-        // 일단 테스트 다하고 변경예정
         res.cookie('member', accessToken, { httpOnly: true, sameSite: 'None' });
-
-        console.log('accessToken==>', accessToken);
-        console.log('쿠키값이요.', req.cookies);
-        // console.log("쿠키저장오케이?", req.cookies.member);
 
         return res.json({ code: 200, message: '인증토큰이 발급되었습니다.', data: token });
       } catch (error) {
@@ -190,9 +164,6 @@ router.post('/login', isNotLoggedIn, async (req, res, next) => {
 });
 
 // 민아) 7/23, 로그아웃 get 라우터
-// localhost:3005/logout
-
-// router.get('/logout', isLoggedIn, (req, res) => {
 router.get('/logout', (req, res) => {
   console.log('req.isAuthenticated()', req.isAuthenticated());
 
@@ -202,10 +173,8 @@ router.get('/logout', (req, res) => {
   req.logout(); // req.member 객체를 제거하고
 
   res.clearCookie('member'); // 쿠키를 삭제한다.
-  console.log('쿠키 삭제 22');
 
-  console.log('로그아웃 오케이22');
-  return res.json({ code: 200, message: '로그아웃 돼따!!', data: [] });
+  return res.json({ code: 200, message: '로그아웃 성공!!', data: [] });
 });
 
 // 민아) 7/23, 카카오 로그인 get 라우터
@@ -223,8 +192,6 @@ router.get(
   }),
   // 로그인 성공시 실행되는 곳
   (req, res) => {
-    console.log('=== 카카오 로그인 성공req.user === ', req.user.user.dataValues.memberId);
-    console.log(req.body);
     try {
       // 카카오로그인 전략이 성공하면 jwt 토큰 발급
       const token = jwt.sign(
@@ -240,18 +207,7 @@ router.get(
       // 일단 테스트 다하고 변경예정
       res.cookie('member', token, { httpOnly: true });
 
-      console.log('카카오로그인 쿠키발급 accessToken==>', token);
-
-      // return res.json({
-      //   code: 200,
-      //   message: '카카오로그인 성공',
-      //   accessToken: req.user.accessToken,
-      //   data: cookieToken
-      // });
-
       res.redirect('http://localhost:3000/');
-
-      // return res.redirect('http://localhost:3000');
     } catch (error) {
       console.error(error);
     }

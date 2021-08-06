@@ -4,7 +4,6 @@ const KakaoStrategy = require('passport-kakao').Strategy;
 const Member = require('../models/').Member;
 
 module.exports = () => {
-  //
   // 카카오 로그인에 대한 설정
   passport.use(
     new KakaoStrategy(
@@ -15,12 +14,6 @@ module.exports = () => {
 
       // 기존에 카카오를 통해 회원가입한 사용자가 있는지 조회한다.
       async (accessToken, refreshToken, profile, done) => {
-        console.log('kakao profile 정보', profile);
-        // console.log('카카오accessToken', accessToken);
-        // console.log('refreshToken카카오~~', refreshToken);
-
-        console.log('프로파일이미지', profile._json.properties.profile_image);
-
         try {
           const exMember = await Member.findOne({
             where: { snsId: profile.id, provider: 'kakao' }
@@ -32,9 +25,6 @@ module.exports = () => {
               accessToken: accessToken || ''
             };
 
-            // console.log('kakaoMember정보! ', kakaoMember);
-
-            // done(null, exMember);
             done(null, kakaoMember); // 로그아웃 구현을 위해 액세스토큰값도 같이 넘긴다.
 
             // 사용자가 없다면 회원가입을 진행한다.
