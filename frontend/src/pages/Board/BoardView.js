@@ -32,7 +32,7 @@ const BoardView = ({ history }) => {
   const boardNo = location.pathname.split('/')[3];
 
   useEffect(() => {
-    console.log('몇번 찍히세요');
+    // console.log('몇번 찍히세요');
     // 게시글 상세보기
     axios
       .get(`http://localhost:3005/board/view/${boardNo}`)
@@ -66,7 +66,7 @@ const BoardView = ({ history }) => {
       .catch((err) => {
         console.error(err);
       });
-  }, []);
+  }, [loginMemberId]);
 
   // 게시글 삭제버튼 이벤트
   const deleteBoard = () => {
