@@ -109,8 +109,8 @@ const BoardModify = () => {
       .catch((err) => {
         console.error(err);
       });
-  }, [reRender, boardNo, exBoard]); // 에디터에 기존내용이 바로 뿌려지도록 reRender state가 바뀔때마다 동작
-
+  }, [reRender, boardNo]); // 에디터에 기존내용이 바로 뿌려지도록 reRender state가 바뀔때마다 동작
+  // [reRender, boardNo, exBoard]
   const modules = useMemo(
     () => ({
       toolbar: {
@@ -181,8 +181,8 @@ const BoardModify = () => {
           // alert('게시글 수정 성공');
           Swal.fire({
             icon: 'success',
-            title: '등록완료!',
-            text: '게시글이 등록되었습니다.'
+            title: '수정완료!',
+            text: '게시글이 수정되었습니다.'
           });
 
           // 게시글 목록으로 돌아가기
