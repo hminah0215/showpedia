@@ -24,7 +24,6 @@ db.BoardComment = require('./boardComments.js')(sequelize, Sequelize);
 db.Member.hasMany(db.Board, { foreignKey: 'memberId' });
 db.Member.hasMany(db.BoardComment, { foreignKey: 'memberId' });
 db.Member.hasMany(db.Review, { foreignKey: 'memberId' }); // member:review = 1:N
-db.Member.hasMany(db.ReviewComment, { foreignKey: 'memberId' }); // member:reviewCmt = 1:N
 
 // Review
 db.Review.belongsTo(db.Member, { foreignKey: 'memberId' }); // review:member = N:1
