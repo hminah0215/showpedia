@@ -15,7 +15,6 @@ db.Config = config;
 db.Member = require('./member.js')(sequelize, Sequelize);
 
 db.Review = require('./review.js')(sequelize, Sequelize);
-db.ReviewComment = require('./reviewComment.js')(sequelize, Sequelize);
 
 db.Board = require('./board.js')(sequelize, Sequelize);
 db.BoardComment = require('./boardComments.js')(sequelize, Sequelize);
@@ -29,9 +28,6 @@ db.Member.hasMany(db.ReviewComment, { foreignKey: 'memberId' }); // member:revie
 
 // Review
 db.Review.belongsTo(db.Member, { foreignKey: 'memberId' }); // review:member = N:1
-db.Review.hasMany(db.ReviewComment, { foreignKey: 'memberId' }); // review:reviewCmt = 1:N
-// Review Comment
-db.ReviewComment.belongsTo(db.Review, { foreignKey: 'memberId' }); // reviewCmt:review = N:1
 
 // board
 db.Board.belongsTo(db.Member, { foreignKey: 'memberId' }); // board:member = N:1
