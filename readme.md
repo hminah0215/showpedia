@@ -50,19 +50,19 @@
 
 - **화면 구성**
 
-    🔹[화면 구성 설계](https://www.notion.so/355e9c7083154c8a87cbbc7f8d217973)
+    🔹[화면 구성 설계](https://hminah.notion.site/355e9c7083154c8a87cbbc7f8d217973)
 
 - 기능명세서
 
-    🔹[기능명세서](https://www.notion.so/3f6a651b7cd14dc893cfb43da8818472)
+    🔹[기능명세서](https://hminah.notion.site/3f6a651b7cd14dc893cfb43da8818472)
 
 - DB 명세서
 
-    🔹[DB 명세서](https://www.notion.so/DB-dd3533691ba44948835222872a9e14a3)
+    🔹[DB 명세서](https://hminah.notion.site/DB-dd3533691ba44948835222872a9e14a3)
 
 - API 설계도
 
-    🔹[API 명세서](https://www.notion.so/API-dd5240f158ed49d996879fb66dc4faa2)
+    🔹[API 명세서](https://hminah.notion.site/API-dd5240f158ed49d996879fb66dc4faa2)
 
 ---
 
