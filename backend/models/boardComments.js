@@ -15,19 +15,8 @@ module.exports = (sequelize, DataTypes) => {
       },
       boardCommentContents: {
         // 댓글내용
-        type: DataTypes.STRING(500),
+        type: DataTypes.TEXT,
         allowNull: false
-      },
-      boardCommentRef: {
-        // 대댓글 처리시 사용할듯
-        type: DataTypes.INTEGER,
-        allowNull: true
-      },
-      boardCommentReports: {
-        // 댓글 신고수
-        type: DataTypes.INTEGER,
-        allowNull: true,
-        defaultValue: 0 // 신고수는 기본 0
       }
     },
     {

@@ -32,16 +32,10 @@ const BoardView = ({ history }) => {
   const boardNo = location.pathname.split('/')[3];
 
   useEffect(() => {
-    // console.log('몇번 찍히세요');
     // 게시글 상세보기
     axios
       .get(`http://localhost:3005/board/view/${boardNo}`)
       .then((res) => {
-        // 현재 로그인된 사용자 아이디와, 게시글을 작성했던 사람의 아이디가 동일하면!?
-        if (loginMemberId === res.data.data.memberId) {
-          setIsModify(true); // 수정가능한 상태 true 체크
-        }
-
         if (res.data.code === '200') {
           let regDate = res.data.data.createdAt.slice(0, 10);
 
@@ -68,11 +62,14 @@ const BoardView = ({ history }) => {
       });
   }, []);
 
+  // 현재 로그인된 사용자 아이디와, 게시글을 작성했던 사람의 아이디 비교
   useEffect(() => {
     if (loginMemberId === boardView.memberId) {
       setIsModify(true);
+    } else {
+      setIsModify(false);
     }
-  }, []);
+  }, [loginMemberId, boardView]);
 
   // 게시글 삭제버튼 이벤트
   const deleteBoard = () => {
@@ -136,6 +133,7 @@ const BoardView = ({ history }) => {
 
             // 신고결과가 ok이면 신고수 +1
             if (result.data.code === '200') {
+              Swal.fire('신고 완료!', '올바른 인터넷 문화를 위해 노력하겠습니다.', 'success');
               setBoardView({ ...boardView, boardReports: boardView.boardReports + 1 });
             }
           })

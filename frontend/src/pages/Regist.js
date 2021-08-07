@@ -119,8 +119,6 @@ const Regist = () => {
     axios
       .post('http://localhost:3005/regist', registerUser, config)
       .then((result) => {
-        // pwd가 비밀번호 확인과 같고, result data code가 200이면 dispatch실행
-        // 회원가입 리덕스로 만드는게 필요했을까?? 하는 의문...
         if (result.data.code === 200 && pwd === ConfirmPasword) {
           setPasswordError(false);
           dispatch(registUser(registerUser));
@@ -132,7 +130,6 @@ const Regist = () => {
           });
           history.push('/login');
         } else {
-          // alert('회원가입 실패 - 관리자에게 문의하세요.');
           Swal.fire('에러발생', '회원가입 에러발생, 관리자에게 문의해주세요.', 'question');
         }
       })
@@ -206,9 +203,13 @@ const Regist = () => {
             {passwordError === undefined ? (
               ''
             ) : passwordError ? (
-              <div style={{ color: 'red' }}>비밀번호가 일치하지 않습니다.</div>
+              <div className="checktext" style={{ color: 'red' }}>
+                비밀번호가 일치하지 않습니다.
+              </div>
             ) : (
-              <div style={{ color: 'blue' }}>비밀번호가 일치합니다.</div>
+              <div className="checktext" style={{ color: 'blue' }}>
+                비밀번호가 일치합니다.
+              </div>
             )}
           </Form.Group>
 
