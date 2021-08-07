@@ -38,7 +38,6 @@ router.get('/list', async (req, res, next) => {
     const category = req.query.boardCategory;
 
     // 일단 임의로 notice(공지), free(자유), actor(덕질), together(같이가요)로 구분
-    console.log('전달된 카테고리명 ==>', category);
 
     if (category != undefined) {
       // 전달된 카테고리가 있다면, 검색조건에 카테고리 넣어서 조회
@@ -52,8 +51,6 @@ router.get('/list', async (req, res, next) => {
         ],
         order: [['boardNo', 'DESC']]
       });
-
-      // console.log('boardList', boardList);
 
       return res.json({ msg: '카테고리별 목록 ok', data: boardList, code: '200' });
     }
@@ -72,10 +69,6 @@ router.get('/list', async (req, res, next) => {
       order: [['boardNo', 'DESC']]
     });
 
-    // console.log('boardAllList', boardAllList);
-
-    // console.log('게시글 목록 boardAllList 정렬되나?', boardAllList);
-
     return res.json({ msg: '전체 목록 ok', data: boardAllList, code: '200' });
   } catch (error) {
     next(error);
@@ -91,8 +84,6 @@ router.post('/regist', tokenTest, isLoggedIn, async (req, res) => {
   const memberId = req.user.memberId;
   console.log('게시글작성 memberId', req.user.memberId);
 
-  // let filepath = '/uploads/' + uploadedFile;
-
   let board = {
     boardTitle: req.body.boardTitle,
     boardCategory: req.body.boardCategory,
@@ -105,7 +96,6 @@ router.post('/regist', tokenTest, isLoggedIn, async (req, res) => {
     // db에 해당 데이터를 저장하고 저장결과를 다시 받아온다.
     const savedBoard = Board.create(board);
     return res.json({ code: '200', data: savedBoard, msg: '게시글저장 ok' });
-    //
   } catch (error) {
     console.log('서버에러내용: ', error);
     return res.json({ code: '500', data: {}, msg: '게시글 등록 서버에러발생!!' });
@@ -123,8 +113,6 @@ router.put('/:id', tokenTest, isLoggedIn, async (req, res) => {
   // 리뷰 수정옵션을 결정
   const opt = req.body.opt;
 
-  console.log('opt', req.body.opt);
-
   // 클라이언트가 opt를 보내는 경우
   // 신고하는 사람의 아이디와 게시글 작성자의 아이디가 같으면!
   // opt가 없고, 아이디가 같으면
@@ -135,10 +123,7 @@ router.put('/:id', tokenTest, isLoggedIn, async (req, res) => {
     });
   }
 
-  console.log('신고 reqbody', req.body);
-
   const updateReports = opt == 'report' ? req.body.boardReports + 1 : req.body.boardReports;
-  console.log('신고들어왔어요!', updateReports);
 
   const updateBoard = {
     boardTitle: req.body.boardTitle,
@@ -149,7 +134,6 @@ router.put('/:id', tokenTest, isLoggedIn, async (req, res) => {
 
   try {
     const updateCnt = await Board.update(updateBoard, { where: { boardNo: boardIdx } });
-    console.log('수정 결과 반환값', updateCnt);
     return res.json({ code: '200', data: updateCnt, msg: '게시글수정 OK' });
   } catch (error) {
     return res.json({ code: '500', data: {}, msg: '게시글수정 관리자에게 문의하세요.' });
@@ -159,10 +143,8 @@ router.put('/:id', tokenTest, isLoggedIn, async (req, res) => {
 // 민아) 7/28, 게시글 상세보기 get 라우터
 router.get('/view/:id', async (req, res) => {
   const boardIdx = req.params.id;
-  // console.log('상세보기 게시물 번호', boardIdx);
 
   try {
-    //
     const board = await Board.findOne({
       where: { boardNo: boardIdx },
       include: [
@@ -181,10 +163,7 @@ router.get('/view/:id', async (req, res) => {
       }
     );
 
-    // console.log('조회수증가?', updateHits);
-
     return res.json({ code: '200', data: board, msg: '게시글 상세보기 OK' });
-    //
   } catch (error) {
     console.log('서버에러내용: ', error);
     return res.json({ code: '500', data: {}, msg: '관리자에게 문의하세요.' });

@@ -17,8 +17,6 @@ const BoardRegist = () => {
   // 에디터에 입력한 내용
   const [editorContents, setEditorContents] = useState('');
 
-  // const [value, setValue] = useState(''); // 기본적으로 에디터에 들어가는 contents
-
   // 단일 게시글 정보 구조 정의 및 초기화
   const [board, setBoard] = useState({
     boardTitle: '',
@@ -40,7 +38,6 @@ const BoardRegist = () => {
 
   // 이미지를 따로 처리해 저장하기 때문에 imageHandler를 만든다
   const imageHandler = () => {
-    console.log('이미지 핸들러');
     // 히든으로 숨겨진 input을 선택하도록 한다.
     imageRef.current.click(); // 선택을 input으로 하게함
   };
@@ -51,27 +48,15 @@ const BoardRegist = () => {
 
     // server에서 multer 사용을 위한 formData를 만든다.
     const imageFormData = new FormData();
-    console.log('히든인풋창 온체인지 핸들러 e', e.target.files);
 
     // e.target.files에 있는 파일들을 멀터에 저장해야댐.
     imageFormData.append('img', e.target.files[0]);
-
-    // for (let key of imageFormData.keys()) {
-    //   console.log('이미지핸들러key', key);
-    // }
-
-    // for (let value of imageFormData.values()) {
-    //   console.log('이미지핸들러value', value);
-    // }
 
     // 멀터에 이미지를 저장하고 이미지 경로 URL을 받아온다.
     axios
       .post('http://localhost:3005/board/uploads', imageFormData)
       .then((res) => {
         // 성공하면 보내주는 데이터 res
-        console.log('멀터 이미지 res', res.data);
-        console.log('이 url을 에디터객체에 넣어야한다.', res.data.url);
-        console.log('지금 에디터 ref', quillRef.current);
 
         const IMG_URL = res.data.url;
 
@@ -131,8 +116,6 @@ const BoardRegist = () => {
       boardContents: editorContents,
       memberId: board.memberId
     };
-
-    // console.log('editorContents?', editorContents);
 
     if (newBoard.boardTitle.length === 0 || newBoard.boardContents.length === 0) {
       // alert('게시글 제목과 내용을 입력해주세요!');

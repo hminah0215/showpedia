@@ -45,7 +45,6 @@ const BoardModify = () => {
 
   // 제목,카테고리 등 내용변화 onChange
   const onChangeRegist = (e) => {
-    // const { name, value } = e.target;
     setExBoard({ ...exBoard, [e.target.name]: e.target.value });
   };
 
@@ -85,8 +84,6 @@ const BoardModify = () => {
     axios
       .get(`http://localhost:3005/board/view/${boardNo}`)
       .then((res) => {
-        console.log('게시글 수정,원래내용 데이터', res);
-
         if (res.data.code === '200') {
           let exContents = {
             boardTitle: res.data.data.boardTitle,
@@ -113,8 +110,8 @@ const BoardModify = () => {
       .catch((err) => {
         console.error(err);
       });
-  }, [boardNo, reRender]); // 에디터에 기존내용이 바로 뿌려지도록 reRender state가 바뀔때마다 동작
-
+  }, [reRender, boardNo]); // 에디터에 기존내용이 바로 뿌려지도록 reRender state가 바뀔때마다 동작
+  // [reRender, boardNo, exBoard]
   const modules = useMemo(
     () => ({
       toolbar: {
@@ -181,14 +178,12 @@ const BoardModify = () => {
     axios
       .put(`http://localhost:3005/board/${boardNo}`, updateBoard)
       .then((result) => {
-        console.log('게시글 수정===>', result);
-
         if (result.data.code === '200') {
           // alert('게시글 수정 성공');
           Swal.fire({
             icon: 'success',
-            title: '등록완료!',
-            text: '게시글이 등록되었습니다.'
+            title: '수정완료!',
+            text: '게시글이 수정되었습니다.'
           });
 
           // 게시글 목록으로 돌아가기

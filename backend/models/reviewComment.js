@@ -11,31 +11,30 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
-        autoIncrement: true,
+        autoIncrement: true
       },
       reviewCommentContents: {
         type: DataTypes.TEXT,
-        allowNull: false,
+        allowNull: false
       },
       reviewCommentLikes: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        defaultValue: 0,
+        defaultValue: 0
       },
       reviewCommentReports: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        defaultValue: 0,
+        defaultValue: 0
       },
       // 부모 댓글의 No값을 넣는다. 없다면 null
       reviewCommentRef: {
         type: DataTypes.INTEGER,
-        allowNull: true,
-      },
+        allowNull: true
+      }
     },
     {
-      // Other model options go here
-      timestamps: true,
+      timestamps: true
     }
   );
 };

@@ -9,7 +9,6 @@ import Swal from 'sweetalert2';
 const CommentItem = ({
   loginMemberId,
   item,
-  // deleteComment,
   setReRender,
   onEditComment,
   updateComment,
@@ -35,7 +34,6 @@ const CommentItem = ({
 
   const deleteComment = (e) => {
     e.preventDefault();
-    console.log('삭제될 댓글 번호를 찍어주세요', item.boardCommentNo);
 
     Swal.fire({
       title: '댓글을 삭제하시겠습니까?',
@@ -70,22 +68,6 @@ const CommentItem = ({
       }
     });
   };
-
-  // if (window.confirm('댓글을 삭제하시겠습니까?')) {
-  //   axios
-  //     .delete('http://localhost:3005/comments', { data: { boardCommentNo: item.boardCommentNo } })
-  //     .then((result) => {
-  //       if (result.data.code === '200') {
-  //         // 댓글 삭제후 목록 리렌더링
-  //         setReRender(!reRender);
-  //         alert('댓글이 삭제되었습니다.');
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       console.error(err);
-  //     });
-  // }
-  // };
 
   return (
     <div className="comment-container">
@@ -137,7 +119,6 @@ const CommentItem = ({
           </div>
         )}
       </div>
-      {/* ismodify 끝, 본인이 쓴 댓글에만 나타나는 부분   */}
     </div>
   );
 };

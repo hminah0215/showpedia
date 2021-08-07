@@ -1,7 +1,6 @@
 const express = require('express');
 
 const { BoardComment, Board, Member } = require('../models/');
-const boardComments = require('../models/boardComments');
 const { isLoggedIn, tokenTest } = require('./middleware');
 const router = express.Router();
 
@@ -10,9 +9,6 @@ const router = express.Router();
 router.post('/', tokenTest, isLoggedIn, async (req, res) => {
   // 토큰테스트를 거쳐 인증이 완료된 회원아이디
   const memberId = req.user.memberId;
-  console.log('댓글작성 memberId', req.user.memberId);
-
-  console.log('코멘드 req.body', req.body);
 
   let bComment = {
     boardCommentContents: req.body.boardCommentContents,
@@ -33,11 +29,7 @@ router.post('/', tokenTest, isLoggedIn, async (req, res) => {
 
 // 민아) 8/3, 댓글 수정 라우터
 router.put('/', tokenTest, isLoggedIn, async (req, res) => {
-  // const memberId = req.user.memberId;
   const commentNo = req.body.boardCommentNo;
-
-  // console.log('수정할 댓글내용', req.body.boardCommentContents);
-  // console.log('수정할 댓글번호', commentNo);
 
   const upComment = {
     boardCommentContents: req.body.boardCommentContents,
@@ -57,8 +49,6 @@ router.put('/', tokenTest, isLoggedIn, async (req, res) => {
 // 민아) 8/3, 댓글 삭제
 router.delete('/', async (req, res) => {
   const commentNo = req.body.boardCommentNo;
-  // console.log('req댓글삭제', req.body);
-  // console.log('댓글삭제번호', commentNo);
 
   try {
     const deleteCnt = await BoardComment.destroy({ where: { boardCommentNo: commentNo } });
@@ -90,7 +80,6 @@ router.get('/:id', async (req, res) => {
       ]
       // order: [['boardCommentNo', 'DESC']] // 댓글은 보통 최신글순이 아니라 그냥 달린 순서대로인듯
     });
-    // console.log('댓글목록 데이터', commentList);
 
     return res.json({ msg: '댓글 목록 ok', data: commentList, code: '200' });
   } catch (error) {

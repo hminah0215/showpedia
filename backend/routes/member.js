@@ -18,7 +18,6 @@ router.post('/modify', async (req, res) => {
         { nickName: req.body.nickName, profilePhoto: req.body.profilePhoto },
         { where: { memberId: req.body.memberId } }
       );
-      console.log('수정 건수 확인', updateCnt);
       return res.json({ code: '200', data: updateCnt, msg: 'OK' });
     } else {
       // 암호도 수정할때는
@@ -26,7 +25,6 @@ router.post('/modify', async (req, res) => {
         { pwd: hash, nickName: req.body.nickName, profilePhoto: req.body.profilePhoto },
         { where: { memberId: req.body.memberId } }
       );
-      console.log('수정 건수 확인 암호도', updateCnt);
       return res.json({ code: '200', data: updateCnt, msg: 'OK' });
     }
   } catch (error) {
@@ -40,12 +38,9 @@ router.post('/modify', async (req, res) => {
 router.get('/modify/:id', async (req, res) => {
   const memberId = req.params.id;
 
-  console.log('회원정보수정 아이디', memberId);
-
   try {
     const oneMember = await Member.findOne({ where: { memberId: memberId } });
 
-    console.log('정보수정할 회원정보', oneMember);
     return res.json({ code: '200', data: oneMember, msg: '회원정보조회 성공!' });
   } catch (error) {
     return res.json({ code: '500', data: {}, msg: '회원정보조회 실패 ㅠㅠ' });
@@ -65,7 +60,6 @@ router.delete('/delete/:id', async (req, res) => {
     if (delMemberCnt == 1) {
       return res.json({ code: '200', data: delMemberCnt, msg: 'OK' });
     } else {
-      console.log('delete 쿼리가 실행되었지만 조건이 안맞아서 실패요.');
       return res.json({ code: '500', data: [], msg: '삭제 실패!' });
     }
   } catch (error) {

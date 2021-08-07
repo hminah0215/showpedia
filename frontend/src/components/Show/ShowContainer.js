@@ -82,4 +82,3 @@ const ShowContainer = ({ setIsFetch, showId }) => {
 };
 
 export default React.memo(ShowContainer);
-// export default ShowContainer;

@@ -39,11 +39,6 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
         defaultValue: 0 // 신고수는 기본 0
       }
-      // boardImg: {
-      //   // 게시글 단일이미지
-      //   type: DataTypes.STRING(500),
-      //   allowNull: true
-      // }
     },
     {
       timestamps: true,

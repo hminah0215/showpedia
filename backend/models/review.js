@@ -38,7 +38,6 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     {
-      // Other model options go here
       timestamps: true
     }
   );

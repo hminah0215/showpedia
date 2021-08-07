@@ -120,4 +120,3 @@ const ReviewContainer = ({ showId, handleShow }) => {
 };
 
 export default React.memo(ReviewContainer);
-// export default ReviewContainer;

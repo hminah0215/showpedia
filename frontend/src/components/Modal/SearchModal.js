@@ -12,7 +12,7 @@ import { Row, Col, Modal, Form, Container, Button } from 'react-bootstrap';
   setSearch - [header.js] / search의 set함수
   handleChangeInput - [header.js] / 검색 조건 상태 변화 저장 함수
 */
-const SearchModal = ({ search, setSearch, handleChangeInput }) => {
+const SearchModal = ({ search, setSearch, handleChangeInput, inputRef }) => {
   // 검색 조건 state
   const condition = useSelector((state) => state.show.condition);
   // 디스패치
@@ -43,6 +43,7 @@ const SearchModal = ({ search, setSearch, handleChangeInput }) => {
   const handleClickResetButton = () => {
     // 체크박스 버튼 active 삭제
     checkRef.current.classList.remove('active');
+    inputRef.current.value = '';
     showDispatch(resetCondition());
   };
 
@@ -62,10 +63,6 @@ const SearchModal = ({ search, setSearch, handleChangeInput }) => {
     // 모달 닫기
     setSearch(false);
   };
-
-  // const handleClickActive = (e) => {
-  //   e.target.classList.toggle('active');
-  // };
 
   // 장르 코드
   const genre = [
@@ -173,8 +170,6 @@ const SearchModal = ({ search, setSearch, handleChangeInput }) => {
 
               {/* 아동공연 여부 체크 */}
               <Form.Group as={Col} lg="4" md="4" xs="6" controlId="kidstate" className="mt-3">
-                {/* <Form.Label>아동용 공연</Form.Label>
-                <Form.Check name='kidstate' className='' /> */}
                 <label>
                   <p className="mb-2">아동용 공연</p>
                   <input
@@ -245,4 +240,3 @@ const SearchModal = ({ search, setSearch, handleChangeInput }) => {
 };
 
 export default SearchModal;
-// export default React.memo(SearchModal);

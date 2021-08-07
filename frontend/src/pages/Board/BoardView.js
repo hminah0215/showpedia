@@ -32,12 +32,11 @@ const BoardView = ({ history }) => {
   const boardNo = location.pathname.split('/')[3];
 
   useEffect(() => {
+    console.log('몇번 찍히세요');
     // 게시글 상세보기
     axios
       .get(`http://localhost:3005/board/view/${boardNo}`)
       .then((res) => {
-        // console.log('게시글 상세보기 데이터', res);
-
         // 현재 로그인된 사용자 아이디와, 게시글을 작성했던 사람의 아이디가 동일하면!?
         if (loginMemberId === res.data.data.memberId) {
           setIsModify(true); // 수정가능한 상태 true 체크
@@ -67,9 +66,7 @@ const BoardView = ({ history }) => {
       .catch((err) => {
         console.error(err);
       });
-
-    //
-  }, [loginMemberId, boardNo]);
+  }, []);
 
   // 게시글 삭제버튼 이벤트
   const deleteBoard = () => {
@@ -96,18 +93,6 @@ const BoardView = ({ history }) => {
           });
       }
     });
-
-    // if (window.confirm('게시글을 삭제하시겠습니까?')) {
-    //   axios
-    //     .delete(`http://localhost:3005/board/${boardNo}`)
-    //     .then((result) => {
-    //       alert('게시글이 삭제되었습니다. 목록으로 돌아갑니다.');
-    //       history.push('/board');
-    //     })
-    //     .catch((err) => {
-    //       console.error(err);
-    //     });
-    // }
   };
 
   // 신고버튼 이벤트
@@ -155,33 +140,6 @@ const BoardView = ({ history }) => {
           });
       }
     });
-
-    // if (window.confirm('게시글을 신고하시겠습니까?')) {
-    //   try {
-    //     axios
-    //       .put(URL, {
-    //         ...BoardView,
-    //         opt: 'report', // 신고이면 report 전달
-    //         reportMember: loginMemberId, // 신고한 사람과 게시글 작성자 아이디비교를 위해 전달
-    //         boardReports: boardView.boardReports // 기존의 신고수를 전달해서 백엔드에서 +1
-    //       })
-    //       .then((result) => {
-    //         if (result.data.code !== '200' && result.data.code === '400') {
-    //           return alert('본인글에는 신고를 할 수 없습니다.');
-    //         }
-
-    //         // 신고결과가 ok이면 신고수 +1
-    //         if (result.data.code === '200') {
-    //           setBoardView({ ...boardView, boardReports: boardView.boardReports + 1 });
-    //         }
-    //       })
-    //       .catch((err) => {
-    //         alert('신고실패');
-    //         console.error(err);
-    //         return false;
-    //       });
-    //   } catch (error) {}
-    // }
   };
 
   return (
