@@ -96,6 +96,7 @@ const BoardModify = () => {
 
           // 에디터에 원래 내용을 뿌려주기 위해 setEditorContents에 게시글 내용은 별도로 담음
           setEditorContents(exBoard.boardContents);
+
           // 에디터에 기존 글 내용이 바로 뿌려지지않아, reRender useState를 만들고 그 값을 true로 바꾼다.
           setReRender(true);
         } else {
