@@ -1,5 +1,7 @@
 # showpedia
 
+[🎈쇼피디아 링크](http://www.showpedia.xyz/)
+
 ## 소개
 
 ### Showpedia
@@ -114,3 +116,4 @@
 ---
 
 ## 시연 영상
+[영상 링크](https://www.youtube.com/watch?v=lWJo7KoLkz4)
