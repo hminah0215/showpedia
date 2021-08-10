@@ -1,6 +1,10 @@
 # showpedia
 
-[🎈쇼피디아 링크](http://www.showpedia.xyz/)
+## 배포
+
+[🎈쇼피디아 배포 링크](http://www.showpedia.xyz/)
+
+> Microsoft Azure에서 IaaS 방식으로 가상머신을 만들어 배포하였습니다. 
 
 ## 소개
 
