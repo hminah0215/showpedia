@@ -100,8 +100,7 @@
   - **CSS, 리액트 컴포넌트 전체 정리**
 
 ## 기능 GIF
-**메인페이지**
-![메인페이지](https://drive.google.com/file/d/14LObIyr0-SDi0m4C02bFOwP2LPgigf1d/view?usp=sharing)
+**메인페이지** ![메인페이지](http://drive.google.com/uc?export=view&id=14LObIyr0-SDi0m4C02bFOwP2LPgigf1d)  **로컬회원가입** ![로컬회원가입](http://drive.google.com/uc?export=view&id=1ZAvhXtmaaKONReEfz9J6F3uM2EKqCtOP)
 
 
 ## 후기
