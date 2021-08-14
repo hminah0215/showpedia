@@ -100,11 +100,28 @@
   - **CSS, 리액트 컴포넌트 전체 정리**
 
 ## 기능 GIF
-메인페이지 <img src='http://drive.google.com/uc?export=view&id=14LObIyr0-SDi0m4C02bFOwP2LPgigf1d' width="300px" />
-로컬 회원가입 <img src='http://drive.google.com/uc?export=view&id=1ZAvhXtmaaKONReEfz9J6F3uM2EKqCtOP" width="300px"/>
-로컬 로그인 <img src='http://drive.google.com/uc?export=view&id=1xNrdZPNAPcOiggWXJEmyALp4JToYlwRf" width="300px"/>
-카카오 로그인 <img src='http://drive.google.com/uc?export=view&id=1WpB_NB_y0DdchDWHcJ83DH1ydgh-725v' />
-조건 검색 <img src='http://drive.google.com/uc?export=view&id=10DbgCXMdvLpqHs0pmbSUj4BvqDQpkRTw' />
+:-------------------------:|:-------------------------:
+![](https://...Dark.png)  |  ![](https://...Ocean.png)
+
+| 메인페이지 |
+| --- |
+|![메인페이지](http://drive.google.com/uc?export=view&id=14LObIyr0-SDi0m4C02bFOwP2LPgigf1d) | 
+
+| 로컬회원가입 | 로컬로그인 |
+| --- | --- |
+| ![로컬 회원가입](https://doc-04-1g-docs.googleusercontent.com/docs/securesc/rpemdhhrph7guvo15kn8ol0r7ihbk9nv/k0d7at0k7vji39c1bvubkg7drthbe6p5/1628927700000/15334374681865706800/04489672018648177096/1ZAvhXtmaaKONReEfz9J6F3uM2EKqCtOP?e=view&authuser=0&nonce=8fqs38g6vj7i0&user=04489672018648177096&hash=uhm0o55qksi4pc19dpi2d11nfsu6a8fd) | List all new or modified files | ![로컬 로그인](https://doc-08-1g-docs.googleusercontent.com/docs/securesc/rpemdhhrph7guvo15kn8ol0r7ihbk9nv/51q2h5s7qa0uh53ao80755g017eo62q3/1628927775000/15334374681865706800/04489672018648177096/1xNrdZPNAPcOiggWXJEmyALp4JToYlwRf?e=view&authuser=0) |
+
+| 카카오 로그인 |
+| --- |
+|![카카오로그인](http://drive.google.com/uc?export=view&id=1WpB_NB_y0DdchDWHcJ83DH1ydgh-725v) | 
+
+
+| 조건 검색 |
+| --- |
+|<img src='http://drive.google.com/uc?export=view&id=10DbgCXMdvLpqHs0pmbSUj4BvqDQpkRTw' /> | 
+
+
+ 
 검색결과가 없는 경우 <img src='http://drive.google.com/uc?export=view&id=1gR3vMZWFmhbVNcK0J2_95u6VImuNziEh' />
 리뷰 작성 <img src='http://drive.google.com/uc?export=view&id=1Pdd-Q5vQOOw8TTXHNyMBfFVmIjqAul-S' />
 리뷰 수정 <img src='http://drive.google.com/uc?export=view&id=1xDDI1uKduOPwaKgW1PkGzv0iBrr8Am0E' />
