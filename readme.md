@@ -125,11 +125,11 @@
  
 | 게시글 작성 | 게시글 수정 | 게시글 삭제 | 게시글 신고 |
 | --- | --- | --- | --- |
-| <img src='http://drive.google.com/uc?export=view&id=1I6y8NP3EQxuxxQ7bunRsk3uaEpyi4V3n' /> | |<img src='http://drive.google.com/uc?export=view&id=1afvOsWA0t1MUY5f4IWU7JQJVHFh7ceIu' /> | <img src='http://drive.google.com/uc?export=view&id=1guOKgkj5D7FnJhQmze1M93WW5hi5liui' />|
+| <img src='http://drive.google.com/uc?export=view&id=1I6y8NP3EQxuxxQ7bunRsk3uaEpyi4V3n' /> | <img src='http://drive.google.com/uc?export=view&id=1SFL9ewidk3nYhHMxr0duVizYBWGIJnXg' /> |<img src='http://drive.google.com/uc?export=view&id=1afvOsWA0t1MUY5f4IWU7JQJVHFh7ceIu' /> | <img src='http://drive.google.com/uc?export=view&id=1guOKgkj5D7FnJhQmze1M93WW5hi5liui' />|
 
 | 댓글 작성 | 댓글 수정 | 댓글 삭제 | 
 | --- | --- | --- | 
-|<img src='http://drive.google.com/uc?export=view&id=1xdUp9-vTe96sTm0-TCXyqoSAypyuPdxO' />|
+|<img src='http://drive.google.com/uc?export=view&id=1xdUp9-vTe96sTm0-TCXyqoSAypyuPdxO' />| <img src='http://drive.google.com/uc?export=view&id=1GcFlWFOH_XACcNRNbvGbEAU3slCWaiOD' /> | <img src='http://drive.google.com/uc?export=view&id=1Hv8HTzCUPRzSFYS9H3tanum3jCnW0JIj' />|
 
  
 
