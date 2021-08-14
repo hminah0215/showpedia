@@ -100,7 +100,22 @@
   - **CSS, 리액트 컴포넌트 전체 정리**
 
 ## 기능 GIF
-**메인페이지** ![메인페이지](http://drive.google.com/uc?export=view&id=14LObIyr0-SDi0m4C02bFOwP2LPgigf1d)  **로컬회원가입** ![로컬회원가입](http://drive.google.com/uc?export=view&id=1ZAvhXtmaaKONReEfz9J6F3uM2EKqCtOP)
+메인페이지 <img src='http://drive.google.com/uc?export=view&id=14LObIyr0-SDi0m4C02bFOwP2LPgigf1d' width="300px" />
+로컬 회원가입 <img src='http://drive.google.com/uc?export=view&id=1ZAvhXtmaaKONReEfz9J6F3uM2EKqCtOP" width="300px"/>
+로컬 로그인 <img src='http://drive.google.com/uc?export=view&id=1xNrdZPNAPcOiggWXJEmyALp4JToYlwRf" width="300px"/>
+카카오 로그인 <img src='http://drive.google.com/uc?export=view&id=1WpB_NB_y0DdchDWHcJ83DH1ydgh-725v' />
+조건 검색 <img src='http://drive.google.com/uc?export=view&id=10DbgCXMdvLpqHs0pmbSUj4BvqDQpkRTw' />
+검색결과가 없는 경우 <img src='http://drive.google.com/uc?export=view&id=1gR3vMZWFmhbVNcK0J2_95u6VImuNziEh' />
+리뷰 작성 <img src='http://drive.google.com/uc?export=view&id=1Pdd-Q5vQOOw8TTXHNyMBfFVmIjqAul-S' />
+리뷰 수정 <img src='http://drive.google.com/uc?export=view&id=1xDDI1uKduOPwaKgW1PkGzv0iBrr8Am0E' />
+리뷰 삭제 <img src='http://drive.google.com/uc?export=view&id=1zI4M0cMIAh-ENU9iIZ5ktrAb7yu0kN5j' />
+리뷰 좋아요 <img src='http://drive.google.com/uc?export=view&id=1SWsFDy6B5qnNkwwVbydxqIGHULxkV6sq' />
+게시글 쓰기 <img src='http://drive.google.com/uc?export=view&id=1I6y8NP3EQxuxxQ7bunRsk3uaEpyi4V3n' />
+게시글 삭제 <img src='http://drive.google.com/uc?export=view&id=1afvOsWA0t1MUY5f4IWU7JQJVHFh7ceIu' />
+게시글 신고 <img src='http://drive.google.com/uc?export=view&id=1guOKgkj5D7FnJhQmze1M93WW5hi5liui' />
+댓글 <img src='http://drive.google.com/uc?export=view&id=1xdUp9-vTe96sTm0-TCXyqoSAypyuPdxO' />
+ 
+
 
 
 ## 후기
