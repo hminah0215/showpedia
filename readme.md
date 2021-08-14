@@ -97,7 +97,12 @@
 
     - 리뷰 CRUD, 리뷰 좋아요 기능, 리뷰 신고 기능
 
-  - CSS, 리액트 컴포넌트 전체 정리
+  - **CSS, 리액트 컴포넌트 전체 정리**
+
+## 기능 GIF
+**메인페이지**
+![메인페이지](https://drive.google.com/file/d/14LObIyr0-SDi0m4C02bFOwP2LPgigf1d/view?usp=sharing)
+
 
 ## 후기
 
