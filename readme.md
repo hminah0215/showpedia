@@ -100,8 +100,7 @@
   - **CSS, 리액트 컴포넌트 전체 정리**
 
 ## 기능 GIF
-:-------------------------:|:-------------------------:
-![](https://...Dark.png)  |  ![](https://...Ocean.png)
+
 
 | 메인페이지 |
 | --- |
@@ -109,28 +108,29 @@
 
 | 로컬회원가입 | 로컬로그인 |
 | --- | --- |
-| ![로컬 회원가입](https://doc-04-1g-docs.googleusercontent.com/docs/securesc/rpemdhhrph7guvo15kn8ol0r7ihbk9nv/k0d7at0k7vji39c1bvubkg7drthbe6p5/1628927700000/15334374681865706800/04489672018648177096/1ZAvhXtmaaKONReEfz9J6F3uM2EKqCtOP?e=view&authuser=0&nonce=8fqs38g6vj7i0&user=04489672018648177096&hash=uhm0o55qksi4pc19dpi2d11nfsu6a8fd) | List all new or modified files | ![로컬 로그인](https://doc-08-1g-docs.googleusercontent.com/docs/securesc/rpemdhhrph7guvo15kn8ol0r7ihbk9nv/51q2h5s7qa0uh53ao80755g017eo62q3/1628927775000/15334374681865706800/04489672018648177096/1xNrdZPNAPcOiggWXJEmyALp4JToYlwRf?e=view&authuser=0) |
+| <img src='http://drive.google.com/uc?export=view&id=1xNrdZPNAPcOiggWXJEmyALp4JToYlwRf' /> | <img src='http://drive.google.com/uc?export=view&id=1xNrdZPNAPcOiggWXJEmyALp4JToYlwRf' /> |
 
 | 카카오 로그인 |
 | --- |
 |![카카오로그인](http://drive.google.com/uc?export=view&id=1WpB_NB_y0DdchDWHcJ83DH1ydgh-725v) | 
 
 
-| 조건 검색 |
-| --- |
-|<img src='http://drive.google.com/uc?export=view&id=10DbgCXMdvLpqHs0pmbSUj4BvqDQpkRTw' /> | 
+| 조건 검색 | 검색 결과 X |
+| --- | --- |
+|<img src='http://drive.google.com/uc?export=view&id=10DbgCXMdvLpqHs0pmbSUj4BvqDQpkRTw' /> | <img src='http://drive.google.com/uc?export=view&id=1gR3vMZWFmhbVNcK0J2_95u6VImuNziEh' /> |
 
-
+| 리뷰 작성 | 리뷰 수정 | 리뷰 삭제 | 리뷰 좋아요 |
+| --- | --- | --- | --- |
+|<img src='http://drive.google.com/uc?export=view&id=1Pdd-Q5vQOOw8TTXHNyMBfFVmIjqAul-S' /> | <img src='http://drive.google.com/uc?export=view&id=1xDDI1uKduOPwaKgW1PkGzv0iBrr8Am0E' /> | <img src='http://drive.google.com/uc?export=view&id=1zI4M0cMIAh-ENU9iIZ5ktrAb7yu0kN5j' /> | <img src='http://drive.google.com/uc?export=view&id=1SWsFDy6B5qnNkwwVbydxqIGHULxkV6sq' /> |
  
-검색결과가 없는 경우 <img src='http://drive.google.com/uc?export=view&id=1gR3vMZWFmhbVNcK0J2_95u6VImuNziEh' />
-리뷰 작성 <img src='http://drive.google.com/uc?export=view&id=1Pdd-Q5vQOOw8TTXHNyMBfFVmIjqAul-S' />
-리뷰 수정 <img src='http://drive.google.com/uc?export=view&id=1xDDI1uKduOPwaKgW1PkGzv0iBrr8Am0E' />
-리뷰 삭제 <img src='http://drive.google.com/uc?export=view&id=1zI4M0cMIAh-ENU9iIZ5ktrAb7yu0kN5j' />
-리뷰 좋아요 <img src='http://drive.google.com/uc?export=view&id=1SWsFDy6B5qnNkwwVbydxqIGHULxkV6sq' />
-게시글 쓰기 <img src='http://drive.google.com/uc?export=view&id=1I6y8NP3EQxuxxQ7bunRsk3uaEpyi4V3n' />
-게시글 삭제 <img src='http://drive.google.com/uc?export=view&id=1afvOsWA0t1MUY5f4IWU7JQJVHFh7ceIu' />
-게시글 신고 <img src='http://drive.google.com/uc?export=view&id=1guOKgkj5D7FnJhQmze1M93WW5hi5liui' />
-댓글 <img src='http://drive.google.com/uc?export=view&id=1xdUp9-vTe96sTm0-TCXyqoSAypyuPdxO' />
+| 게시글 작성 | 게시글 수정 | 게시글 삭제 | 게시글 신고 |
+| --- | --- | --- | --- |
+| <img src='http://drive.google.com/uc?export=view&id=1I6y8NP3EQxuxxQ7bunRsk3uaEpyi4V3n' /> | |<img src='http://drive.google.com/uc?export=view&id=1afvOsWA0t1MUY5f4IWU7JQJVHFh7ceIu' /> | <img src='http://drive.google.com/uc?export=view&id=1guOKgkj5D7FnJhQmze1M93WW5hi5liui' />|
+
+| 댓글 작성 | 댓글 수정 | 댓글 삭제 | 
+| --- | --- | --- | 
+|<img src='http://drive.google.com/uc?export=view&id=1xdUp9-vTe96sTm0-TCXyqoSAypyuPdxO' />|
+
  
 
 
