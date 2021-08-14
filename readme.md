@@ -131,7 +131,7 @@
 
 | 로컬회원가입 | 로컬로그인 | 카카오로그인|
 | --- | --- | --- |
-| <img src='http://drive.google.com/uc?export=view&id=1ZAvhXtmaaKONReEfz9J6F3uM2EKqCtOP' /> | <img src='http://drive.google.com/uc?export=view&id=1xNrdZPNAPcOiggWXJEmyALp4JToYlwRf' /> | |![카카오로그인](http://drive.google.com/uc?export=view&id=1WpB_NB_y0DdchDWHcJ83DH1ydgh-725v) | 
+| <img src='http://drive.google.com/uc?export=view&id=1ZAvhXtmaaKONReEfz9J6F3uM2EKqCtOP' /> | <img src='http://drive.google.com/uc?export=view&id=1xNrdZPNAPcOiggWXJEmyALp4JToYlwRf' /> | | <img src='http://drive.google.com/uc?export=view&id=1WpB_NB_y0DdchDWHcJ83DH1ydgh-725v' /> | 
 
 
 | 조건 검색 | 검색 결과 X |
