@@ -6,7 +6,8 @@
 
 > Microsoft Azure에서 IaaS 방식으로 가상머신을 만들어 배포하였습니다. 
 
-테스트 계정: id - test@test / password - 1234
+테스트 계정: `id` - test@test | `password` - 1234
+
 테스트 리뷰 페이지 : 겨울왕국 검색 -> 겨울왕국:겨울이야기[부천]
 
 
