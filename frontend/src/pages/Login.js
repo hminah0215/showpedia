@@ -35,7 +35,7 @@ const Login = () => {
       // 로컬 로그인 axios post
       axios.defaults.withCredentials = true; // 쿠키 데이터를 전송받기 위해
       axios
-        .post('http://localhost:3005/login', member)
+        .post('http://www.showpedia.xyz:3005/login', member)
         .then((result) => {
           if (result.data.code === 200) {
             // alert('로그인 성공');
@@ -100,7 +100,11 @@ const Login = () => {
           <Button type="submit" className="login-btn">
             로그인
           </Button>
-          <Button href="http://localhost:3005/kakao" type="submit" className="btn-yellow login-btn">
+          <Button
+            href="http://www.showpedia.xyz:3005/kakao"
+            type="submit"
+            className="btn-yellow login-btn"
+          >
             카카오 로그인
             {/* cors설정도 하고, 디벨로퍼페이지에서 3000번 포트도 등록했는데 에러발생해서 찾아보니 
           클라이언트에서 rest api 서버로 요청할때는 axios,fetch 등이 아닌 a태그의 href를 사용해야한다고 한다. 

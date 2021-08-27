@@ -24,7 +24,7 @@ const ShowContainer = ({ setIsFetch, showId }) => {
   // useEffect에 async를 사용하지 않는다.
   useEffect(() => {
     // 백엔드에서 공연 상세 데이터 가져오기
-    const URL = `http://localhost:3005/show/${showId}`;
+    const URL = `http://www.showpedia.xyz:3005/show/${showId}`;
     // useEffect 내부에서 async를 사용한다.
     const fetchData = async () => {
       try {

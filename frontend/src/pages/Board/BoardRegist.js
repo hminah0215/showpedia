@@ -54,7 +54,7 @@ const BoardRegist = () => {
 
     // 멀터에 이미지를 저장하고 이미지 경로 URL을 받아온다.
     axios
-      .post('http://localhost:3005/board/uploads', imageFormData)
+      .post('http://www.showpedia.xyz:3005/board/uploads', imageFormData)
       .then((res) => {
         // 성공하면 보내주는 데이터 res
 
@@ -142,7 +142,7 @@ const BoardRegist = () => {
 
     // axios post
     await axios
-      .post('http://localhost:3005/board/regist', newBoard)
+      .post('http://www.showpedia.xyz:3005/board/regist', newBoard)
       .then((result) => {
         if (result.data.code === '200') {
           // alert('게시글 등록 성공');

@@ -20,7 +20,7 @@ const Main = () => {
 
   useEffect(() => {
     const getBoxofficeList = async () => {
-      const URL = 'http://localhost:3005/show/boxoffices';
+      const URL = 'http://www.showpedia.xyz:3005/show/boxoffices';
       try {
         // 전체 공연 TOP 10
         const result = await axios.get(URL);

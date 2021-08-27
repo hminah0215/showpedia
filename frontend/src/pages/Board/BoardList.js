@@ -29,7 +29,7 @@ const BoardList = () => {
 
   const history = useHistory();
 
-  const url = 'http://localhost:3005/board/list?';
+  const url = 'http://www.showpedia.xyz:3005/board/list?';
   let urls = '';
 
   switch (key) {

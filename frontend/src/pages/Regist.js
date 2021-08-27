@@ -53,7 +53,7 @@ const Regist = () => {
     formData.append('profilePhoto', e.target.files[0]);
 
     axios
-      .post('http://localhost:3005/uploadProfile', formData, {
+      .post('http://www.showpedia.xyz:3005/uploadProfile', formData, {
         header: { 'content-type': 'multipart/form-data' }
       })
       .then((result) => {
@@ -76,7 +76,7 @@ const Regist = () => {
       };
 
       axios
-        .post('http://localhost:3005/checkId', checkData)
+        .post('http://www.showpedia.xyz:3005/checkId', checkData)
         .then((result) => {
           const emailInput = document.getElementById('formBasicEmail').value;
 
@@ -117,7 +117,7 @@ const Regist = () => {
     };
 
     axios
-      .post('http://localhost:3005/regist', registerUser, config)
+      .post('http://www.showpedia.xyz:3005/regist', registerUser, config)
       .then((result) => {
         if (result.data.code === 200 && pwd === ConfirmPasword) {
           setPasswordError(false);

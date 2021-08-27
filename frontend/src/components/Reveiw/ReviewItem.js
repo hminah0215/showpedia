@@ -53,7 +53,7 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
   // 좋아요 버튼 클릭 이벤트 핸들러
   const handleClickLike = useCallback(async () => {
     // db 수정하기
-    const URL = `http://localhost:3005/review`;
+    const URL = `http://www.showpedia.xyz:3005/review`;
     if (!isLogin)
       return Swal.fire({
         icon: 'error',
@@ -98,7 +98,7 @@ const ReviewItem = ({ setModal, isReviewed, review, style, hover, handleShow, cl
   // 신고 버튼 클릭 이벤트 핸들러
   const handleClickReport = useCallback(async () => {
     // db 수정하기
-    const URL = `http://localhost:3005/review`;
+    const URL = `http://www.showpedia.xyz:3005/review`;
     if (!isLogin)
       return Swal.fire({
         icon: 'error',

@@ -47,7 +47,7 @@ const CommentItem = ({
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete('http://localhost:3005/comments', {
+          .delete('http://www.showpedia.xyz:3005/comments', {
             data: { boardCommentNo: item.boardCommentNo }
           })
           .then((result) => {

@@ -59,7 +59,7 @@ const WriteReview = ({ handleClose, setIsReviewed, modify, setWrite }) => {
 
   // 리뷰를 저장하는 이벤트 핸들러
   const handleClickSaveButton = useCallback(async () => {
-    const URL = `http://localhost:3005/review`;
+    const URL = `http://www.showpedia.xyz:3005/review`;
     // 리뷰  수정
     // 만약 modify가 존재한다면, 새로 리뷰를 작성하는 것이 아닌 리뷰를 수정한다
     if (modify) {
@@ -109,7 +109,7 @@ const WriteReview = ({ handleClose, setIsReviewed, modify, setWrite }) => {
   // 리뷰를 삭제하는 이벤트 핸들러
   const handleClickDeleteButton = useCallback(async () => {
     if (window.confirm('정말 삭제하시겠습니까?')) {
-      const URL = `http://localhost:3005/review`;
+      const URL = `http://www.showpedia.xyz:3005/review`;
       try {
         // 삭제할 리뷰 id를 params로 전달
         const result = await axios.delete(URL + `/${review.reviewNo}`);

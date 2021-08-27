@@ -47,7 +47,7 @@ const upload_profile = multer({
 // 민아) 7/29,프로필이미지
 // [아영] - 이미지저장 폴더 변경
 router.post('/uploadProfile', upload_profile.single('profilePhoto'), (req, res) => {
-  res.json({ url: `http://localhost:3005/profile_images/${req.file.filename}` });
+  res.json({ url: `http://www.showpedia.xyz:3005/profile_images/${req.file.filename}` });
 });
 
 // 민아) 7/29, 아이디 중복체크용 라우터
@@ -71,7 +71,7 @@ router.post('/checkId', async (req, res, next) => {
 });
 
 // 민아) 7/23 ,회원가입 post 라우터
-// localhost:3005/regist
+// www.showpedia.xyz:3005/regist
 router.post('/regist', isNotLoggedIn, upload.single('profilePhoto'), async (req, res, next) => {
   const { memberId, pwd, nickName, profilePhoto } = req.body;
 
@@ -112,7 +112,7 @@ router.post('/regist', isNotLoggedIn, upload.single('profilePhoto'), async (req,
 });
 
 // 민아) 7/23 ,로그인 post 라우터
-// localhost:3005/login
+// www.showpedia.xyz:3005/login
 router.post('/login', isNotLoggedIn, async (req, res, next) => {
   // 로그인 요청이 들어오면 passport.authenticate('local') 미들웨어가 로컬 로그인 전략을 수행함
   passport.authenticate('local', async (authError, member, info) => {
@@ -178,7 +178,7 @@ router.get('/logout', (req, res) => {
 });
 
 // 민아) 7/23, 카카오 로그인 get 라우터
-// localhost:3005/kakao
+// www.showpedia.xyz:3005/kakao
 router.get('/kakao', passport.authenticate('kakao')); // 카카오 로그인 전략수행
 
 // 수행한 성공여부를 받아 카카오전략을 다시 수행한다.
@@ -207,7 +207,7 @@ router.get(
       // 일단 테스트 다하고 변경예정
       res.cookie('member', token, { httpOnly: true });
 
-      res.redirect('http://localhost:3000/');
+      res.redirect('http://www.showpedia.xyz/');
     } catch (error) {
       console.error(error);
     }

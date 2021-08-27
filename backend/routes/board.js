@@ -26,7 +26,7 @@ const upload = multer({
 router.post('/uploads', upload.single('img'), (req, res) => {
   console.log(req.file);
   console.log('게시글에 업로드된 파일정보: ', req.file);
-  res.json({ url: `http://localhost:3005/uploads/${req.file.filename}` });
+  res.json({ url: `http://www.showpedia.xyz:3005/uploads/${req.file.filename}` });
 });
 
 // 민아) 7/26, 게시글 전체목록 get 라우터

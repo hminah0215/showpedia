@@ -34,7 +34,7 @@ const MyReview = ({ showId, handleShow, setModal, write, setWrite }) => {
   // 내 리뷰가 존재하는지 판단하기 위해서 첫 렌더링 시, 내 리뷰가 있다면 찾아온다.
   useEffect(() => {
     // memberId는 백엔드 tokenTest에서 체크가 가능하다.
-    const URL = `http://localhost:3005/review?showId=${showId}&memberId=${memberId}`;
+    const URL = `http://www.showpedia.xyz:3005/review?showId=${showId}&memberId=${memberId}`;
     // axios
     const fetchReview = async () => {
       try {

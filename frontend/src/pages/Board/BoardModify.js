@@ -59,7 +59,7 @@ const BoardModify = () => {
 
     // 멀터에 이미지를 저장하고 이미지 경로 URL을 받아온다.
     axios
-      .post('http://localhost:3005/board/uploads', imageFormData)
+      .post('http://www.showpedia.xyz:3005/board/uploads', imageFormData)
       .then((res) => {
         // 성공하면 보내주는 데이터 res
 
@@ -82,7 +82,7 @@ const BoardModify = () => {
   useEffect(() => {
     // 게시글 상세보기
     axios
-      .get(`http://localhost:3005/board/view/${boardNo}`)
+      .get(`http://www.showpedia.xyz:3005/board/view/${boardNo}`)
       .then((res) => {
         if (res.data.code === '200') {
           let exContents = {
@@ -176,7 +176,7 @@ const BoardModify = () => {
 
     // axios put 수정
     axios
-      .put(`http://localhost:3005/board/${boardNo}`, updateBoard)
+      .put(`http://www.showpedia.xyz:3005/board/${boardNo}`, updateBoard)
       .then((result) => {
         if (result.data.code === '200') {
           // alert('게시글 수정 성공');

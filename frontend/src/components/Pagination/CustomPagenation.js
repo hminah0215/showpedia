@@ -39,7 +39,7 @@ const CustomPagenation = () => {
       history.push(`/search?page=${e.target.innerText}`);
 
       // 백엔드에서 리스트 가져오기
-      const URL = `http://localhost:3005/show/result?page=${page}`;
+      const URL = `http://www.showpedia.xyz:3005/show/result?page=${page}`;
       try {
         const result = await axios.post(URL, condition);
         // 상태에 검색 결과 저장하기

@@ -32,7 +32,7 @@ const Header = () => {
       e.preventDefault();
       axios.defaults.withCredentials = true; // 쿠키 데이터를 전송받기 위해
       axios
-        .get('http://localhost:3005/logout')
+        .get('http://www.showpedia.xyz:3005/logout')
         .then((result) => {
           if (result.data.code === 200) {
             dispatch(logoutUser(true));
@@ -80,7 +80,7 @@ const Header = () => {
     history.push('/search?page=1');
 
     // 백엔드에서 리스트 가져오기
-    const URL = `http://localhost:3005/show/result`;
+    const URL = `http://www.showpedia.xyz:3005/show/result`;
     try {
       const result = await axios.post(URL, condition);
       const showList = result.data.data ? result.data.data : { msg: '검색 결과가 없습니다' }; // undefined로 넘어올 경우 처리해주기

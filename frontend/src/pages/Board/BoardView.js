@@ -34,7 +34,7 @@ const BoardView = ({ history }) => {
   useEffect(() => {
     // 게시글 상세보기
     axios
-      .get(`http://localhost:3005/board/view/${boardNo}`)
+      .get(`http://www.showpedia.xyz:3005/board/view/${boardNo}`)
       .then((res) => {
         if (res.data.code === '200') {
           let regDate = res.data.data.createdAt.slice(0, 10);
@@ -86,7 +86,7 @@ const BoardView = ({ history }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://localhost:3005/board/${boardNo}`)
+          .delete(`http://www.showpedia.xyz:3005/board/${boardNo}`)
           .then((result) => {
             Swal.fire('게시글 삭제완료!', '게시글 목록으로 돌아갑니다.', 'success');
             history.push('/board');
@@ -101,7 +101,7 @@ const BoardView = ({ history }) => {
   // 신고버튼 이벤트
   const handleClickReport = () => {
     // db수정하기
-    const URL = `http://localhost:3005/board/${boardNo}`;
+    const URL = `http://www.showpedia.xyz:3005/board/${boardNo}`;
 
     Swal.fire({
       title: '게시글을 신고하시겠습니까?',

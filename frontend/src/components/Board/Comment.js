@@ -54,7 +54,7 @@ const Comment = ({ boardNo }) => {
     }
 
     axios
-      .post('http://localhost:3005/comments', newComment)
+      .post('http://www.showpedia.xyz:3005/comments', newComment)
       .then((result) => {
         if (result.data.code === '200') {
           // 댓글등록후 바로 추가된 댓글이 보이도록, reRender useState를 만들고 그 값을 true로 바꾼다.
@@ -84,7 +84,7 @@ const Comment = ({ boardNo }) => {
   // 댓글목록
   useEffect(() => {
     axios
-      .get(`http://localhost:3005/comments/${boardNo}`)
+      .get(`http://www.showpedia.xyz:3005/comments/${boardNo}`)
       .then((res) => {
         if (res.data.code === '200') {
           setShowcomment(res.data.data);
@@ -130,7 +130,7 @@ const Comment = ({ boardNo }) => {
     }
 
     axios
-      .put('http://localhost:3005/comments', editComment)
+      .put('http://www.showpedia.xyz:3005/comments', editComment)
       .then((result) => {
         if (result.data.code === '200') {
           // 댓글등록후 바로 추가된 댓글이 보이도록, reRender useState를 만들고 그 값을 true로 바꾼다.

@@ -33,7 +33,7 @@ function App() {
   // 로그인 확인을 위한 useEffect
   useEffect(() => {
     axios.defaults.withCredentials = true; // 쿠키 데이터를 전송받기 위해
-    axios.get('http://localhost:3005/tokenTest').then((result) => {
+    axios.get('http://www.showpedia.xyz:3005/tokenTest').then((result) => {
       if (result.data.code === '200') {
         dispatch(isLogin(true));
         dispatch(loginMemberId(result.data.data));
