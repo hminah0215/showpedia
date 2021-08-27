@@ -156,7 +156,14 @@ gif가 나타나지 않는 경우 새로고침or 클릭을 하면 나타납니�
 |<img src='http://drive.google.com/uc?export=view&id=1xdUp9-vTe96sTm0-TCXyqoSAypyuPdxO' alt="댓글 작성" />| <img src='http://drive.google.com/uc?export=view&id=1GcFlWFOH_XACcNRNbvGbEAU3slCWaiOD' alt="댓글 수정" /> | <img src='http://drive.google.com/uc?export=view&id=1Hv8HTzCUPRzSFYS9H3tanum3jCnW0JIj' alt="댓글 삭제"/>|
 
  
+## 수정 사항
 
+#### Main Page
+
++ **박스오피스 정보를 가져오는 로직 변경**
+    +  클라이언트에서 OPEN API에 직접 요청해 박스오피스 정보를 불러오는 것이 아니라
+    +  서버에서 박스오피스 정보를 하루에 한번씩 불러와 저장해서, 저장된 객체를 바로 클라이언트에게 보내주는 형식으로 변경
+    +  로딩 시간이 매우 줄어듬
 
 
 
