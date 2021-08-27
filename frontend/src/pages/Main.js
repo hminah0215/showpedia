@@ -13,72 +13,32 @@ import axios from 'axios';
 const Main = () => {
   // 로딩 상황을 알기 위한 state
   const loading = useSelector((state) => state.show.loading);
-  // boxoffice List를 저장하는 state
-  const boxofficeList = useSelector((state) => state.show.boxofficeList);
-  // 뮤지컬 boxoffice
-  const [classicoffice, setClassicoffice] = useState([]);
-  // 공연 boxoffice
-  const [showoffice, setShowoffice] = useState([]);
   // dispatch
   const showDispatch = useDispatch();
+  // boxList
+  const [boxofficeList, setBoxofficeList] = useState({});
 
-  // Main Page 첫 로딩 시, boxoffice 정보를 가져온다.
-  // 가져온 boxoffice 데이터를 세션 스토리지에 저장한다
   useEffect(() => {
-    // 가져오는 속도가 ...매우...ㅜㅜ......느리다
-    // 브라우저 세션 스토리지에 값을 저장하기..
     const getBoxofficeList = async () => {
-      // 세션 스토리지에 저장된 boxoffice List가 있다면 세션 스토리지에서
-      // boxoffice List 데이터를 가져온다. = 첫 로딩 시간이 너무 길기 때문...
-      if (
-        sessionStorage.getItem('boxoffice') &&
-        sessionStorage.getItem('classicoffice') &&
-        sessionStorage.getItem('showoffice')
-      ) {
-        const data = JSON.parse(sessionStorage.getItem('boxoffice'));
-        const classicData = JSON.parse(sessionStorage.getItem('classicoffice'));
-        const showData = JSON.parse(sessionStorage.getItem('showoffice'));
-
-        showDispatch(setBoxofficeList(data));
-        setClassicoffice(classicData);
-        setShowoffice(showData);
-
-        showDispatch(isLoaded());
-        return;
-      }
-
-      const URL = 'http://localhost:3005/show/boxoffice?catecode=';
+      const URL = 'http://localhost:3005/show/boxoffices';
       try {
         // 전체 공연 TOP 10
         const result = await axios.get(URL);
-        // 클래식 TOP 10
-        const classicBoxoffice = await axios.get(URL + 'CCCA');
-        // 연극 TOP 10
-        const showBoxoffice = await axios.get(URL + 'AAAA');
-
-        // state에 저장하기
-        showDispatch(setBoxofficeList(result.data.data));
-        setClassicoffice(classicBoxoffice.data.data);
-        setShowoffice(showBoxoffice.data.data);
-
-        // 세션에 저장하기
-        // 세션에 저장하기 위해서 데이터를 DOMString 구조로 변환
-        const data = JSON.stringify(result.data.data);
-        const classicData = JSON.stringify(classicBoxoffice.data.data);
-        const showData = JSON.stringify(showBoxoffice.data.data);
-
-        sessionStorage.setItem('boxoffice', data);
-        sessionStorage.setItem('classicoffice', classicData);
-        sessionStorage.setItem('showoffice', showData);
+        setBoxofficeList({
+          boxoffice: result.data.boxoffice.boxoffice,
+          aaaa_box: result.data.boxoffice.aaaa_box,
+          ccca_box: result.data.boxoffice.ccca_box
+        });
 
         showDispatch(isLoaded());
+        return;
       } catch (error) {
         console.error(error);
         return;
       }
     };
     getBoxofficeList();
-  }, [showDispatch]);
+  }, []);
 
   return (
     <>
@@ -94,29 +54,41 @@ const Main = () => {
         <>
           <Container className=" position-relative my-3">
             <h3 className="main-title">박스오피스 TOP 10</h3>
-            <Carousels>
-              {boxofficeList.map((boxoffice) => (
-                <CarouselItem key={boxoffice.mt20id} show={boxoffice}></CarouselItem>
-              ))}
-            </Carousels>
+            {boxofficeList.boxoffice ? (
+              <Carousels>
+                {boxofficeList.boxoffice.map((box) => (
+                  <CarouselItem key={box.mt20id} show={box}></CarouselItem>
+                ))}
+              </Carousels>
+            ) : (
+              <></>
+            )}
           </Container>
 
           <Container className=" position-relative my-3">
             <h3 className="main-title">뮤지컬 TOP 10</h3>
-            <Carousels>
-              {classicoffice.map((boxoffice) => (
-                <CarouselItem key={boxoffice.mt20id} show={boxoffice}></CarouselItem>
-              ))}
-            </Carousels>
+            {boxofficeList.ccca_box ? (
+              <Carousels>
+                {boxofficeList.ccca_box.map((box) => (
+                  <CarouselItem key={box.mt20id} show={box}></CarouselItem>
+                ))}
+              </Carousels>
+            ) : (
+              <></>
+            )}
           </Container>
 
           <Container className=" position-relative my-3">
             <h3 className="main-title">공연 TOP 10</h3>
-            <Carousels>
-              {showoffice.map((boxoffice) => (
-                <CarouselItem key={boxoffice.mt20id} show={boxoffice}></CarouselItem>
-              ))}
-            </Carousels>
+            {boxofficeList.aaaa_box ? (
+              <Carousels>
+                {boxofficeList.aaaa_box.map((box) => (
+                  <CarouselItem key={box.mt20id} show={box}></CarouselItem>
+                ))}
+              </Carousels>
+            ) : (
+              <></>
+            )}
           </Container>
         </>
       )}
@@ -124,5 +96,4 @@ const Main = () => {
   );
 };
 
-// export default React.memo(Main);
 export default Main;

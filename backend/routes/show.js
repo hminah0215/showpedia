@@ -7,6 +7,22 @@ const dotenv = require('dotenv');
 dotenv.config();
 const xml2js = require('xml2js');
 
+// // getTop10 정보를 가져오는 모듈
+const getTop10 = require('../lib/scheduler');
+
+let boxoffice;
+// 즉시 실행 함수로 test 값 넣어주기
+(async function () {
+  boxoffice = await getTop10();
+  setInterval(async () => {
+    boxoffice = await getTop10();
+  }, 10000);
+})();
+
+router.get('/boxoffices', (req, res) => {
+  res.json({ boxoffice });
+});
+
 // OPEN API KEY
 const KEY = process.env.SHOW_ID;
 const BASE_URL = `http://kopis.or.kr/openApi/restful/`;

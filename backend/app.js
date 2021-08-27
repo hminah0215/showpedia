@@ -5,7 +5,6 @@ const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const parser = bodyParser.urlencoded({ extended: false });
 
 // passport 패키지 참조
 const passport = require('passport');
