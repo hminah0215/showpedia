@@ -24,6 +24,10 @@ const Main = () => {
       try {
         // 전체 공연 TOP 10
         const result = await axios.get(URL);
+        if (Object.keys(result.data).length === 0) {
+          return;
+        }
+        // if(result.data)
         setBoxofficeList({
           boxoffice: result.data.boxoffice.boxoffice,
           aaaa_box: result.data.boxoffice.aaaa_box,

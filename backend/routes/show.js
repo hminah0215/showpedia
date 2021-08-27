@@ -16,7 +16,9 @@ let boxoffice;
   boxoffice = await getTop10();
   setInterval(async () => {
     boxoffice = await getTop10();
-  }, 10000);
+    // 하루마다 박스오피스 데이터를 갱신하기
+  }, 86400000);
+  // 86400000
 })();
 
 router.get('/boxoffices', (req, res) => {

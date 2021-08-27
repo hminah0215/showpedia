@@ -37,8 +37,6 @@ const getTop10 = async () => {
     String(date.getMonth() + 1).padStart(2, '0') +
     String(date.getDate()).padStart(2, '0');
 
-  // CCCA , AAAA , 아무것도 없는것
-
   const MAIN_URL =
     BASE_URL + `boxoffice?service=${KEY}` + `&ststype=week&date=${defaultStdate}&catecode=`;
 
@@ -54,13 +52,13 @@ const getTop10 = async () => {
   const aaaa_boxoffice = await getShowtoJSON(AAAA_URL);
   // 실패 시,
   if (boxoffice.status === 500) {
-    console.log('에러났어요 1');
+    console.log('박스오피스에러');
   }
   if (ccca_boxoffice.status === 500) {
-    console.log('에러났어요 2');
+    console.log('공연 박스오피스 에러');
   }
   if (aaaa_boxoffice.status === 500) {
-    console.log('에러났어요 3');
+    console.log('뮤지컬 박스오피스 에러');
   }
   // OPEN API는 50개의 데이터를 전송한다(수정 불가)
   // 10개만 필요하기 때문에 데이터만 뽑아낸다.
@@ -72,6 +70,7 @@ const getTop10 = async () => {
   };
 };
 
+// 테스트용 함수
 const getTest10 = async () => {
   console.log('테스트 실행햇니?');
   const date = new Date();
